@@ -23,6 +23,11 @@ namespace InsightsDashboard.Controllers
             return View();
         }
 
+        public IActionResult ChartTest()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
