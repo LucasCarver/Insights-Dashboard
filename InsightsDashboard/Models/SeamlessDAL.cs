@@ -12,9 +12,9 @@ namespace InsightsDashboard.Models
     {
         private readonly string _seamlessAPIKey;
         
-        public SeamlessDAL(IConfiguration configuration)
+        public SeamlessDAL(string seamlessAPIKey)
         {
-            _seamlessAPIKey = configuration.GetSection("APIKeys")["SeamlessAPIKey"];
+            _seamlessAPIKey = seamlessAPIKey;
         }
 
         public HttpClient GetClient()
