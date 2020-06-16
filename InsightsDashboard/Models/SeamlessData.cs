@@ -9,6 +9,24 @@ namespace SeamlessApi.Models
     public class SeamlessData
     {
         public Record[] Records { get; set; }
+        public string CompanyName { get; set; }
+        public string DateAdded { get; set; }
+        public string Scout { get; set; }
+        public string Source { get; set; }
+        public string CompanyWebsite { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public string TwoLineCompanySummary { get; set; }
+        public string Alignment { get; set; }
+        public string Themes { get; set; }
+        public string Uniqueness { get; set; }
+        public string Team { get; set; }
+        public string Raised { get; set; }
+        public string ReviewDate { get; set; }
+        public string TechnologyAreas { get; set; }
+        public string Landscape { get; set; }
+        public string Stage { get; set; }
+        public string StateProvince { get; set; }
     }
 
     public class Record

@@ -20,8 +20,9 @@ namespace InsightsDashboard.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var masterList = await _seamlessDAL.GetMasterList();
             return View();
         }
 
