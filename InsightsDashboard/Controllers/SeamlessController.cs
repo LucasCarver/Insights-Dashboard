@@ -28,15 +28,33 @@ namespace InsightsDashboard.Controllers
         public async Task<IActionResult> Tags()
         {
             Rake r = new Rake("..\\InsightsDashboard\\Controllers\\SmartStoplist.txt");
-            
-            var masterList = await _seamlessDAL.GetMainList(0);
+            bool stop = false;
+            int i = 0;
             string inputWords = "";
-            inputWords = masterList.TwoLineCompanySummary.ToString();
-            //for (int i = 0; i < masterList.Records.Length; i++)
-            //{
-            //}
-            //var keywords = r.Run(inputWords);
-            return View(inputWords);
+            Dictionary<string, double> keywords = new Dictionary<string, double>();
+            while (!stop)
+            {
+                try
+                {
+                    var masterList = await _seamlessDAL.GetMainList(i);
+                    inputWords = masterList.TwoLineCompanySummary.ToString();
+                    var dictionary = r.Run(inputWords);
+                    foreach (KeyValuePair<string, double> kvp in dictionary)
+                    {
+                        if (keywords.ContainsKey(kvp.Key))
+                        {
+                            //keywords[kvp.Key];
+                        }
+                        keywords.Add(kvp.Key, kvp.Value);
+                    }
+                    i++;
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    stop = true;
+                }
+            }
+            return View(keywords);
         }
     }
 }
