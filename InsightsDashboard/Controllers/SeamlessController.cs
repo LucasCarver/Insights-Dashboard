@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using InsightsDashboard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using SeamlessApi.Models;
 
 namespace InsightsDashboard.Controllers
 {
@@ -21,16 +22,19 @@ namespace InsightsDashboard.Controllers
 
         public IActionResult Index()
         {
-            
             return View();
         }
 
-        public IActionResult Tags()
+        public async Task<IActionResult> Tags()
         {
             Rake r = new Rake("SmartStoplist.txt");
-            var masterList = _seamlessDAL.GetMasterList();
-            //var keywordsList = masterList.
-            var keywords = r.Run("text");
+            var masterList = await _seamlessDAL.GetMasterList();
+            string inputWords = "";
+            for (int i = 0; i < masterList.Records.Length; i++)
+            {
+                inputWords += masterList.Records[i].MainList.TwoLineCompanySummary;
+            }
+            var keywords = r.Run(inputWords);
             return View();
         }
     }
