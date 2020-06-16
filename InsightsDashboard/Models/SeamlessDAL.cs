@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SeamlessApi.Models;
 using System;
 using System.Collections.Generic;
@@ -24,27 +26,30 @@ namespace InsightsDashboard.Models
             return client;
         }
 
-        public async Task<SeamlessData> GetMasterList()
+        public async Task<MainList> GetMainList(int i)
         {
             var client = GetClient();
             var response = await client.GetAsync($"Master%20List?api_key={_seamlessAPIKey}");
-            var result = await response.Content.ReadAsAsync<SeamlessData>();
-            return result;
+            var result = await response.Content.ReadAsStringAsync();
+            JObject jsonMainList = JObject.Parse(result);
+            JToken realMainList = jsonMainList["records"][i]["fields"];
+            var result3 = JsonConvert.DeserializeObject<MainList>(realMainList.ToString());
+            return result3;
         }
 
-        public async Task<SeamlessData> GetFeedback()
+        public async Task<Feedback> GetFeedback()
         {
             var client = GetClient();
             var response = await client.GetAsync($"Feedback?api_key={_seamlessAPIKey}");
-            var result = await response.Content.ReadAsAsync<SeamlessData>();
+            var result = await response.Content.ReadAsAsync<Feedback>();
             return result;
         }
         
-        public async Task<SeamlessData> GetProjects()
+        public async Task<Projects> GetProjects()
         {
             var client = GetClient();
             var response = await client.GetAsync($"Projects?api_key={_seamlessAPIKey}");
-            var result = await response.Content.ReadAsAsync<SeamlessData>();
+            var result = await response.Content.ReadAsAsync<Projects>();
             return result;
         }
     }

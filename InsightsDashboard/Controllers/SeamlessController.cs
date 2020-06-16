@@ -27,15 +27,16 @@ namespace InsightsDashboard.Controllers
 
         public async Task<IActionResult> Tags()
         {
-            Rake r = new Rake("SmartStoplist.txt");
-            var masterList = await _seamlessDAL.GetMasterList();
+            Rake r = new Rake("..\\InsightsDashboard\\Controllers\\SmartStoplist.txt");
+            
+            var masterList = await _seamlessDAL.GetMainList(0);
             string inputWords = "";
-            for (int i = 0; i < masterList.Records.Length; i++)
-            {
-                inputWords += masterList.Records[i].MainList.TwoLineCompanySummary;
-            }
-            var keywords = r.Run(inputWords);
-            return View();
+            inputWords = masterList.TwoLineCompanySummary.ToString();
+            //for (int i = 0; i < masterList.Records.Length; i++)
+            //{
+            //}
+            //var keywords = r.Run(inputWords);
+            return View(inputWords);
         }
     }
 }
