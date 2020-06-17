@@ -90,12 +90,8 @@ namespace InsightsDashboard.Controllers
             // CHARS TO REMOVE
             char[] invalidChars = " !@#$%^&*()_+“”~{}|:\"<>?`1234567890-=[]\\;',./".ToCharArray();
             string[] allWords = inputWords.Split(invalidChars);
-
-            foreach (string word in allWords)
-            {
-
-            }
             Dictionary<string, int> wordFreq = new Dictionary<string, int>();
+
             // ADD KEYWORDS AND CALCULATE KEYWORD FREQUENCY
             foreach (string word in allWords)
             {
