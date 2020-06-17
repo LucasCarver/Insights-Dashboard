@@ -12,21 +12,21 @@
     google.charts.setOnLoadCallback(drawBasic);
 
     function drawBasic() {
-        var list = @Model;
+        @*var list = @Model;
         list.forEach(refactor);
 
         function refactor(cName, raised) {
             var cm = cName;
             var rd = raised;
             var arr = [cm, rd];
-        }
+        }*@
 
         
 
         var data = google.visualization.arrayToDataTable([
             ['CompanyName', 'Raised'],
          
-                 arr[0]
+              ['@Model[1].companyName', @Model[1].Raised]
            
            
         ]);
