@@ -1,6 +1,6 @@
-﻿@model Dictionary<string, double>
+﻿@model List<KeyValuePair<string, int>>
 
-@foreach (KeyValuePair<string, double> kvp in Model)
+@foreach (KeyValuePair<string, int> kvp in Model)
 {
-    <p>@kvp.Key @kvp.Value</p>
+    <p><a href="/Seamless/TagDetails?@kvp.Key">@kvp.Key @kvp.Value</a></p>
 }
