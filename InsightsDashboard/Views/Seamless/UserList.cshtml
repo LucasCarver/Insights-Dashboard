@@ -1,0 +1,15 @@
+﻿@model List<UserStartup>
+@{
+    ViewData["Title"] = "UserList";
+}
+
+<h1>UserList</h1>
+
+@foreach (var startUp in Model)
+{
+    <p>@startUp.DateAdded</p>
+    <p>@startUp.CompanyName</p>
+    <p><a href="/Seamless/RemoveUserStartUp?id=@startUp.Id">Remove From Here</a></p>
+    <p><a href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update This Thang</a></p>
+
+}

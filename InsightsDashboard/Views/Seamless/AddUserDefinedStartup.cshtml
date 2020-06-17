@@ -1,0 +1,30 @@
+﻿@using System.Security.Claims;
+
+@model UserStartup
+@{
+    ViewData["Title"] = "UserDefinedStartup";
+}
+
+<h1>UserDefinedStartup</h1>
+<h1>@DateTime.Now.ToString("yyyy-MM-dd")</h1>
+
+<form action="/Seamless/AddUserDefinedStartup" method="post">
+    <input type="text" required name="CompanyName" placeholder="Company Name" />
+    <input type="text" name="CompanyWebsite" placeholder="Company Website" />
+    <input type="datetime" name="ReviewDate" placeholder="Review Date" />
+    <input type="text" name="Scout" placeholder="Scout" />
+    <input type="text" name="Source" placeholder="Source" />
+    <input type="text" name="City" placeholder="City" />
+    <input type="text" name="StateProvince" placeholder="State/Province" />
+    <input type="text" name="Country" placeholder="Country" />
+    <input type="text" name="TwoLineSummary" placeholder="TwoLineSummary" />
+    <input type="text" name="Alignment" placeholder="Alignment" />
+    <input type="text" name="Theme" placeholder="Theme" />
+    <input type="text" name="Technology" placeholder="Technology" />
+    <input type="text" name="Landscape" placeholder="Landscape" />
+    <input type="number" name="Uniqueness" placeholder="Uniqueness" />
+    <input type="number" name="Team" placeholder="Team" />
+    <input type="text" name="Raised" placeholder="Raised" />
+    <input type="text" name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" hidden />
+    <input type="submit" value="Submit" />
+</form>
