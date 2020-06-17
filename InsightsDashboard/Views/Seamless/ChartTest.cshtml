@@ -1,4 +1,4 @@
-﻿
+﻿@model List<ChartModel>
 @{
     ViewData["Title"] = "ChartTest";
 }
@@ -6,30 +6,40 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <div id="chart_div"></div>
 
+
 <script>
     google.charts.load('current', { packages: ['corechart', 'bar'] });
     google.charts.setOnLoadCallback(drawBasic);
 
     function drawBasic() {
+        var list = @Model;
+        list.forEach(refactor);
+
+        function refactor(cName, raised) {
+            var cm = cName;
+            var rd = raised;
+            var arr = [cm, rd];
+        }
+
+        
 
         var data = google.visualization.arrayToDataTable([
-            ['City', '2010 Population',],
-            ['New York City, NY', 8175000],
-            ['Los Angeles, CA', 3792000],
-            ['Chicago, IL', 2695000],
-            ['Houston, TX', 2099000],
-            ['Philadelphia, PA', 1526000]
+            ['CompanyName', 'Raised'],
+         
+                 arr[0]
+           
+           
         ]);
 
         var options = {
             title: 'Population of Largest U.S. Cities',
             chartArea: { width: '50%' },
             hAxis: {
-                title: 'Total Population',
+                title: 'Raised',
                 minValue: 0
             },
             vAxis: {
-                title: 'City'
+                title: 'Company'
             }
         };
 

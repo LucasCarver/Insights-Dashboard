@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using InsightsDashboard.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Configuration;
 using SeamlessApi.Models;
 
@@ -24,6 +25,64 @@ namespace InsightsDashboard.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> GetList()
+        {
+            bool stop = false;
+            int i = 0;
+            List<MainList> masterList = new List<MainList>();
+
+            while (!stop)
+            {
+                try
+                {
+
+                    MainList masterListing = await _seamlessDAL.GetMainList(i);
+                    masterList.Add(masterListing);
+                    i++;
+                }
+
+                catch (ArgumentOutOfRangeException)
+                {
+                    stop = true;
+                }
+            }
+
+
+            return RedirectToAction("ChartTest", masterList);
+        }
+
+        public IActionResult ChartTest(List<MainList> masterList)
+        {
+            string companyName = "";
+            int Raised = 0;
+            int i = 0;
+            string y = "";
+            List<ChartModel> test = new List<ChartModel>();
+
+            foreach (MainList ml in masterList)
+            {
+                companyName = ml.CompanyName;
+
+
+                foreach (char c in ml.Raised)
+                {
+                    if (int.TryParse(c.ToString(), out int p))
+                    {
+                        y += p;
+                    }
+                }
+                Raised = int.Parse(y);
+
+                ChartModel x = new ChartModel(companyName, Raised);
+                test.Add(x);
+            }
+            return View(test);
+        }
+
+
+
+
 
         public async Task<IActionResult> Tags()
         {
