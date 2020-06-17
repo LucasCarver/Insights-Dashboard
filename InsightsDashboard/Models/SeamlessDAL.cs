@@ -13,7 +13,7 @@ namespace InsightsDashboard.Models
     public class SeamlessDAL
     {
         private readonly string _seamlessAPIKey;
-        
+
         public SeamlessDAL(string seamlessAPIKey)
         {
             _seamlessAPIKey = seamlessAPIKey;
@@ -26,15 +26,31 @@ namespace InsightsDashboard.Models
             return client;
         }
 
-        public async Task<MainList> GetMainList(int i)
+        public async Task<List<MainEntry>> GetMainEntryList()
         {
             var client = GetClient();
             var response = await client.GetAsync($"Master%20List?api_key={_seamlessAPIKey}");
             var result = await response.Content.ReadAsStringAsync();
             JObject jsonMainList = JObject.Parse(result);
-            JToken mainListEntry = jsonMainList["records"][i]["fields"];
-            var singleEntry = JsonConvert.DeserializeObject<MainList>(mainListEntry.ToString());
-            return singleEntry;
+            bool stop = false;
+            JToken mainListEntry;
+            int i = 0;
+            List<MainEntry> mainEntryList = new List<MainEntry>();
+            while (!stop)
+            {
+                try
+                {
+                    mainListEntry = jsonMainList["records"][i]["fields"];
+                    var singleEntry = JsonConvert.DeserializeObject<MainEntry>(mainListEntry.ToString());
+                    mainEntryList.Add(singleEntry);
+                    i++;
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    stop = true;
+                }
+            }
+            return mainEntryList;
         }
 
         public async Task<Feedback> GetFeedback()
@@ -44,7 +60,7 @@ namespace InsightsDashboard.Models
             var result = await response.Content.ReadAsAsync<Feedback>();
             return result;
         }
-        
+
         public async Task<Projects> GetProjects()
         {
             var client = GetClient();

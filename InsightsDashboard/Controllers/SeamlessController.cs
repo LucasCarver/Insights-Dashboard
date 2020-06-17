@@ -29,31 +29,13 @@ namespace InsightsDashboard.Controllers
 
         public async Task<IActionResult> GetList()
         {
-            bool stop = false;
-            int i = 0;
-            List<MainList> masterList = new List<MainList>();
 
-            while (!stop)
-            {
-                try
-                {
-
-                    MainList masterListing = await _seamlessDAL.GetMainList(i);
-                    masterList.Add(masterListing);
-                    i++;
-                }
-
-                catch (ArgumentOutOfRangeException)
-                {
-                    stop = true;
-                }
-            }
-
+            List<MainEntry> masterList = await _seamlessDAL.GetMainEntryList();
 
             return RedirectToAction("ChartTest", masterList);
         }
 
-        public IActionResult ChartTest(List<MainList> masterList)
+        public IActionResult ChartTest(List<MainEntry> masterList)
         {
             string companyName = "";
             int Raised = 0;
@@ -61,12 +43,12 @@ namespace InsightsDashboard.Controllers
             string y = "";
             List<ChartModel> test = new List<ChartModel>();
 
-            foreach (MainList ml in masterList)
+            foreach (MainEntry me in masterList)
             {
-                companyName = ml.CompanyName;
+                companyName = me.CompanyName;
 
 
-                foreach (char c in ml.Raised)
+                foreach (char c in me.Raised)
                 {
                     if (int.TryParse(c.ToString(), out int p))
                     {
@@ -90,13 +72,14 @@ namespace InsightsDashboard.Controllers
             bool stop = false;
             int i = 0;
             string inputWords = "";
+
+            List<MainEntry> mainEntryList = await _seamlessDAL.GetMainEntryList();
             //READ IN ALL WORDS
             while (!stop)
             {
                 try
                 {
-                    var singleEntry = await _seamlessDAL.GetMainList(i);
-                    inputWords += singleEntry.TwoLineCompanySummary.ToString().ToLower() + " ";
+                    inputWords += mainEntryList[i].TwoLineCompanySummary.ToString().ToLower() + " ";
                     i++;
                 }
                 catch (ArgumentOutOfRangeException)
@@ -107,8 +90,13 @@ namespace InsightsDashboard.Controllers
             // CHARS TO REMOVE
             char[] invalidChars = " !@#$%^&*()_+“”~{}|:\"<>?`1234567890-=[]\\;',./".ToCharArray();
             string[] allWords = inputWords.Split(invalidChars);
+
+            foreach (string word in allWords)
+            {
+
+            }
             Dictionary<string, int> wordFreq = new Dictionary<string, int>();
-            // CALCULATE KEYWORD FREQUENCY
+            // ADD KEYWORDS AND CALCULATE KEYWORD FREQUENCY
             foreach (string word in allWords)
             {
                 if (word != "" && word != null) {
@@ -122,7 +110,7 @@ namespace InsightsDashboard.Controllers
                     }
                 }
             }
-            // ORDER WORDS
+            // ORDER KEYWORDS BY FREQUENCY
             List<KeyValuePair<string,int>>keywordList = wordFreq.OrderByDescending(key => key.Value).ToList<KeyValuePair<string, int>>();
             return View(keywordList);
         }
