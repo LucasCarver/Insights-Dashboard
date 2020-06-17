@@ -53,14 +53,16 @@ namespace InsightsDashboard.Controllers
                     if (int.TryParse(c.ToString(), out int p))
                     {
                         y += p;
+                        Raised = int.Parse(y);
                     }
                 }
-                Raised = int.Parse(y);
-
                 ChartModel x = new ChartModel(companyName, Raised);
                 test.Add(x);
             }
-            return View(test);
+
+            ChartModel sendit = test[1];
+
+            return View(sendit);
         }
 
 
