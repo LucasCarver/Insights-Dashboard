@@ -13,7 +13,7 @@ namespace InsightsDashboard.Models
         private readonly int _maxWordsLength;
         private readonly double _minKeywordFrequency;
 
-        public Rake(string stopWordsPath = null, int minCharLength = 1, int maxWordsLength = 5, double minKeywordFrequency = 1)
+        public Rake(string stopWordsPath = null, int minCharLength = 1, int maxWordsLength = 1, double minKeywordFrequency = 1)
         {
             _minCharLength = minCharLength;
             _maxWordsLength = maxWordsLength;

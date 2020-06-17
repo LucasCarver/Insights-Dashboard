@@ -9,7 +9,7 @@ namespace SeamlessApi.Models
     public class MainList
     {
         /*
-         * MASTER LIST FIELDS
+         * MAIN LIST FIELDS
          */
         [JsonProperty(PropertyName = "Company Name")]
         public string CompanyName { get; set; }

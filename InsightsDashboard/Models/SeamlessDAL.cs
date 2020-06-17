@@ -32,9 +32,9 @@ namespace InsightsDashboard.Models
             var response = await client.GetAsync($"Master%20List?api_key={_seamlessAPIKey}");
             var result = await response.Content.ReadAsStringAsync();
             JObject jsonMainList = JObject.Parse(result);
-            JToken realMainList = jsonMainList["records"][i]["fields"];
-            var result3 = JsonConvert.DeserializeObject<MainList>(realMainList.ToString());
-            return result3;
+            JToken mainListEntry = jsonMainList["records"][i]["fields"];
+            var singleEntry = JsonConvert.DeserializeObject<MainList>(mainListEntry.ToString());
+            return singleEntry;
         }
 
         public async Task<Feedback> GetFeedback()
