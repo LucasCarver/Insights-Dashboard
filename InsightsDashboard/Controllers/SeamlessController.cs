@@ -126,6 +126,10 @@ namespace InsightsDashboard.Controllers
 
         public IActionResult AddSeamlessStartupEntry(string key)
         {
+            if(key==null)
+            {
+                return RedirectToAction("DisplaySavedSeamlessStartupEntries");
+            }
             SeamlessMaster sm = new SeamlessMaster()
             {
                 Identifier = key,
@@ -133,9 +137,10 @@ namespace InsightsDashboard.Controllers
             };
             _context.SeamlessMaster.Add(sm);
             _context.SaveChanges();
-            return RedirectToAction("UserList");
+            return RedirectToAction("DisplaySavedSeamlessStartupEntries");
         }
 
+        [Authorize]
         public async Task<IActionResult> DisplaySavedSeamlessStartupEntries()
         {
             List<SeamlessMaster> seamlessMasterList = new List<SeamlessMaster>();
