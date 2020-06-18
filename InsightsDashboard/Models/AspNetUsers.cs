@@ -11,6 +11,7 @@ namespace InsightsDashboard.Models
             AspNetUserLogins = new HashSet<AspNetUserLogins>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             AspNetUserTokens = new HashSet<AspNetUserTokens>();
+            SeamlessMaster = new HashSet<SeamlessMaster>();
             UserPreferences = new HashSet<UserPreferences>();
             UserStartup = new HashSet<UserStartup>();
         }
@@ -35,6 +36,7 @@ namespace InsightsDashboard.Models
         public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual ICollection<SeamlessMaster> SeamlessMaster { get; set; }
         public virtual ICollection<UserPreferences> UserPreferences { get; set; }
         public virtual ICollection<UserStartup> UserStartup { get; set; }
     }

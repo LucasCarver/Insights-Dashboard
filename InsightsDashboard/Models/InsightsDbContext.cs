@@ -1,13 +1,13 @@
 ﻿using System;
-using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace InsightsDashboard.Models
 {
     public partial class InsightsDbContext : DbContext
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration;
         public InsightsDbContext()
         {
         }
@@ -140,12 +140,21 @@ namespace InsightsDashboard.Models
 
             modelBuilder.Entity<SeamlessMaster>(entity =>
             {
-                entity.HasKey(e => e.Identifier)
-                    .HasName("PK__Seamless__821FB018F3E1244F");
-
-                entity.Property(e => e.Identifier).HasMaxLength(20);
-
                 entity.Property(e => e.Comment).HasMaxLength(200);
+
+                entity.Property(e => e.Identifier)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.SeamlessMaster)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__SeamlessM__UserI__6C190EBB");
             });
 
             modelBuilder.Entity<Tags>(entity =>

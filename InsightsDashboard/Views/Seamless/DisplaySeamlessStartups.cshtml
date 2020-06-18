@@ -1,0 +1,14 @@
+﻿@model Dictionary<string, MainEntry>
+@{
+    ViewData["Title"] = "DisplaySeamlessStartups";
+}
+
+<h1>DisplaySeamlessStartups</h1>
+
+@foreach (KeyValuePair<string, MainEntry> kvp in Model)
+{
+    <p>@kvp.Value.CompanyName</p>
+    <p>@kvp.Value.CompanyWebsite</p>
+    <p>@kvp.Value.Raised</p>
+    <p><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key">Add This Fella</a></p>
+}

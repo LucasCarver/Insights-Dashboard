@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SeamlessApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,16 +25,41 @@ namespace InsightsDashboard.Models
             return client;
         }
 
+        //public async Task<MainEntry> GetMainEntry()
+        //{
+        //    var client = GetClient();
+        //    var response = await client.GetAsync($"Master%20List?api_key={ _seamlessAPIKey}");
+        //    var result = await response.Content.ReadAsStringAsync();
+        //    JObject jsonMainList = JObject.Parse(result);
+        //    JToken mainEntry;
+        //    List<string> mainIds = new List<string>();
+        //    bool stop = false;
+        //    int i = 0;
+        //    while (!stop)
+        //    {
+        //        try
+        //        {
+        //            mainIds.Add(jsonMainList["records"][i]["id"].ToString());
+
+        //        }
+        //        catch(ArgumentOutOfRangeException)
+        //        {
+        //            stop = true;
+        //        }
+        //    }
+        //    return 
+        //}
+
         public async Task<List<MainEntry>> GetMainEntryList()
         {
             var client = GetClient();
             var response = await client.GetAsync($"Master%20List?api_key={_seamlessAPIKey}");
             var result = await response.Content.ReadAsStringAsync();
             JObject jsonMainList = JObject.Parse(result);
-            bool stop = false;
             JToken mainListEntry;
-            int i = 0;
             List<MainEntry> mainEntryList = new List<MainEntry>();
+            bool stop = false;
+            int i = 0;
             while (!stop)
             {
                 try
@@ -51,6 +75,33 @@ namespace InsightsDashboard.Models
                 }
             }
             return mainEntryList;
+        }   
+        
+        public async Task<Dictionary<string, MainEntry>> GetMainDictionary()
+        {
+            var client = GetClient();
+            var response = await client.GetAsync($"Master%20List?api_key={_seamlessAPIKey}");
+            var result = await response.Content.ReadAsStringAsync();
+            JObject jsonMainList = JObject.Parse(result);
+            JToken me;
+            Dictionary<string, MainEntry> mainDictionary = new Dictionary<string, MainEntry>();
+            bool stop = false;
+            int i = 0;
+            while (!stop)
+            {
+                try
+                {
+                    me = jsonMainList["records"][i]["fields"];
+                    var singleEntry = JsonConvert.DeserializeObject<MainEntry>(me.ToString());
+                    mainDictionary.Add(jsonMainList["records"][i]["id"].ToString(), singleEntry);
+                    i++;
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    stop = true;
+                }
+            }
+            return mainDictionary;
         }
 
         public async Task<Feedback> GetFeedback()
