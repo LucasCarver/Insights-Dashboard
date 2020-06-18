@@ -1,13 +1,15 @@
-﻿@model List<MainEntry>
+﻿@model Dictionary<SeamlessMaster, MainEntry>
 @{
     ViewData["Title"] = "DisplaySavedSeamlessStartupEntries";
 }
 
 <h1>DisplaySavedSeamlessStartupEntries</h1>
 
-@foreach (MainEntry sm in Model)
+@foreach (KeyValuePair<SeamlessMaster,MainEntry> kvp in Model)
 {
-    <p>@sm.CompanyName</p>
-    <p>@sm.DateAdded</p>
-    <p>@sm.TwoLineCompanySummary</p>
+    <p>@kvp.Value.CompanyName</p>
+    <p>@kvp.Value.DateAdded</p>
+    <p>@kvp.Value.TwoLineCompanySummary</p>
+    <p>@kvp.Key.Rating</p>
+    <p>@kvp.Key.Comment</p>
 }

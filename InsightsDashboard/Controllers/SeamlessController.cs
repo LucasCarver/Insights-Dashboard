@@ -128,8 +128,8 @@ namespace InsightsDashboard.Controllers
         {
             SeamlessMaster sm = new SeamlessMaster()
             {
-                Identifier = key
-                // PUT THE DAMN USER ID HERE
+                Identifier = key,
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
             _context.SeamlessMaster.Add(sm);
             _context.SaveChanges();
@@ -139,7 +139,7 @@ namespace InsightsDashboard.Controllers
         public async Task<IActionResult> DisplaySavedSeamlessStartupEntries()
         {
             List<SeamlessMaster> seamlessMasterList = new List<SeamlessMaster>();
-            List<MainEntry> finalList = new List<MainEntry>();
+            Dictionary<SeamlessMaster, MainEntry> finalDictionary = new Dictionary<SeamlessMaster, MainEntry>();
             string uid = User.FindFirstValue(ClaimTypes.NameIdentifier);
             seamlessMasterList = _context.SeamlessMaster.Where(x => x.UserId == uid).ToList();
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
@@ -147,10 +147,12 @@ namespace InsightsDashboard.Controllers
             {
                 if (seamlessDictionary[sm.Identifier] != null)
                 {
-                    finalList.Add(seamlessDictionary[sm.Identifier]);
+                    // PASS IN SEAMLESS MASTER OBJECT AS KEY TO DICTIONARY TO GET THE MAIN ENTRY
+                    // ALSO PASS THE SEAMLESS MASTER OBJECT AS A KEY TO THE FINAL DICTIONARY
+                    finalDictionary.Add(sm, seamlessDictionary[sm.Identifier]);
                 }
             }
-            return View(finalList);
+            return View(finalDictionary);
         }
 
         public async Task<IActionResult> DisplaySeamlessStartups()
