@@ -79,6 +79,12 @@ namespace InsightsDashboard.Controllers
             return RedirectToAction("UserList");
         }
 
+        public IActionResult ConfirmRemoveUserStartUp(int id)
+        {
+            UserStartup removeStartUp = _context.UserStartup.Find(id);
+            return View(removeStartUp);
+        }
+
         [HttpGet]
         public IActionResult UpdateUserStartUp(int id)
         {
@@ -93,6 +99,25 @@ namespace InsightsDashboard.Controllers
             if (ModelState.IsValid)
             {
                 startUp.CompanyName = newStartUp.CompanyName;
+                startUp.CompanyWebsite = newStartUp.CompanyWebsite;
+                startUp.DateAdded = newStartUp.DateAdded;
+                startUp.ReviewDate = newStartUp.ReviewDate;
+                startUp.Scout = newStartUp.Scout;
+                startUp.Source = newStartUp.Source;
+                startUp.City = newStartUp.City;
+                startUp.StateProvince = newStartUp.StateProvince;
+                startUp.Country = newStartUp.Country;
+                startUp.TwoLineSummary = newStartUp.TwoLineSummary;
+                startUp.Alignment = newStartUp.Alignment;
+                startUp.Theme = newStartUp.Theme;
+                startUp.Technology = newStartUp.Technology;
+                startUp.Landscape = newStartUp.Landscape;
+                startUp.Uniqueness = newStartUp.Uniqueness;
+                startUp.Team = newStartUp.Team;
+                startUp.Raised = newStartUp.Raised;
+                startUp.Comments = newStartUp.Comments;
+                startUp.Rating = newStartUp.Rating;
+
                 _context.Entry(startUp).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _context.Update(startUp);
                 _context.SaveChanges();
