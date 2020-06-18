@@ -31,43 +31,7 @@ namespace InsightsDashboard.Controllers
             return View();
         }
 
-        public async Task<IActionResult> GetList()
-        {
 
-            List<MainEntry> masterList = await _seamlessDAL.GetMainEntryList();
-
-            return RedirectToAction("ChartTest", masterList);
-        }
-
-        public IActionResult ChartTest(List<MainEntry> masterList)
-        {
-            string companyName = "";
-            int Raised = 0;
-            int i = 0;
-            string y = "";
-            List<ChartModel> test = new List<ChartModel>();
-
-            foreach (MainEntry me in masterList)
-            {
-                companyName = me.CompanyName;
-
-
-                foreach (char c in me.Raised)
-                {
-                    if (int.TryParse(c.ToString(), out int p))
-                    {
-                        y += p;
-                        Raised = int.Parse(y);
-                    }
-                }
-                ChartModel x = new ChartModel(companyName, Raised);
-                test.Add(x);
-            }
-
-            ChartModel sendit = test[1];
-
-            return View(sendit);
-        }
 
         [Authorize]
         [HttpGet]
@@ -80,7 +44,7 @@ namespace InsightsDashboard.Controllers
         public IActionResult AddUserDefinedStartup(UserStartup startUp)
         {
             startUp.DateAdded = DateTime.Now;
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.UserStartup.Add(startUp);
                 _context.SaveChanges();
@@ -90,7 +54,7 @@ namespace InsightsDashboard.Controllers
             {
                 return RedirectToAction("AddUserDefinedStartup");
             }
-       }
+        }
 
         public IActionResult SubmissionComplete(UserStartup startUp)
         {
@@ -126,7 +90,7 @@ namespace InsightsDashboard.Controllers
         public IActionResult UpdateUserStartUp(UserStartup newStartUp)
         {
             UserStartup startUp = _context.UserStartup.Find(newStartUp.Id);
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 startUp.CompanyName = newStartUp.CompanyName;
                 _context.Entry(startUp).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
@@ -135,7 +99,6 @@ namespace InsightsDashboard.Controllers
             }
             return RedirectToAction("UserList");
         }
-
 
         public async Task<IActionResult> Tags()
         {
@@ -165,7 +128,8 @@ namespace InsightsDashboard.Controllers
             // ADD KEYWORDS AND CALCULATE KEYWORD FREQUENCY
             foreach (string word in allWords)
             {
-                if (word != "" && word != null) {
+                if (word != "" && word != null)
+                {
                     if (!wordFreq.ContainsKey(word))
                     {
                         wordFreq.Add(word, 1);
@@ -177,7 +141,7 @@ namespace InsightsDashboard.Controllers
                 }
             }
             // ORDER KEYWORDS BY FREQUENCY
-            List<KeyValuePair<string,int>>keywordList = wordFreq.OrderByDescending(key => key.Value).ToList<KeyValuePair<string, int>>();
+            List<KeyValuePair<string, int>> keywordList = wordFreq.OrderByDescending(key => key.Value).ToList<KeyValuePair<string, int>>();
             return View(keywordList);
         }
     }
