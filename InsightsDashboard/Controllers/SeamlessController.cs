@@ -151,6 +151,8 @@ namespace InsightsDashboard.Controllers
                 startUp.Uniqueness = newStartUp.Uniqueness;
                 startUp.Team = newStartUp.Team;
                 startUp.Raised = newStartUp.Raised;
+                startUp.Comments = newStartUp.Comments;
+                startUp.Rating = newStartUp.Rating;
 
                 _context.Entry(startUp).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _context.Update(startUp);
