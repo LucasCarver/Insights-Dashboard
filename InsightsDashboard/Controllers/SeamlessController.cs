@@ -35,39 +35,6 @@ namespace InsightsDashboard.Controllers
             return RedirectToAction("ChartTest", masterList);
         }
 
-        public IActionResult ChartTest(List<MainEntry> masterList)
-        {
-            string companyName = "";
-            int Raised = 0;
-            int i = 0;
-            string y = "";
-            List<ChartModel> test = new List<ChartModel>();
-
-            foreach (MainEntry me in masterList)
-            {
-                companyName = me.CompanyName;
-
-
-                foreach (char c in me.Raised)
-                {
-                    if (int.TryParse(c.ToString(), out int p))
-                    {
-                        y += p;
-                        Raised = int.Parse(y);
-                    }
-                }
-                ChartModel x = new ChartModel(companyName, Raised);
-                test.Add(x);
-            }
-
-            ChartModel sendit = test[1];
-
-            return View(sendit);
-        }
-
-
-
-
 
         public async Task<IActionResult> Tags()
         {
