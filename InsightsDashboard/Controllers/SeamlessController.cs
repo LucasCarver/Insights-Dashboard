@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Configuration;
-using SeamlessApi.Models;
 
 namespace InsightsDashboard.Controllers
 {
@@ -156,6 +155,56 @@ namespace InsightsDashboard.Controllers
 
                 _context.Entry(startUp).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _context.Update(startUp);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("UserList");
+        }
+
+        public IActionResult AddSeamlessStartupEntry(string key)
+        {
+            SeamlessMaster sm = new SeamlessMaster()
+            {
+                Identifier = key
+                // PUT THE DAMN USER ID HERE
+            };
+            _context.SeamlessMaster.Add(sm);
+            _context.SaveChanges();
+            return RedirectToAction("UserList");
+        }
+
+        public async Task<IActionResult> DisplaySavedSeamlessStartupEntries()
+        {
+            List<SeamlessMaster> seamlessMasterList = new List<SeamlessMaster>();
+            List<MainEntry> finalList = new List<MainEntry>();
+            string uid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            seamlessMasterList = _context.SeamlessMaster.Where(x => x.UserId == uid).ToList();
+            Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+            foreach (SeamlessMaster sm in seamlessMasterList)
+            {
+                if (seamlessDictionary[sm.Identifier] != null)
+                {
+                    finalList.Add(seamlessDictionary[sm.Identifier]);
+                }
+            }
+            return View(finalList);
+        }
+
+        public async Task<IActionResult> DisplaySeamlessStartups()
+        {
+            Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+            return View(seamlessDictionary);
+        }
+
+        public IActionResult UpdateSeamlessStartup(SeamlessMaster sm)
+        {
+            SeamlessMaster oldSm = _context.SeamlessMaster.Find(sm.Identifier);
+            if (ModelState.IsValid)
+            {
+                //update stuff
+                oldSm.Comment = sm.Comment;
+                oldSm.Rating = sm.Rating;
+                _context.Entry(oldSm).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.Update(oldSm);
                 _context.SaveChanges();
             }
             return RedirectToAction("UserList");

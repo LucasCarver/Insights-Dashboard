@@ -1,0 +1,13 @@
+﻿@model List<MainEntry>
+@{
+    ViewData["Title"] = "DisplaySavedSeamlessStartupEntries";
+}
+
+<h1>DisplaySavedSeamlessStartupEntries</h1>
+
+@foreach (MainEntry sm in Model)
+{
+    <p>@sm.CompanyName</p>
+    <p>@sm.DateAdded</p>
+    <p>@sm.TwoLineCompanySummary</p>
+}
