@@ -14,10 +14,10 @@ else
 {
     @foreach (KeyValuePair<SeamlessMaster,MainEntry> kvp in Model)
     {
-        <p>@kvp.Value.CompanyName</p>
-        <p>@kvp.Value.DateAdded</p>
-        <p>@kvp.Value.TwoLineCompanySummary</p>
-        <p>@kvp.Key.Rating</p>
-        <p>@kvp.Key.Comment</p>
+        <h2>@kvp.Value.CompanyName</h2>
+        <p>Date Added: @kvp.Value.DateAdded</p>
+        <p>Description: @kvp.Value.TwoLineCompanySummary</p>
+        <p>Rating: @kvp.Key.Rating</p>
+        <p>Comments: @kvp.Key.Comment</p>
     }
 }
