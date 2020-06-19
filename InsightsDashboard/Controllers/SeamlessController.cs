@@ -65,7 +65,7 @@ namespace InsightsDashboard.Controllers
         {
             List<UserStartup> definedUserStartUps = new List<UserStartup>();
             string uId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            definedUserStartUps = _context.UserStartup.Where(x => x.UserId == uId ).Where(x => x.Identifier == null).ToList();
+            definedUserStartUps = _context.UserStartup.Where(x => x.UserId == uId).Where(x => x.Identifier == null).ToList();
             List<UserStartup> userSavedSeamlessStartups = _context.UserStartup.Where(x => x.UserId == uId).Where(x => x.Identifier != null).ToList();
             List<UserStartup> finalDisplayList = new List<UserStartup>();
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
@@ -79,7 +79,7 @@ namespace InsightsDashboard.Controllers
                 us.Country = me.Country;
                 us.Landscape = me.Landscape;
                 us.Raised = me.Raised;
-                if(DateTime.TryParse(me.ReviewDate, out DateTime r))
+                if (DateTime.TryParse(me.ReviewDate, out DateTime r))
                 {
                     us.ReviewDate = r;
                 }
@@ -92,14 +92,14 @@ namespace InsightsDashboard.Controllers
                 }
                 us.Technology = me.TechnologyAreas;
                 us.Theme = me.Themes;
-                if(int.TryParse(me.Uniqueness, out int u))
+                if (int.TryParse(me.Uniqueness, out int u))
                 {
                     us.Uniqueness = u;
                 }
                 us.TwoLineSummary = me.TwoLineCompanySummary;
                 finalDisplayList.Add(us);
             }
-            foreach(UserStartup us in definedUserStartUps)
+            foreach (UserStartup us in definedUserStartUps)
             {
                 finalDisplayList.Add(us);
             }
@@ -222,6 +222,41 @@ namespace InsightsDashboard.Controllers
         //    }
         //    return RedirectToAction("UserList");
         //}
+
+        public async Task<IActionResult> StartupDetails(int id)
+        {
+            UserStartup specificStartup = _context.UserStartup.Find(id);
+            if (specificStartup.Identifier != null)
+            {
+                Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+                MainEntry me = seamlessDictionary[specificStartup.Identifier];
+                specificStartup.Alignment = me.Alignment;
+                specificStartup.City = me.City;
+                specificStartup.CompanyWebsite = me.CompanyWebsite;
+                specificStartup.Country = me.Country;
+                specificStartup.Landscape = me.Landscape;
+                specificStartup.Raised = me.Raised;
+                if (DateTime.TryParse(me.ReviewDate, out DateTime r))
+                {
+                    specificStartup.ReviewDate = r;
+                }
+                specificStartup.Scout = me.Scout;
+                specificStartup.Source = me.Source;
+                specificStartup.StateProvince = me.StateProvince;
+                if (int.TryParse(me.Team, out int t))
+                {
+                    specificStartup.Team = t;
+                }
+                specificStartup.Technology = me.TechnologyAreas;
+                specificStartup.Theme = me.Themes;
+                if (int.TryParse(me.Uniqueness, out int u))
+                {
+                    specificStartup.Uniqueness = u;
+                }
+                specificStartup.TwoLineSummary = me.TwoLineCompanySummary;
+            }
+            return View(specificStartup);
+        }
 
         public async Task<IActionResult> Tags()
         {

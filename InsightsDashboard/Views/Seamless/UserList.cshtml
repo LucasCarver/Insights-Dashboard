@@ -14,8 +14,8 @@ else
 {
     @foreach (var startUp in Model)
     {
+        <h1><a href="/Seamless/StartupDetails?id=@startUp.Id">@startUp.CompanyName</a></h1>
         <p>@startUp.DateAdded</p>
-        <p>@startUp.CompanyName</p>
         <p>@startUp.Scout</p>
         <p>@startUp.TwoLineSummary</p>
         <p><a href="/Seamless/ConfirmRemoveUserStartUp?id=@startUp.Id">Remove From Here</a></p>
