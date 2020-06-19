@@ -199,7 +199,7 @@ namespace InsightsDashboard.Controllers
             };
             _context.UserStartup.Add(us);
             _context.SaveChanges();
-            return RedirectToAction("DisplaySavedSeamlessStartupEntries");
+            return RedirectToAction("UserList");
         }
 
         public async Task<IActionResult> DisplaySeamlessStartups()
@@ -222,6 +222,31 @@ namespace InsightsDashboard.Controllers
         //    }
         //    return RedirectToAction("UserList");
         //}
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult AddStartupComments(int id)
+        {
+            UserStartup startupToComment = _context.UserStartup.Find(id);
+            return View(startupToComment);
+        }
+
+        [HttpPost]
+        public IActionResult AddStartupComments(UserStartup startupToComment)
+        {
+            UserStartup startUp = _context.UserStartup.Find(startupToComment.Id);
+            if (ModelState.IsValid)
+            {
+                _context.UserStartup.Add(startUp);
+                _context.SaveChanges();
+                return RedirectToAction("UserList", startupToComment);
+            }
+            else
+            {
+                return RedirectToAction("AddStartupComments");
+            }
+        }
+
 
         public async Task<IActionResult> Tags()
         {
