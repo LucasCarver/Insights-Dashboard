@@ -10,5 +10,12 @@
     <p>@kvp.Value.CompanyName</p>
     <p>@kvp.Value.CompanyWebsite</p>
     <p>@kvp.Value.Raised</p>
-    <p><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key">Add This Fella</a></p>
+    @if(User.Identity.IsAuthenticated)
+    {
+        <p><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key">Add This Fella</a></p>
+    }
+    else
+    {
+        <p><a href="/Identity/Account/Login">LOG IN</a> To Add This Company To Your Tracker List</p>
+    }
 }

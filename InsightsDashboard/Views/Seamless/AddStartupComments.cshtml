@@ -1,0 +1,32 @@
+﻿@using System.Security.Claims;
+@model UserStartup
+
+@{
+    ViewData["Title"] = "AddStartupComments";
+}
+
+<h1>AddStartupComments</h1>
+
+<form action="/Seamless/AddStartupComments" method="post">
+    <input type="text" required name="CompanyName" placeholder="Company Name" value="@Model.CompanyName" />
+    @*<input type="text" name="CompanyWebsite" placeholder="Company Website" value="@Model.CompanyWebsite" />
+    <input type="datetime" name="ReviewDate" placeholder="Review Date" value="@Model.ReviewDate" />
+    <input type="text" name="Scout" placeholder="Scout" value="@Model.Scout" />
+    <input type="text" name="Source" placeholder="Source" value="@Model.Source" />
+    <input type="text" name="City" placeholder="City" value="@Model.City" />
+    <input type="text" name="StateProvince" placeholder="State/Province" value="@Model.StateProvince" />
+    <input type="text" name="Country" placeholder="Country" value="@Model.Country" />
+    <input type="text" name="TwoLineSummary" placeholder="TwoLineSummary" value="@Model.TwoLineSummary" />
+    <input type="text" name="Alignment" placeholder="Alignment" value="@Model.Alignment" />
+    <input type="text" name="Theme" placeholder="Theme" value="@Model.Theme" />
+    <input type="text" name="Technology" placeholder="Technology" value="@Model.Technology" />
+    <input type="text" name="Landscape" placeholder="Landscape" value="@Model.Landscape" />
+    <input type="number" name="Uniqueness" placeholder="Uniqueness" value="@Model.Uniqueness" />
+    <input type="number" name="Team" placeholder="Team" value="@Model.Team" />
+    <input type="text" name="Raised" placeholder="Raised" value="@Model.Raised" />*@
+    <input type="datetime" name="DateAdded" placeholder="Date Added" value="@Model.DateAdded" />
+    <input type="text" name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" hidden />
+    <input type="number" name="Id" value="@Model.Id" hidden />
+    <input type="text" name="Comments" value="@Model.StartupComments" />
+    <input type="submit" value="Submit Changes" />
+</form>
