@@ -61,13 +61,70 @@ namespace InsightsDashboard.Controllers
         }
 
         [Authorize]
-        public IActionResult UserList()
+        public async Task<IActionResult> UserList()
         {
-            List<UserStartup> userStartUps = new List<UserStartup>();
+            List<UserStartup> definedUserStartUps = new List<UserStartup>();
             string uId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            userStartUps = _context.UserStartup.Where(x => x.UserId == uId).ToList();
-            return View(userStartUps);
+            definedUserStartUps = _context.UserStartup.Where(x => x.UserId == uId ).Where(x => x.Identifier == null).ToList();
+            List<UserStartup> userSavedSeamlessStartups = _context.UserStartup.Where(x => x.UserId == uId).Where(x => x.Identifier != null).ToList();
+            List<UserStartup> finalDisplayList = new List<UserStartup>();
+            Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+            foreach (UserStartup us in userSavedSeamlessStartups)
+            {
+                //GET THE REST OF THE DETAILS
+                MainEntry me = seamlessDictionary[us.Identifier];
+                us.Alignment = me.Alignment;
+                us.City = me.City;
+                us.CompanyWebsite = me.CompanyWebsite;
+                us.Country = me.Country;
+                us.Landscape = me.Landscape;
+                us.Raised = me.Raised;
+                if(DateTime.TryParse(me.ReviewDate, out DateTime r))
+                {
+                    us.ReviewDate = r;
+                }
+                us.Scout = me.Scout;
+                us.Source = me.Source;
+                us.StateProvince = me.StateProvince;
+                if (int.TryParse(me.Team, out int t))
+                {
+                    us.Team = t;
+                }
+                us.Technology = me.TechnologyAreas;
+                us.Theme = me.Themes;
+                if(int.TryParse(me.Uniqueness, out int u))
+                {
+                    us.Uniqueness = u;
+                }
+                us.TwoLineSummary = me.TwoLineCompanySummary;
+                finalDisplayList.Add(us);
+            }
+            foreach(UserStartup us in definedUserStartUps)
+            {
+                finalDisplayList.Add(us);
+            }
+            return View(finalDisplayList);
         }
+
+        //[Authorize]
+        //public async Task<IActionResult> DisplaySavedSeamlessStartupEntries()
+        //{
+        //    List<SeamlessMaster> seamlessMasterList = new List<SeamlessMaster>();
+        //    Dictionary<SeamlessMaster, MainEntry> finalDictionary = new Dictionary<SeamlessMaster, MainEntry>();
+        //    string uid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    seamlessMasterList = _context.SeamlessMaster.Where(x => x.UserId == uid).ToList();
+        //    Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+        //    foreach (SeamlessMaster sm in seamlessMasterList)
+        //    {
+        //        if (seamlessDictionary[sm.Identifier] != null)
+        //        {
+        //            // PASS IN SEAMLESS MASTER OBJECT AS KEY TO DICTIONARY TO GET THE MAIN ENTRY
+        //            // ALSO PASS THE SEAMLESS MASTER OBJECT AS A KEY TO THE FINAL DICTIONARY
+        //            finalDictionary.Add(sm, seamlessDictionary[sm.Identifier]);
+        //        }
+        //    }
+        //    return View(finalDictionary);
+        //}
 
         [Authorize]
         public IActionResult RemoveUserStartUp(int id)
@@ -114,8 +171,9 @@ namespace InsightsDashboard.Controllers
                 startUp.Uniqueness = newStartUp.Uniqueness;
                 startUp.Team = newStartUp.Team;
                 startUp.Raised = newStartUp.Raised;
-                startUp.Comments = newStartUp.Comments;
-                startUp.Rating = newStartUp.Rating;
+                //DO THIS LATER GUYS
+                //startUp.Comments = newStartUp.Comments;
+                //startUp.Rating = newStartUp.Rating;
 
                 _context.Entry(startUp).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _context.Update(startUp);
@@ -124,40 +182,24 @@ namespace InsightsDashboard.Controllers
             return RedirectToAction("UserList");
         }
 
-        public IActionResult AddSeamlessStartupEntry(string key)
+        public async Task<IActionResult> AddSeamlessStartupEntry(string key)
         {
-            if(key==null)
+            if (key == null)
             {
                 return RedirectToAction("DisplaySavedSeamlessStartupEntries");
             }
-            SeamlessMaster sm = new SeamlessMaster()
+            Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+            MainEntry startupDetails = seamlessDictionary[key];
+            UserStartup us = new UserStartup()
             {
                 Identifier = key,
-                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                DateAdded = DateTime.Parse(startupDetails.DateAdded),
+                CompanyName = startupDetails.CompanyName
             };
-            _context.SeamlessMaster.Add(sm);
+            _context.UserStartup.Add(us);
             _context.SaveChanges();
             return RedirectToAction("DisplaySavedSeamlessStartupEntries");
-        }
-
-        [Authorize]
-        public async Task<IActionResult> DisplaySavedSeamlessStartupEntries()
-        {
-            List<SeamlessMaster> seamlessMasterList = new List<SeamlessMaster>();
-            Dictionary<SeamlessMaster, MainEntry> finalDictionary = new Dictionary<SeamlessMaster, MainEntry>();
-            string uid = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            seamlessMasterList = _context.SeamlessMaster.Where(x => x.UserId == uid).ToList();
-            Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
-            foreach (SeamlessMaster sm in seamlessMasterList)
-            {
-                if (seamlessDictionary[sm.Identifier] != null)
-                {
-                    // PASS IN SEAMLESS MASTER OBJECT AS KEY TO DICTIONARY TO GET THE MAIN ENTRY
-                    // ALSO PASS THE SEAMLESS MASTER OBJECT AS A KEY TO THE FINAL DICTIONARY
-                    finalDictionary.Add(sm, seamlessDictionary[sm.Identifier]);
-                }
-            }
-            return View(finalDictionary);
         }
 
         public async Task<IActionResult> DisplaySeamlessStartups()
@@ -166,20 +208,20 @@ namespace InsightsDashboard.Controllers
             return View(seamlessDictionary);
         }
 
-        public IActionResult UpdateSeamlessStartup(SeamlessMaster sm)
-        {
-            SeamlessMaster oldSm = _context.SeamlessMaster.Find(sm.Identifier);
-            if (ModelState.IsValid)
-            {
-                //update stuff
-                oldSm.Comment = sm.Comment;
-                oldSm.Rating = sm.Rating;
-                _context.Entry(oldSm).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.Update(oldSm);
-                _context.SaveChanges();
-            }
-            return RedirectToAction("UserList");
-        }
+        //public IActionResult UpdateSeamlessStartup(SeamlessMaster sm)
+        //{
+        //    SeamlessMaster oldSm = _context.SeamlessMaster.Find(sm.Identifier);
+        //    if (ModelState.IsValid)
+        //    {
+        //        //update stuff
+        //        oldSm.Comment = sm.Comment;
+        //        oldSm.Rating = sm.Rating;
+        //        _context.Entry(oldSm).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        //        _context.Update(oldSm);
+        //        _context.SaveChanges();
+        //    }
+        //    return RedirectToAction("UserList");
+        //}
 
         public async Task<IActionResult> Tags()
         {

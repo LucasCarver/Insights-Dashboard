@@ -5,7 +5,7 @@
 
 <h1>UserList</h1>
 
-@if(Model.Count == 0)
+@if (Model.Count == 0)
 {
     <p>Nothing Added Yet!</p>
     <p><a href="/Seamless/AddUserDefinedStartUp">Begin By Adding A Custom StartUp Here</a></p>
@@ -16,7 +16,16 @@ else
     {
         <p>@startUp.DateAdded</p>
         <p>@startUp.CompanyName</p>
+        <p>@startUp.Scout</p>
+        <p>@startUp.TwoLineSummary</p>
         <p><a href="/Seamless/ConfirmRemoveUserStartUp?id=@startUp.Id">Remove From Here</a></p>
-        <p><a href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update This Thang</a></p>
+        if (startUp.Identifier == null)
+        {
+            <p><a href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update This Thang</a></p>
+        }
+        else
+        {
+            <p class="text-danger">THIS COMES FROM THE SEAMLESS AIRTABLE AND CANNOT BE EDITED</p>
+        }
     }
 }

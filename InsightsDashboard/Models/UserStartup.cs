@@ -5,9 +5,12 @@ namespace InsightsDashboard.Models
 {
     public partial class UserStartup
     {
+        public UserStartup()
+        {
+            StartupComments = new HashSet<StartupComments>();
+        }
+
         public int Id { get; set; }
-        public int? Rating { get; set; }
-        public string Comments { get; set; }
         public string CompanyName { get; set; }
         public string CompanyWebsite { get; set; }
         public DateTime DateAdded { get; set; }
@@ -26,7 +29,9 @@ namespace InsightsDashboard.Models
         public int? Team { get; set; }
         public string Raised { get; set; }
         public string UserId { get; set; }
+        public string Identifier { get; set; }
 
         public virtual AspNetUsers User { get; set; }
+        public virtual ICollection<StartupComments> StartupComments { get; set; }
     }
 }
