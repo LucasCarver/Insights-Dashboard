@@ -1,20 +1,30 @@
-﻿@model UserStartup
+﻿@model UserStartupComments
 
-<h1>@Model.CompanyName</h1>
-<h2>Review Date: @Model.ReviewDate</h2>
-<h2>Date Added: @Model.DateAdded</h2>
-<h2>Scout: @Model.Scout</h2>
-<h2>Source: @Model.Source</h2>
-<h2>Website: @Model.CompanyWebsite</h2>
-<h2>City:@Model.City</h2>
-<h2>State/Province: @Model.StateProvince</h2>
-<h2>Country: @Model.Country</h2>
-<p>Two-Line-Summary: @Model.TwoLineSummary</p>
-<p>Alignment: @Model.Alignment</p>
-<p>Theme(s): @Model.Theme</p>
-<p>Technology Areas: @Model.Technology</p>
-<p>Landscape: @Model.Landscape</p>
-<p>Uniqueness: @Model.Uniqueness</p>
-<p>Team: @Model.Team</p>
-<p>Raised: $@Model.Raised</p>
-@*<p>@Model.Stage</p>*@
+<h1>@Model.Startups.CompanyName</h1>
+<h2>Review Date: @Model.Startups.ReviewDate</h2>
+<h2>Date Added: @Model.Startups.DateAdded</h2>
+<h2>Scout: @Model.Startups.Scout</h2>
+<h2>Source: @Model.Startups.Source</h2>
+<h2>Website: @Model.Startups.CompanyWebsite</h2>
+<h2>City:@Model.Startups.City</h2>
+<h2>State/Province: @Model.Startups.StateProvince</h2>
+<h2>Country: @Model.Startups.Country</h2>
+<p>Two-Line-Summary: @Model.Startups.TwoLineSummary</p>
+<p>Alignment: @Model.Startups.Alignment</p>
+<p>Theme(s): @Model.Startups.Theme</p>
+<p>Technology Areas: @Model.Startups.Technology</p>
+<p>Landscape: @Model.Startups.Landscape</p>
+<p>Uniqueness: @Model.Startups.Uniqueness</p>
+<p>Team: @Model.Startups.Team</p>
+<p>Raised: $@Model.Startups.Raised</p>
+@*<p>@Model.Startups.Stage</p>*@
+
+<form action="/Seamless/AddStartupComments?id=@Model.Startups.Id" method="post">
+    <input type="text" name="comment" placeholder="Comment Here" />
+    <input type="submit" value="Submit" />
+</form>
+
+@foreach(var Comment in Model.Comments)
+{
+    <p>@Comment.Comment</p>
+}
