@@ -9,6 +9,7 @@ using System.Transactions;
 using InsightsDashboard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Configuration;
 
@@ -29,6 +30,10 @@ namespace InsightsDashboard.Controllers
         {
             return View();
         }
+
+
+
+
 
         [Authorize]
         [HttpGet]
@@ -180,9 +185,72 @@ namespace InsightsDashboard.Controllers
             return RedirectToAction("UserList");
         }
 
+
+
+        public async Task<IActionResult> AlignmentDetails(string alignment)
+        {
+            Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+            Dictionary<string, MainEntry> alignmentDictionary = new Dictionary<string, MainEntry>();
+            string[] alignments = new string[] { };
+            int i = 0;
+            foreach (KeyValuePair<string, MainEntry> x in seamlessDictionary)
+            {
+
+                try
+                {
+                    if (x.Value.Alignment != null)
+                    {
+                        i++;
+                        string y = x.Value.Alignment;
+                        alignments = y.Split(',');
+                        x.Value.Alignment = "";
+                        foreach (string s in alignments)
+                        {
+
+                            x.Value.Alignment += s.Trim() + " ";
+                        }
+                    }
+                }
+                catch (IndexOutOfRangeException) { }
+
+
+
+                if (x.Value.Alignment != null)
+                {
+                    if (x.Value.Alignment.Contains(alignment))
+                    {
+                        alignmentDictionary.Add(x.Key, x.Value);
+                    }
+                }
+            }
+            return View(alignmentDictionary);
+        }
+
+
         public async Task<IActionResult> DisplaySeamlessStartups()
         {
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+            string[] alignments = new string[] { };
+            int i = 0;
+            foreach (KeyValuePair<string, MainEntry> x in seamlessDictionary)
+            {           
+                    try
+                    {
+                    if (x.Value.Alignment != null)
+                    {
+                        i++;
+                        string y = x.Value.Alignment;
+                        alignments = y.Split(',');                 
+                        x.Value.Alignment = "";
+                        foreach(string s in alignments)
+                        {
+
+                            x.Value.Alignment += s.Trim() + " ";
+                        }
+                    }
+                    }
+                    catch (IndexOutOfRangeException) { }
+            }
             return View(seamlessDictionary);
         }
 

@@ -1,8 +1,8 @@
-﻿@model Dictionary<string, MainEntry>
-
+﻿
+@model Dictionary<string, MainEntry>
 
 @{
-    ViewData["Title"] = "DisplaySeamlessStartups";
+    ViewData["Title"] = "AlignmentDetails";
 }
 
 <table class="table table-striped">
@@ -24,7 +24,7 @@
             <td>Website</td>
             <td style="text-align:center;">Summary</td>
             <td style="text-align:center;">Alignment</td>
-       
+        
         </tr>
 
         @foreach (var kvp in Model)
@@ -34,7 +34,7 @@
                 <td style="text-align:right;"><a href="@kvp.Value.CompanyWebsite">@kvp.Value.CompanyWebsite</a></td>
                 <td>@kvp.Value.TwoLineCompanySummary</td>
 
-                <td style="text-align:right;" >
+                <td style="text-align:right;">
                     @{
                         if (kvp.Value.Alignment != null)
                         {
@@ -43,8 +43,6 @@
                             {
 
                                 <a href="AlignmentDetails?alignment=@x">@x</a>
-                            
-
                             }
                         }
                     }
