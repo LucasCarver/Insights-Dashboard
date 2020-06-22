@@ -1,7 +1,7 @@
 ﻿using System;
-using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace InsightsDashboard.Models
 {
@@ -24,7 +24,7 @@ namespace InsightsDashboard.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<SeamlessMaster> SeamlessMaster { get; set; }
+        public virtual DbSet<StartupComments> StartupComments { get; set; }
         public virtual DbSet<Tags> Tags { get; set; }
         public virtual DbSet<UserPreferences> UserPreferences { get; set; }
         public virtual DbSet<UserStartup> UserStartup { get; set; }
@@ -138,14 +138,25 @@ namespace InsightsDashboard.Models
                 entity.Property(e => e.UserName).HasMaxLength(256);
             });
 
-            modelBuilder.Entity<SeamlessMaster>(entity =>
+            modelBuilder.Entity<StartupComments>(entity =>
             {
-                entity.HasKey(e => e.Identifier)
-                    .HasName("PK__Seamless__821FB018F3E1244F");
+                entity.Property(e => e.Comment).HasMaxLength(250);
 
-                entity.Property(e => e.Identifier).HasMaxLength(20);
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasMaxLength(450);
 
-                entity.Property(e => e.Comment).HasMaxLength(200);
+                entity.HasOne(d => d.Startup)
+                    .WithMany(p => p.StartupComments)
+                    .HasForeignKey(d => d.StartupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__StartupCo__Start__6FE99F9F");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.StartupComments)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__StartupCo__UserI__6EF57B66");
             });
 
             modelBuilder.Entity<Tags>(entity =>
@@ -181,8 +192,6 @@ namespace InsightsDashboard.Models
 
                 entity.Property(e => e.City).HasMaxLength(90);
 
-                entity.Property(e => e.Comments).HasMaxLength(200);
-
                 entity.Property(e => e.CompanyName)
                     .IsRequired()
                     .HasMaxLength(60);
@@ -192,6 +201,8 @@ namespace InsightsDashboard.Models
                 entity.Property(e => e.Country).HasMaxLength(80);
 
                 entity.Property(e => e.DateAdded).HasColumnType("date");
+
+                entity.Property(e => e.Identifier).HasMaxLength(20);
 
                 entity.Property(e => e.Landscape).HasMaxLength(30);
 

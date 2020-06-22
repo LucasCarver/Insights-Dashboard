@@ -1,0 +1,10 @@
+﻿@model UserStartup 
+@{
+    ViewData["Title"] = "ConfirmRemoveUserStartUp";
+}
+
+<h1>ConfirmRemoveUserStartUp</h1>
+
+<h1>Are you sure you want to remove @Model.CompanyName from your list?</h1>
+<p><a href="/Seamless/RemoveUserStartUp?id=@Model.Id">Yes! Proceed & Remove this StartUp</a></p>
+<p><a href="/Seamless/UserList">Nah, Panic & Go Back To My List</a></p>

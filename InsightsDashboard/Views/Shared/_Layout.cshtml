@@ -23,14 +23,20 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Seamless" asp-action="GetList">TestChart</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Seamless" asp-action="DisplaySeamlessStartups">Seamless Startups</a>
+                        </li>
+                        @if(User.Identity.IsAuthenticated)
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Seamless" asp-action="DisplaySavedSeamlessStartupEntries">Saved Company StartUps</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Seamless" asp-action="Index">Index</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Seamless" asp-action="Tags">Keywords</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Seamless" asp-action="UserList">User List</a>
                         </li>
+                        }
                     </ul>
                 </div>
             </div>

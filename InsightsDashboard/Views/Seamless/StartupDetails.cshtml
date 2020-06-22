@@ -1,5 +1,20 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model UserStartup
+
+<h1>@Model.CompanyName</h1>
+<h2>Review Date: @Model.ReviewDate</h2>
+<h2>Date Added: @Model.DateAdded</h2>
+<h2>Scout: @Model.Scout</h2>
+<h2>Source: @Model.Source</h2>
+<h2>Website: @Model.CompanyWebsite</h2>
+<h2>City:@Model.City</h2>
+<h2>State/Province: @Model.StateProvince</h2>
+<h2>Country: @Model.Country</h2>
+<p>Two-Line-Summary: @Model.TwoLineSummary</p>
+<p>Alignment: @Model.Alignment</p>
+<p>Theme(s): @Model.Theme</p>
+<p>Technology Areas: @Model.Technology</p>
+<p>Landscape: @Model.Landscape</p>
+<p>Uniqueness: @Model.Uniqueness</p>
+<p>Team: @Model.Team</p>
+<p>Raised: $@Model.Raised</p>
+@*<p>@Model.Stage</p>*@
