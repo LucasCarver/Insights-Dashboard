@@ -26,21 +26,25 @@
 }
 else
 {
+        List<string> names = new List<string>();
     @foreach (var startUp in Model)
     {
+        if (!names.Contains(startUp.CompanyName))
+        {
         <h1><a href="/Seamless/StartupDetails?id=@startUp.Id">@startUp.CompanyName</a></h1>
         <p>@startUp.DateAdded</p>
         <p>@startUp.Scout</p>
         <p>@startUp.TwoLineSummary</p>
         <p><a href="/Seamless/ConfirmRemoveUserStartUp?id=@startUp.Id">Remove From Here</a></p>
-        if (startUp.Identifier == null)
-        {
+            if (startUp.Identifier == null)
+            {
             <p><a href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update This Thang</a></p>
-        }
-        else
-        {
+            }
+            else
+            {
             <p class="text-danger">THIS COMES FROM THE SEAMLESS AIRTABLE AND CANNOT BE EDITED</p>
-        }
+            }
         <p><a href="/Seamless/AddStartupComments?id=@startUp.Id">Add A Comment About This Startup</a></p>
-    }
-}
+        }
+      }
+ }
