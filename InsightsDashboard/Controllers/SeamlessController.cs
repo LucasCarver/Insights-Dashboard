@@ -218,26 +218,30 @@ namespace InsightsDashboard.Controllers
                 }
                 specificStartup.TwoLineSummary = me.TwoLineCompanySummary;
             }
-            return View(specificStartup);
+            UserStartupComments userStartupComments = new UserStartupComments()
+            {
+                Startups = specificStartup,
+                Comments = _context.StartupComments.Where(x => x.StartupId == id).ToList()
+            };
+            return View(userStartupComments);
         }
 
-        [Authorize]
-        [HttpGet]
-        public IActionResult AddStartupComments(int id)
+        public IActionResult AddStartupComments(int id, string comment)
         {
-            UserStartup startupToComment = _context.UserStartup.Find(id);
-            return View(startupToComment);
-        }
+            //UserStartupComments userStartupComment = new UserStartupComments() { 
+            //    Startups = _context.UserStartup.Find(id), 
+            //    Comments = _context.StartupComments.Where(x => x.StartupId == id).ToList()
+            //};
+            StartupComments startupComment = new StartupComments();
+            startupComment.StartupId = id;
+            startupComment.Comment = comment;
+            startupComment.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        [HttpPost]
-        public IActionResult AddStartupComments(UserStartup startupToComment)
-        {
-            UserStartup startUp = _context.UserStartup.Find(startupToComment.Id);
             if (ModelState.IsValid)
             {
-                _context.UserStartup.Add(startUp);
+                _context.StartupComments.Add(startupComment);
                 _context.SaveChanges();
-                return RedirectToAction("UserList", startupToComment);
+                return RedirectToAction("StartupDetails", new { id = id });
             }
             else
             {
