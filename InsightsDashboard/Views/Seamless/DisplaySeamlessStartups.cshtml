@@ -1,12 +1,9 @@
 ﻿@model Dictionary<string, MainEntry>
-@*@model IEnumerable<Dictionary<string, MainEntry>>*@
+
 
 @{
     ViewData["Title"] = "DisplaySeamlessStartups";
 }
-
-
-
 
 <table class="table table-striped">
     <tbody>
@@ -24,7 +21,7 @@
         </tr>
         <tr><td>Name</td><td>Website</td><td style="text-align:center;">Summary</td><td style="text-align:right;">Raised</td></tr>
 
-        @foreach (var kvp in Model)
+        @foreach (var kvp in Model) 
         {
             <tr class="Search">
                 <td>@kvp.Value.CompanyName</td>
