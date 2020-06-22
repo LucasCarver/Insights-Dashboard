@@ -30,8 +30,6 @@ namespace InsightsDashboard.Controllers
             return View();
         }
 
-
-
         [Authorize]
         [HttpGet]
         public IActionResult AddUserDefinedStartup()
@@ -105,26 +103,6 @@ namespace InsightsDashboard.Controllers
             }
             return View(finalDisplayList);
         }
-
-        //[Authorize]
-        //public async Task<IActionResult> DisplaySavedSeamlessStartupEntries()
-        //{
-        //    List<SeamlessMaster> seamlessMasterList = new List<SeamlessMaster>();
-        //    Dictionary<SeamlessMaster, MainEntry> finalDictionary = new Dictionary<SeamlessMaster, MainEntry>();
-        //    string uid = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    seamlessMasterList = _context.SeamlessMaster.Where(x => x.UserId == uid).ToList();
-        //    Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
-        //    foreach (SeamlessMaster sm in seamlessMasterList)
-        //    {
-        //        if (seamlessDictionary[sm.Identifier] != null)
-        //        {
-        //            // PASS IN SEAMLESS MASTER OBJECT AS KEY TO DICTIONARY TO GET THE MAIN ENTRY
-        //            // ALSO PASS THE SEAMLESS MASTER OBJECT AS A KEY TO THE FINAL DICTIONARY
-        //            finalDictionary.Add(sm, seamlessDictionary[sm.Identifier]);
-        //        }
-        //    }
-        //    return View(finalDictionary);
-        //}
 
         [Authorize]
         public IActionResult RemoveUserStartUp(int id)
@@ -207,22 +185,6 @@ namespace InsightsDashboard.Controllers
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
             return View(seamlessDictionary);
         }
-
-        //public IActionResult UpdateSeamlessStartup(SeamlessMaster sm)
-        //{
-        //    SeamlessMaster oldSm = _context.SeamlessMaster.Find(sm.Identifier);
-        //    if (ModelState.IsValid)
-        //    {
-        //        //update stuff
-        //        oldSm.Comment = sm.Comment;
-        //        oldSm.Rating = sm.Rating;
-        //        _context.Entry(oldSm).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-        //        _context.Update(oldSm);
-        //        _context.SaveChanges();
-        //    }
-        //    return RedirectToAction("UserList");
-        //}
-
 
         public async Task<IActionResult> StartupDetails(int id)
         {
