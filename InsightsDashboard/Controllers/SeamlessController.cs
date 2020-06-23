@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Configuration;
 
@@ -363,17 +364,13 @@ namespace InsightsDashboard.Controllers
             UserStartupComments userStartupComments = new UserStartupComments()
             {
                 Startups = specificStartup,
-                Comments = _context.StartupComments.Where(x => x.StartupId == id).ToList()
+                Comments = _context.StartupComments.Where(x => x.StartupId == id).ToList(),
             };
             return View(userStartupComments);
         }
 
         public IActionResult AddStartupComments(int id, string comment)
         {
-            //UserStartupComments userStartupComment = new UserStartupComments() { 
-            //    Startups = _context.UserStartup.Find(id), 
-            //    Comments = _context.StartupComments.Where(x => x.StartupId == id).ToList()
-            //};
             StartupComments startupComment = new StartupComments();
             startupComment.StartupId = id;
             startupComment.Comment = comment;
@@ -388,6 +385,25 @@ namespace InsightsDashboard.Controllers
             else
             {
                 return RedirectToAction("AddStartupComments");
+            }
+        }
+
+        public IActionResult AddStartupRating(int id, int rating)
+        {
+            StartupComments startupComment = new StartupComments();
+            startupComment.StartupId = id;
+            startupComment.Rating = rating;
+            startupComment.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (ModelState.IsValid)
+            {
+                _context.StartupComments.Update(startupComment);
+                _context.SaveChanges();
+                return RedirectToAction("StartupDetails", new { id = id });
+            }
+            else
+            {
+                return RedirectToAction("AddStartupRating");
             }
         }
 
