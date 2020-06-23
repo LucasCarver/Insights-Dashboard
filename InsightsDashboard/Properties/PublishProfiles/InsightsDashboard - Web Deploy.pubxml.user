@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAtt3Mm+MNNE2WOkYf7k2n2AAAAAACAAAAAAAQZgAAAAEAACAAAACo7sWFxYN5GYKTcS4XwEH6uEb5EdKlujBRVvjrJS31sQAAAAAOgAAAAAIAACAAAAAa2u+mTC510tSdwEsOtTEf1h7z9kXGRDvqNC3tZi/E2YAAAAB2F4z3ohXS4RYNtlD7rAeEg2mugp96J0RAWRVMhG1kg1PJKhKQay6DOkeArrBmWxe/3q7IDP5aJX7FwXyV8SRwrZ9LJ5UltDdRmgZWFsaTmUPmFCTfi16YcGKj/Ovuzi70op2qi3xbI/bth0tBX2rlRio75dysVqsYqfh2Vn2HDUAAAAAYsTl91JNaiiC5wdPKwhOTO2o6HNgzPwgAXEi/NoRP7nItpxv3u9o/o3cO6XX3teNnZWq0M63Mx70XQK2YuJW0</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=tcp:insightsdashboard.database.windows.net,1433%3bDatabase=InsightsDb%3bPersist Security Info=False%3bUser ID=theAdmin%3bPassword=Hello!1234%3bMultipleActiveResultSets=False%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="InsightsDashboard.Data.ApplicationDbContext">
+      <Value>Server=tcp:insightsdashboard.database.windows.net,1433%3bDatabase=InsightsDb%3bPersist Security Info=False%3bUser ID=theAdmin%3bPassword=Hello!1234%3bMultipleActiveResultSets=False%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30</Value>
+    </EFMigrations>
+    <EFMigrations Include="InsightsDashboard.Models.InsightsDbContext">
+      <Value>Server=tcp:insightsdashboard.database.windows.net,1433%3bDatabase=InsightsDb%3bPersist Security Info=False%3bUser ID=theAdmin%3bPassword=Hello!1234%3bMultipleActiveResultSets=False%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>
