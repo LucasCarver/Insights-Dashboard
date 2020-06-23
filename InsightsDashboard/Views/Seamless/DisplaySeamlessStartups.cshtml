@@ -5,6 +5,15 @@
     ViewData["Title"] = "DisplaySeamlessStartups";
 }
 
+@{ if (ViewBag.Status != null) {
+    <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Status");
+            };
+    </script>
+        } }
+
+
 <table class="table table-striped">
     <tbody>
         <tr>
@@ -24,17 +33,18 @@
             <td>Website</td>
             <td style="text-align:center;">Summary</td>
             <td style="text-align:center;">Alignment</td>
-       
+            <td></td>
         </tr>
 
         @foreach (var kvp in Model)
         {
             <tr class="Search">
-                <td>@kvp.Value.CompanyName</td>
-                <td style="text-align:right;"><a href="@kvp.Value.CompanyWebsite">@kvp.Value.CompanyWebsite</a></td>
+                <td style="text-align:center;"><a href="SeamlessStartUpDetails?key=@kvp.Key">@kvp.Value.CompanyName - Click For Details</a></td>
+                @{ string url = kvp.Value.CompanyWebsite.Replace(" ", string.Empty);}
+                <td style="text-align:right;"><a href="https://@url">@kvp.Value.CompanyWebsite</a></td>
                 <td>@kvp.Value.TwoLineCompanySummary</td>
 
-                <td style="text-align:right;" >
+                <td style="text-align:right;">
                     @{
                         if (kvp.Value.Alignment != null)
                         {
@@ -43,7 +53,7 @@
                             {
 
                                 <a href="AlignmentDetails?alignment=@x">@x</a>
-                            
+
 
                             }
                         }
@@ -51,22 +61,18 @@
                 </td>
 
 
-               
-            </tr>
-            <tr class="Search">
-                <td>Ratings: Here</td>
-                <td></td>
-                <td>Comment Section: Here</td>
-             
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <td style="text-align:right;"><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key">Add This Fella</a></td>
+                    <td style="text-align:right;"><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key">Add To Favorites</a></td>
                 }
                 else
                 {
-                    <td style="text-align:right;"><a href="/Identity/Account/Login">LOG IN</a> To Add This Company To Your Tracker List</td>
+                    <td style="text-align:right;"><a href="/Identity/Account/Login">LOG IN</a> To Track Listing!</td>
                 }
+
             </tr>
+
+
         }
     </tbody>
 </table>

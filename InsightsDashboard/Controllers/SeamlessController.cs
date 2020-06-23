@@ -11,6 +11,8 @@ using InsightsDashboard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Configuration;
 
@@ -65,7 +67,7 @@ namespace InsightsDashboard.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> UserList()
+        public async Task<IActionResult> UserFavorites()
         {
             List<UserStartup> definedUserStartUps = new List<UserStartup>();
             string uId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -114,9 +116,16 @@ namespace InsightsDashboard.Controllers
         public IActionResult RemoveUserStartUp(int id)
         {
             UserStartup removeStartUp = _context.UserStartup.Find(id);
+
+            List<StartupComments> c = _context.StartupComments.Where(x=>x.StartupId == id).Where(y=>y.UserId==User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList();
+            foreach (StartupComments y in c)
+            {
+                _context.StartupComments.Remove(y);
+            }
+           ///StartupComments conflict column startupId
             _context.UserStartup.Remove(removeStartUp);
             _context.SaveChanges();
-            return RedirectToAction("UserList");
+            return RedirectToAction("UserFavorites");
         }
 
         public IActionResult ConfirmRemoveUserStartUp(int id)
@@ -163,8 +172,26 @@ namespace InsightsDashboard.Controllers
                 _context.Update(startUp);
                 _context.SaveChanges();
             }
-            return RedirectToAction("UserList");
+            return RedirectToAction("UserFavorites");
         }
+
+
+        public async Task<IActionResult> SeamlessStartupDetails(string key)
+        {
+            if (key == null)
+            {
+                return RedirectToAction("DisplaySeamlessStartup");
+            }
+            Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+            KeyValuePair<string, MainEntry> startupDetails = new KeyValuePair<string, MainEntry>(key, seamlessDictionary[key]);
+           
+
+            return View(startupDetails);
+        }
+
+
+
+
 
         public async Task<IActionResult> AddSeamlessStartupEntry(string key)
         {
@@ -173,6 +200,7 @@ namespace InsightsDashboard.Controllers
                 return RedirectToAction("DisplaySavedSeamlessStartupEntries");
             }
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+
             MainEntry startupDetails = seamlessDictionary[key];
             UserStartup us = new UserStartup()
             {
@@ -181,15 +209,41 @@ namespace InsightsDashboard.Controllers
                 DateAdded = DateTime.Parse(startupDetails.DateAdded),
                 CompanyName = startupDetails.CompanyName
             };
-            _context.UserStartup.Add(us);
-            _context.SaveChanges();
-            return RedirectToAction("UserList");
+
+
+            
+            List<UserStartup> userStartups = await _context.UserStartup.Where(x=> x.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
+
+            bool found = false;
+            foreach (UserStartup y in userStartups) {
+                if (y.CompanyName == us.CompanyName)
+                {
+                    found = true;
+                }
+            }
+
+            if (!found)
+            {
+                    _context.UserStartup.Add(us);
+                     _context.SaveChanges();
+            return RedirectToAction("UserFavorites");
+            }
+            else
+            {
+                TempData["Status"] = "This Favorite has already been added!";
+               
+                return RedirectToAction("DisplaySeamlessStartups");
+            }
         }
 
 
 
         public async Task<IActionResult> AlignmentDetails(string alignment)
         {
+
+            TempData["Alignment"] = alignment;
+
+
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
             Dictionary<string, MainEntry> alignmentDictionary = new Dictionary<string, MainEntry>();
             string[] alignments = new string[] { };
@@ -224,6 +278,14 @@ namespace InsightsDashboard.Controllers
                     }
                 }
             }
+
+            if (TempData["Alignment"] != null)
+            {
+                ViewBag.Alignment = TempData["Alignment"].ToString();
+                return View(alignmentDictionary);
+            }
+      
+
             return View(alignmentDictionary);
         }
 
@@ -252,8 +314,21 @@ namespace InsightsDashboard.Controllers
                 }
                 catch (IndexOutOfRangeException) { }
             }
+            if(TempData["Status"] != null)
+            {
+            ViewBag.Status = TempData["Status"].ToString();
+            }
+
+
             return View(seamlessDictionary);
         }
+
+
+
+
+
+
+
 
         public async Task<IActionResult> StartupDetails(int id)
         {
@@ -290,17 +365,13 @@ namespace InsightsDashboard.Controllers
             UserStartupComments userStartupComments = new UserStartupComments()
             {
                 Startups = specificStartup,
-                Comments = _context.StartupComments.Where(x => x.StartupId == id).ToList()
+                Comments = _context.StartupComments.Where(x => x.StartupId == id).ToList(),
             };
             return View(userStartupComments);
         }
 
         public IActionResult AddStartupComments(int id, string comment)
         {
-            //UserStartupComments userStartupComment = new UserStartupComments() { 
-            //    Startups = _context.UserStartup.Find(id), 
-            //    Comments = _context.StartupComments.Where(x => x.StartupId == id).ToList()
-            //};
             StartupComments startupComment = new StartupComments();
             startupComment.StartupId = id;
             startupComment.Comment = comment;
@@ -315,6 +386,25 @@ namespace InsightsDashboard.Controllers
             else
             {
                 return RedirectToAction("AddStartupComments");
+            }
+        }
+
+        public IActionResult AddStartupRating(int id, int rating)
+        {
+            StartupComments startupComment = new StartupComments();
+            startupComment.StartupId = id;
+            startupComment.Rating = rating;
+            startupComment.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (ModelState.IsValid)
+            {
+                _context.StartupComments.Update(startupComment);
+                _context.SaveChanges();
+                return RedirectToAction("StartupDetails", new { id = id });
+            }
+            else
+            {
+                return RedirectToAction("AddStartupRating");
             }
         }
 

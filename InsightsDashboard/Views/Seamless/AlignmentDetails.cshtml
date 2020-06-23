@@ -1,10 +1,18 @@
 @model Dictionary<string, MainEntry>
+
 @{
     ViewData["Title"] = "AlignmentDetails";
 }
 
+
+
+            <h1 style="position:relative; left:10px;"> @ViewBag.Alignment Listings</h1>
+
+
+
 <table class="table table-striped">
     <tbody>
+
         <tr>
             <div class="container">
                 <div class="form-group">
@@ -22,14 +30,16 @@
             <td>Website</td>
             <td style="text-align:center;">Summary</td>
             <td style="text-align:center;">Alignment</td>
-
+            <td></td>
+            <td></td>
         </tr>
 
         @foreach (var kvp in Model)
         {
             <tr class="Search">
-                <td>@kvp.Value.CompanyName</td>
-                <td style="text-align:right;"><a href="@kvp.Value.CompanyWebsite">@kvp.Value.CompanyWebsite</a></td>
+                <td><a href="SeamlessStartUpDetails?key=@kvp.Key">@kvp.Value.CompanyName</a></td>
+                @{ string url = kvp.Value.CompanyWebsite.Replace(" ", string.Empty);}
+                <td style="text-align:right;"><a href="https://@url">@kvp.Value.CompanyWebsite</a></td>
                 <td>@kvp.Value.TwoLineCompanySummary</td>
 
                 <td style="text-align:right;">
@@ -43,28 +53,26 @@
                                 <a href="AlignmentDetails?alignment=@x">@x</a>
 
 
-
-
                             }
                         }
                     }
                 </td>
-            </tr>
-            <tr class="Search">
-                <td>Ratings: Here</td>
-                <td></td>
-                <td>Comment Section: Here</td>
 
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <td style="text-align:right;"><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key">Add This Fella</a></td>
+                <td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                    <td style="text-align:right;"><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key">Add To Favorites</a></td>
                 }
                 else
                 {
                     <td style="text-align:right;"><a href="/Identity/Account/Login">LOG IN</a> To Add This Company To Your Tracker List</td>
                 }
-            </tr>
-        }
+                    </td>
+
+                </tr>
+
+
+            }
     </tbody>
 </table>
 
