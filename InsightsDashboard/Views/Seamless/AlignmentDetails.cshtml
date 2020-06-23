@@ -1,11 +1,18 @@
 @model Dictionary<string, MainEntry>
+
 @{
     ViewData["Title"] = "AlignmentDetails";
 }
 
 
+
+            <h1 style="position:relative; left:10px;"> @ViewBag.Alignment Listings</h1>
+
+
+
 <table class="table table-striped">
     <tbody>
+
         <tr>
             <div class="container">
                 <div class="form-group">
@@ -29,40 +36,40 @@
 
         @foreach (var kvp in Model)
         {
-    <tr class="Search">
-        <td><a href="SeamlessStartUpDetails?key=@kvp.Key">@kvp.Value.CompanyName</a></td>
-        @{ string url = kvp.Value.CompanyWebsite.Replace(" ", string.Empty);}
-        <td style="text-align:right;"><a href="https://@url">@kvp.Value.CompanyWebsite</a></td>
-        <td>@kvp.Value.TwoLineCompanySummary</td>
+            <tr class="Search">
+                <td><a href="SeamlessStartUpDetails?key=@kvp.Key">@kvp.Value.CompanyName</a></td>
+                @{ string url = kvp.Value.CompanyWebsite.Replace(" ", string.Empty);}
+                <td style="text-align:right;"><a href="https://@url">@kvp.Value.CompanyWebsite</a></td>
+                <td>@kvp.Value.TwoLineCompanySummary</td>
 
-        <td style="text-align:right;">
-            @{
-                if (kvp.Value.Alignment != null)
-                {
-                    string[] s = kvp.Value.Alignment.Split(' ');
-                    foreach (string x in s)
-                    {
+                <td style="text-align:right;">
+                    @{
+                        if (kvp.Value.Alignment != null)
+                        {
+                            string[] s = kvp.Value.Alignment.Split(' ');
+                            foreach (string x in s)
+                            {
 
-                        <a href="AlignmentDetails?alignment=@x">@x</a>
+                                <a href="AlignmentDetails?alignment=@x">@x</a>
 
 
+                            }
+                        }
                     }
+                </td>
+
+                <td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                    <td style="text-align:right;"><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key">Add To Favorites</a></td>
                 }
-            }
-        </td>
+                else
+                {
+                    <td style="text-align:right;"><a href="/Identity/Account/Login">LOG IN</a> To Add This Company To Your Tracker List</td>
+                }
+                    </td>
 
-        <td>
-            @if (User.Identity.IsAuthenticated)
-            {
-            <td style="text-align:right;"><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key">Add To Favorites</a></td>
-        }
-        else
-        {
-            <td style="text-align:right;"><a href="/Identity/Account/Login">LOG IN</a> To Add This Company To Your Tracker List</td>
-        }
-            </td>
-
-        </tr>
+                </tr>
 
 
             }

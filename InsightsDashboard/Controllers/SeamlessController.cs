@@ -10,6 +10,7 @@ using InsightsDashboard.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Configuration;
 
@@ -197,6 +198,7 @@ namespace InsightsDashboard.Controllers
                 return RedirectToAction("DisplaySavedSeamlessStartupEntries");
             }
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+
             MainEntry startupDetails = seamlessDictionary[key];
             UserStartup us = new UserStartup()
             {
@@ -205,15 +207,41 @@ namespace InsightsDashboard.Controllers
                 DateAdded = DateTime.Parse(startupDetails.DateAdded),
                 CompanyName = startupDetails.CompanyName
             };
-            _context.UserStartup.Add(us);
-            _context.SaveChanges();
+
+
+            
+            List<UserStartup> userStartups = await _context.UserStartup.Where(x=> x.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
+
+            bool found = false;
+            foreach (UserStartup y in userStartups) {
+                if (y.CompanyName == us.CompanyName)
+                {
+                    found = true;
+                }
+            }
+
+            if (!found)
+            {
+                    _context.UserStartup.Add(us);
+                     _context.SaveChanges();
             return RedirectToAction("UserFavorites");
+            }
+            else
+            {
+                TempData["Status"] = "This Favorite has already been added!";
+               
+                return RedirectToAction("DisplaySeamlessStartups");
+            }
         }
 
 
 
         public async Task<IActionResult> AlignmentDetails(string alignment)
         {
+
+            TempData["Alignment"] = alignment;
+
+
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
             Dictionary<string, MainEntry> alignmentDictionary = new Dictionary<string, MainEntry>();
             string[] alignments = new string[] { };
@@ -248,6 +276,14 @@ namespace InsightsDashboard.Controllers
                     }
                 }
             }
+
+            if (TempData["Alignment"] != null)
+            {
+                ViewBag.Alignment = TempData["Alignment"].ToString();
+                return View(alignmentDictionary);
+            }
+      
+
             return View(alignmentDictionary);
         }
 
@@ -276,6 +312,12 @@ namespace InsightsDashboard.Controllers
                     }
                     catch (IndexOutOfRangeException) { }
             }
+            if(TempData["Status"] != null)
+            {
+            ViewBag.Status = TempData["Status"].ToString();
+            }
+
+
             return View(seamlessDictionary);
         }
 
