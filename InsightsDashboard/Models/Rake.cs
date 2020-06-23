@@ -57,8 +57,8 @@ namespace InsightsDashboard.Models
         {
             var stopWords = new List<string>();
 
-            foreach (var line in string.IsNullOrWhiteSpace(stopWordsPath) 
-                ? ReadAllLines() 
+            foreach (var line in string.IsNullOrWhiteSpace(stopWordsPath)
+                ? ReadAllLines()
                 : File.ReadAllLines(stopWordsPath))
             {
                 if (line.Trim().StartsWith("#")) continue;

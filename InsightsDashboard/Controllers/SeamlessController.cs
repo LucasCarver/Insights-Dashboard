@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
@@ -233,23 +234,23 @@ namespace InsightsDashboard.Controllers
             string[] alignments = new string[] { };
             int i = 0;
             foreach (KeyValuePair<string, MainEntry> x in seamlessDictionary)
-            {           
-                    try
-                    {
+            {
+                try
+                {
                     if (x.Value.Alignment != null)
                     {
                         i++;
                         string y = x.Value.Alignment;
-                        alignments = y.Split(',');                 
+                        alignments = y.Split(',');
                         x.Value.Alignment = "";
-                        foreach(string s in alignments)
+                        foreach (string s in alignments)
                         {
 
                             x.Value.Alignment += s.Trim() + " ";
                         }
                     }
-                    }
-                    catch (IndexOutOfRangeException) { }
+                }
+                catch (IndexOutOfRangeException) { }
             }
             return View(seamlessDictionary);
         }
@@ -317,8 +318,7 @@ namespace InsightsDashboard.Controllers
             }
         }
 
-
-        public async Task<IActionResult> Tags()
+        public async Task<IActionResult> Keywords()
         {
             bool stop = false;
             int i = 0;
@@ -340,8 +340,23 @@ namespace InsightsDashboard.Controllers
             }
             // CHARS TO REMOVE
             char[] invalidChars = " !@#$%^&*()_+“”~{}|:\"<>?`1234567890-=[]\\;',./".ToCharArray();
-            string[] allWords = inputWords.Split(invalidChars);
+            List<string> allWords = inputWords.Split(invalidChars).ToList();
             Dictionary<string, int> wordFreq = new Dictionary<string, int>();
+            // REMOVE COMMON WORDS FROM SMARTSTOPLIST.TXT
+            StreamReader streamReader = new StreamReader("wwwroot\\SmartStoplist.txt");
+            List<string> stopList = new List<string>();
+            // DISCARD THE FIRST LINE
+            streamReader.ReadLine();
+            string line;
+            while ((line = streamReader.ReadLine()) != null)
+            {
+                stopList.Add(line.Trim().ToLower());
+            }
+            streamReader.Close();
+            foreach (string stopWord in stopList)
+            {
+                while (allWords.Remove(stopWord)) { }
+            }
 
             // ADD KEYWORDS AND CALCULATE KEYWORD FREQUENCY
             foreach (string word in allWords)
@@ -361,6 +376,44 @@ namespace InsightsDashboard.Controllers
             // ORDER KEYWORDS BY FREQUENCY
             List<KeyValuePair<string, int>> keywordList = wordFreq.OrderByDescending(key => key.Value).ToList<KeyValuePair<string, int>>();
             return View(keywordList);
+        }
+
+        public async Task<IActionResult> KeywordDetails(string keyword, int frequency)
+        {
+            KeyValuePair<string, int> keywordDetails = new KeyValuePair<string, int>(keyword, frequency);
+            // FIND ALL STARTUP OCCURENCES OF THAT WORD
+            Dictionary<string, MainEntry> occurrences = await FindKeywordOccurrences(keyword);
+
+            KeywordDetailsAndOccurrences viewModel = new KeywordDetailsAndOccurrences()
+            {
+                KeywordDetails = keywordDetails,
+                Occurrences = occurrences
+            };
+            return View(viewModel);
+        }
+
+        public async Task<Dictionary<string, MainEntry>> FindKeywordOccurrences(string keyword)
+        {
+            Dictionary<string, MainEntry> mainDictionary = await _seamlessDAL.GetMainDictionary();
+            List<string> twoLineWords;
+            Dictionary<string, MainEntry> subDictionary = new Dictionary<string, MainEntry>();
+            char[] invalidChars = " !@#$%^&*()_+“”~{}|:\"<>?`1234567890-=[]\\;',./".ToCharArray();
+            foreach (var kvp in mainDictionary)
+            {
+                twoLineWords = kvp.Value.TwoLineCompanySummary.ToLower().Split(invalidChars).ToList();
+                foreach (string word in twoLineWords)
+                {
+                    try
+                    {
+                        if (word == keyword)
+                        {
+                            subDictionary.Add(kvp.Key, kvp.Value);
+                        }
+                    }
+                    catch (ArgumentException) { }
+                }
+            }
+            return subDictionary;
         }
     }
 }
