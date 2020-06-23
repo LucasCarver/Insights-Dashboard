@@ -1,0 +1,143 @@
+﻿@model KeyValuePair<string, MainEntry>
+
+    <h1>@Model.Value.CompanyName Details</h1>
+
+<div class="badge-dark" style="position:fixed; left:auto; font-weight:bold; font-size:larger; color:wheat; width:600px; height:450px; padding:20px; border:thick; border-color:wheat;">
+    @if (Model.Value.CompanyName != null)
+    {
+        <p>@Model.Value.CompanyName</p>
+    }
+    @if (Model.Value.ReviewDate != null)
+    {
+        <p>Review Date:     @Model.Value.ReviewDate</p>}
+    @if (Model.Value.DateAdded != null)
+    {
+        <p>Date Added:      @Model.Value.DateAdded</p>}
+    @if (Model.Value.Scout != null)
+    {
+        <p>Scout:           @Model.Value.Scout</p>}
+    @if (Model.Value.Source != null)
+    {
+        <p>Source:          @Model.Value.Source</p>}
+    @if (Model.Value.CompanyWebsite != null)
+    {
+        <p>Website:         @Model.Value.CompanyWebsite</p>}
+    @if (Model.Value.City != null)
+    {
+        <p>City:            @Model.Value.City</p>}
+    @if (Model.Value.StateProvince != null)
+    {
+        <p>State/Province:  @Model.Value.StateProvince</p>}
+    @if (Model.Value.Country != null)
+    {
+        <p>Country:         @Model.Value.Country</p>}
+</div>
+        <span class="badge-secondary" style="position:fixed; top:inherit; right:10%;  width:50%;  height:450px; padding:20px;  font-size:larger">
+            <table>
+                @if (Model.Value.TwoLineCompanySummary != null)
+                {
+                    <tr>
+                        <span style="text-align:left;">
+                            <td>Two-Line-Summary:</td>
+                        </span>
+                        <span>
+                            <td style="text-align: right; position:relative; padding-left:35px; padding-bottom:8px;">
+                                @Model.Value.TwoLineCompanySummary
+                            </td>
+                        </span>
+                    </tr>
+                }
+                @if (Model.Value.Alignment != null)
+                {
+                    <tr>
+                        <span style="text-align:left;">
+                            <td>Alignment:</td>
+                        </span>
+                        <span>
+                            <td style="text-align: right; padding-bottom:8px;">
+                                @Model.Value.Alignment
+                            </td>
+                        </span>
+                    </tr>
+                }
+                @if (Model.Value.Themes != null)
+                {
+                    <tr>
+                        <span style="text-align:left;">
+                            <td>Theme(s):</td>
+                        </span>
+                        <span>
+                            <td style="text-align: right; padding-bottom:8px;"> @Model.Value.Themes</td>
+                        </span>
+                    </tr>
+                }
+                @if (Model.Value.TechnologyAreas != null)
+                {
+                    <tr>
+                        <span style="text-align:left;">
+                            <td>  Technology Areas:</td>
+                        </span>
+                        <span>
+                            <td style="text-align: right; padding-bottom:8px;"> @Model.Value.TechnologyAreas</td>
+                        </span>
+                    </tr>
+                }
+                @if (Model.Value.Landscape != null)
+                {
+                    <tr>
+                        <span style="text-align:left;">
+                            <td> Landscape:</td>
+                        </span>
+                        <span>
+                            <td style="text-align: right; padding-bottom:8px;">  @Model.Value.Landscape</td>
+                        </span>
+                    </tr>
+                }
+                @if (Model.Value.Uniqueness != null)
+                {
+                    <tr>
+                        <span style="text-align:left;">
+                            <td> Uniqueness:</td>
+                        </span>
+                        <span>
+                            <td style="text-align: right; padding-bottom:8px;">  @Model.Value.Uniqueness</td> 
+                        </span>
+                    </tr>
+                }
+                @if (Model.Value.Team != null)
+                {
+                    <tr>
+                        <span style="text-align:left;">
+                            <td> Team:</td>
+                        </span>
+                        <span>
+                            <td style="text-align: right; padding-bottom:8px;">  @Model.Value.Team</td>
+                        </span>
+                    </tr>
+                }
+                    @if (Model.Value.Raised != null)
+                    {
+                        <tr>
+                            <span style="text-align:left;">
+                                <td> Raised:</td>
+                            </span>
+                            <span>
+                                <td style="text-align: right; padding-bottom:8px;"> $@Model.Value.Raised</td>
+                            </span>
+                        </tr>
+                    }
+
+                    </table>
+        </span>
+
+        <div style="position:fixed; top:590px; padding:20px; right:12%;" class="badge-secondary">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <td style="text-align:right;"><a style="color:aliceblue"href="/Seamless/AddSeamlessStartupEntry?key=@Model.Key">Add To Favorites</a></td>
+            }
+            else
+            {
+                <td style="text-align:right;"><a href="/Identity/Account/Login">LOG IN</a> To Track Listing!</td>
+            }
+
+        </div>

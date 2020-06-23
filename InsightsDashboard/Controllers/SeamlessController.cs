@@ -64,7 +64,7 @@ namespace InsightsDashboard.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> UserList()
+        public async Task<IActionResult> UserFavorites()
         {
             List<UserStartup> definedUserStartUps = new List<UserStartup>();
             string uId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -113,9 +113,16 @@ namespace InsightsDashboard.Controllers
         public IActionResult RemoveUserStartUp(int id)
         {
             UserStartup removeStartUp = _context.UserStartup.Find(id);
+
+            List<StartupComments> c = _context.StartupComments.Where(x=>x.StartupId == id).Where(y=>y.UserId==User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList();
+            foreach (StartupComments y in c)
+            {
+                _context.StartupComments.Remove(y);
+            }
+           ///StartupComments conflict column startupId
             _context.UserStartup.Remove(removeStartUp);
             _context.SaveChanges();
-            return RedirectToAction("UserList");
+            return RedirectToAction("UserFavorites");
         }
 
         public IActionResult ConfirmRemoveUserStartUp(int id)
@@ -162,8 +169,26 @@ namespace InsightsDashboard.Controllers
                 _context.Update(startUp);
                 _context.SaveChanges();
             }
-            return RedirectToAction("UserList");
+            return RedirectToAction("UserFavorites");
         }
+
+
+        public async Task<IActionResult> SeamlessStartupDetails(string key)
+        {
+            if (key == null)
+            {
+                return RedirectToAction("DisplaySeamlessStartup");
+            }
+            Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+            KeyValuePair<string, MainEntry> startupDetails = new KeyValuePair<string, MainEntry>(key, seamlessDictionary[key]);
+           
+
+            return View(startupDetails);
+        }
+
+
+
+
 
         public async Task<IActionResult> AddSeamlessStartupEntry(string key)
         {
@@ -182,7 +207,7 @@ namespace InsightsDashboard.Controllers
             };
             _context.UserStartup.Add(us);
             _context.SaveChanges();
-            return RedirectToAction("UserList");
+            return RedirectToAction("UserFavorites");
         }
 
 
@@ -253,6 +278,13 @@ namespace InsightsDashboard.Controllers
             }
             return View(seamlessDictionary);
         }
+
+
+
+
+
+
+
 
         public async Task<IActionResult> StartupDetails(int id)
         {
