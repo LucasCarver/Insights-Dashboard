@@ -1,0 +1,18 @@
+﻿@model List<KeyValuePair<string, int>>
+<table>
+    <tr>
+        <th>Keyword</th>
+        <th>Frequency</th>
+    </tr>
+    @foreach (KeyValuePair<string, int> kvp in Model)
+    {
+        <tr>
+            <td>
+                <a href="/Seamless/KeywordDetails?keyword=@kvp.Key&frequency=@kvp.Value">@kvp.Key</a>
+            </td>
+            <td>
+                @kvp.Value
+            </td>
+        </tr>
+    }
+</table>

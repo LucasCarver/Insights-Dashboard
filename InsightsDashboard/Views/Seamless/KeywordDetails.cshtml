@@ -1,0 +1,106 @@
+﻿@model KeywordDetailsAndOccurrences
+<p>Keyword: @Model.KeywordDetails.Key Frequency: @Model.KeywordDetails.Value</p>
+@foreach (var item in Model.Occurrences.Values)
+{
+    <p>@item.CompanyName</p>
+}
+@{
+    int totalRaised = 0;
+}
+@foreach (var item in Model.Occurrences.Values)
+{
+    string wholeRaised = "";
+    if (item.Raised == "Undisclosed" || item.Raised == null)
+    {
+        continue;
+    }
+    if (item.Raised.Contains(','))
+    {
+        List<string> raisedTemp = item.Raised.Split(',').ToList();
+        foreach (string piece in raisedTemp)
+        {
+            wholeRaised += piece;
+        }
+    }
+    else
+    {
+        wholeRaised = item.Raised;
+    }
+    if (int.TryParse(wholeRaised, out int o))
+    {
+        totalRaised += o;
+    }
+}
+<p>
+    Related Startup Total Raised:
+    @if (totalRaised > 0)
+    {
+        <b>$@totalRaised.ToString("n0")</b>
+    }
+</p>
+@{
+    Dictionary<string, int> themeHolder = new Dictionary<string, int>();
+    themeHolder.Add("Health Beyond the Hospital", 0);
+    themeHolder.Add("Robust Future", 0);
+    themeHolder.Add("The Good Life", 0);
+}
+@foreach (var item in Model.Occurrences.Values)
+{
+    if (item.Themes.Contains("Hospital"))
+    {
+        themeHolder["Health Beyond the Hospital"] += 1;
+    }
+    if (item.Themes.Contains("Robust"))
+    {
+        themeHolder["Robust Future"] += 1;
+    }
+    if (item.Themes.Contains("Good"))
+    {
+        themeHolder["The Good Life"] += 1;
+    }
+}
+<p>Theme Distribution: </p>
+<table>
+    <tr>
+        <th>Theme</th>
+        <th>Frequency</th>
+    </tr>
+    @foreach (KeyValuePair<string, int> kvp in themeHolder)
+    {
+        <tr>
+            <td>
+                @kvp.Key
+            </td>
+            <td>
+                @kvp.Value
+            </td>
+        </tr>
+    }
+</table>
+
+@*@{
+    Dictionary<string, int> alignmentHolder = new Dictionary<string, int>();
+    string alignment;
+    List<string> alignments = new List<string>();
+    @foreach (var item in Model.Occurrences.Values)
+    {
+        alignment = item.Alignment;
+        foreach(var align in alignment.Split(", ".ToCharArray()).ToList())
+        {
+            if (!alignments.Contains(align))
+            {
+                alignments.Add(align);
+            }
+        }
+    }
+}
+<table>
+    <tr>
+        <th>Alignment</th>
+        <th>Frequency</th>
+    </tr>
+    @foreach (KeyValuePair<string, int> kvp in alignmentHolder)
+    {
+
+    }
+</table>*@
