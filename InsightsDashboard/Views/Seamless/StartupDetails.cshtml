@@ -3,7 +3,7 @@
     <h1>@User.Identity.Name's Startup Details</h1>
 
 
-<div class="badge-dark" style="position:fixed; left:auto; font-weight:bold; font-size:larger; color:wheat; width:600px; height:450px; padding:20px; border:thick; border-color:wheat;">
+<div class="badge-dark" style="position:fixed; left:auto; font-weight:bold; font-size:larger; color:wheat; width:200px; height:450px; padding:20px; border:thick; border-color:wheat;">
     @if (Model.Startups.CompanyName != null)
     {
         <p>@Model.Startups.CompanyName</p>
@@ -33,7 +33,7 @@
     {
         <p>Country:         @Model.Startups.Country</p>}
 </div>
-<span class="badge-secondary" style="position:fixed; top:inherit; right:10%;  width:50%;  height:450px; padding:20px;  font-size:larger">
+<span class="badge-secondary" style="position:fixed; top:inherit; right:8%;  width:50%;  height:450px; padding:20px;  font-size:60%">
     <table>
         @if (Model.Startups.TwoLineSummary != null)
         {
@@ -128,15 +128,7 @@
             </tr>
         }
 
-<form action="/Seamless/AddStartupRating?id=@Model.Startups.Id" method="post">
-    <input type="number" name="rating" placeholder="Rating" min="1" max="10" />
-    <input type="submit" value="Submit" />
-</form>
 
-@foreach(var Rating in Model.Comments)
-{
-    <p>@Rating.Rating</p>
-}
 
 
 
@@ -144,23 +136,34 @@
 </span>
 
 
-
-<div style="position:fixed; top:570px; padding:20px; right:12%;">
-    <form action="/Seamless/AddStartupComments?id=@Model.Startups.Id" method="post" class="badge-secondary" style="padding:10px;">
-        <input type="text" name="comment" placeholder="Comment Here" required />
+<div style="position:fixed; top:600px; padding:20px; right:12%;">
+    <form action="/Seamless/AddStartupRating?id=@Model.Startups.Id" method="post" class="badge-secondary" style="padding:10px;">
+        <input type="number" name="rating" placeholder="Rating" min="1" max="10" />
         <input type="submit" value="Submit" />
     </form>
     <div style="color:aliceblue; padding:10px;" class="badge-info">
-        @{ int i = 1;
-            foreach (var Comment in Model.Comments)
+        @foreach (var Rating in Model.Comments)
+        {
+            if (Rating.Rating != null)
             {
+            <p>Rating: @Rating.Rating</p>}
+        }
+        </div>
+        <form action="/Seamless/AddStartupComments?id=@Model.Startups.Id" method="post" class="badge-secondary" style="padding:10px;">
+            <input type="text" name="comment" placeholder="Comment Here" required />
+            <input type="submit" value="Submit" />
+        </form>
+        <div style="color:aliceblue; padding:10px;" class="badge-info">
+            @{ int i = 1;
+                foreach (var Comment in Model.Comments)
+                {
 
                     if (Comment.Comment != null)
                     {
-            <p>@i. @Comment.Comment</p>
+                        <p>@i. @Comment.Comment</p>
                         i++;
                     }
                 }
             }
+        </div>
     </div>
-</div>

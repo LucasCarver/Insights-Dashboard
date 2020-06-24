@@ -209,8 +209,6 @@ namespace InsightsDashboard.Controllers
                 CompanyName = startupDetails.CompanyName
             };
 
-
-            
             List<UserStartup> userStartups = await _context.UserStartup.Where(x=> x.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
 
             bool found = false;

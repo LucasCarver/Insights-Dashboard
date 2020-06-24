@@ -11,7 +11,7 @@
 
 
 <table class="table table-striped">
-    <tbody>
+    <tbody class="Search">
 
         <tr>
             <div class="container">
@@ -36,7 +36,7 @@
 
         @foreach (var kvp in Model)
         {
-            <tr class="Search">
+            <tr>
                 <td><a href="SeamlessStartUpDetails?key=@kvp.Key">@kvp.Value.CompanyName</a></td>
                 @{ string url = kvp.Value.CompanyWebsite.Replace(" ", string.Empty);}
                 <td style="text-align:right;"><a href="https://@url">@kvp.Value.CompanyWebsite</a></td>
@@ -70,7 +70,37 @@
                     </td>
 
                 </tr>
+                <tr>
+                    <td>
+                        @if (kvp.Value.DateAdded != null)
+                        {
+                            <p style="font-weight:bold;">DateAdded:</p> @kvp.Value.DateAdded}
+                        @if (kvp.Value.ReviewDate != null)
+                        {
+                            <p style="font-weight:bold;"> ReviewDate:</p> @kvp.Value.ReviewDate}
+                    </td>
+                    <td>
+                        @if (kvp.Value.Themes != null)
+                        {
+                            <p style="font-weight:bold;">Theme:</p> @kvp.Value.Themes}
+                        @if (kvp.Value.Landscape != null)
+                        {
+                            <p style="font-weight:bold;"> Landscape:</p> @kvp.Value.Landscape}
+                    </td>
+                    <td>   </td>
+                    <td>
+                        @if (kvp.Value.TechnologyAreas != null)
+                        {<p style="font-weight:bold;"> Tech:</p> @kvp.Value.TechnologyAreas}
+                    </td>
+                    <td>
+                        @if (kvp.Value.Raised != null)
+                        {<p style="font-weight:bold;">
+                                Raised:
+                            </p> <p>$ @kvp.Value.Raised</p>
+                        }
+                    </td>
 
+                </tr>
 
             }
     </tbody>
