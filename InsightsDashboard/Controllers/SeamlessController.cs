@@ -409,7 +409,7 @@ namespace InsightsDashboard.Controllers
             }
         }
 
-        public async Task<IActionResult> Keywords()
+        public async Task<IActionResult> Keywords(string sortType)
         {
             bool stop = false;
             int i = 0;
@@ -436,7 +436,7 @@ namespace InsightsDashboard.Controllers
             // REMOVE COMMON WORDS
             List<string> stopList = new List<string>();
             List<StopList> sqlStopList = _context.StopList.Where(x => x.StopWord.Length > 0).ToList();
-            foreach(StopList stopListObject in sqlStopList)
+            foreach (StopList stopListObject in sqlStopList)
             {
                 stopList.Add(stopListObject.StopWord);
             }
@@ -459,8 +459,18 @@ namespace InsightsDashboard.Controllers
                     }
                 }
             }
-            // ORDER KEYWORDS BY FREQUENCY
-            List<KeyValuePair<string, int>> keywordList = wordFreq.OrderByDescending(key => key.Value).ToList<KeyValuePair<string, int>>();
+            List<KeyValuePair<string, int>> keywordList = new List<KeyValuePair<string, int>>();
+            // ORDER BY BLOCK
+            if (sortType == "keyword")
+            {
+                keywordList = wordFreq.OrderBy(key => key.Key).ToList<KeyValuePair<string, int>>();
+            }
+            else
+            {
+                keywordList = wordFreq.OrderByDescending(key => key.Value).ToList<KeyValuePair<string, int>>();
+            }
+
+
             return View(keywordList);
         }
 
