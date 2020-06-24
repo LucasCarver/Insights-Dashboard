@@ -211,8 +211,8 @@ namespace InsightsDashboard.Controllers
             };
 
 
-
             List<UserStartup> userStartups = await _context.UserStartup.Where(x => x.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
+
 
             bool found = false;
             foreach (UserStartup y in userStartups)
