@@ -1,8 +1,9 @@
 ﻿@model KeywordDetailsAndOccurrences
 <p>Keyword: @Model.KeywordDetails.Key Frequency: @Model.KeywordDetails.Value</p>
-@foreach (var item in Model.Occurrences.Values)
+
+@foreach (var item in Model.Occurrences)
 {
-    <p>@item.CompanyName</p>
+    <p><a href="/Seamless/SeamlessStartupDetails?key=@item.Key">@item.Value.CompanyName</a></p>
 }
 @{
     int totalRaised = 0;
