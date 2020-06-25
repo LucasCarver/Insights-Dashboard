@@ -13,82 +13,82 @@
             <h3 class="text-center">Enter The Details of Your Startup Below:</h3>
         </th>
     </tr>
-<form action="/Seamless/AddUserDefinedStartup" method="post">
-    <tr>
-        <td>
-            <div class="form-group text-center">
-                <label for="Company Name" class="text-center"><h4>Company Name</h4></label>
-                <input class="form-control" type="text" required name="CompanyName" placeholder="Company Name" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Company Website" class="text-center"><h4>Company Website</h4></label>
-                <input class="form-control" type="text" name="CompanyWebsite" placeholder="Company Website" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Review Date" class="text-center"><h4>Review Date</h4></label>
-                <input class="form-control" type="datetime" name="ReviewDate" placeholder="Review Date" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Scout" class="text-center"><h4>Scout</h4></label>
-                <input class="form-control" type="text" name="Scout" placeholder="Scout" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Source" class="text-center"><h4>Source</h4></label>
-                <input class="form-control" type="text" name="Source" placeholder="Source" />
-            </div>
-            <div class="form-group text-center">
-                <label for="City" class="text-center"><h4>City</h4></label>
-                <input class="form-control" type="text" name="City" placeholder="City" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Province" class="text-center"><h4>State/Province</h4></label>
-                <input class="form-control" type="text" name="StateProvince" placeholder="State/Province" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Country" class="text-center"><h4>Country</h4></label>
-                <input class="form-control" type="text" name="Country" placeholder="Country" />
-            </div>
-        </td>
-        <td>
-            <div class="form-group text-center">
-                <label for="Summary" class="text-center"><h4>Two-Line Summary</h4></label>
-                <input class="form-control" type="text" name="TwoLineSummary" placeholder="Two-Line Summary" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Alignment" class="text-center"><h4>Alignment</h4></label>
-                <input class="form-control" type="text" name="Alignment" placeholder="Alignment" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Theme" class="text-center"><h4>Theme</h4></label>
-                <input class="form-control" type="text" name="Theme" placeholder="Theme" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Technology" class="text-center"><h4>Technology</h4></label>
-                <input class="form-control" type="text" name="Technology" placeholder="Technology" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Landscape" class="text-center"><h4>Landscape</h4></label>
-                <input class="form-control" type="text" name="Landscape" placeholder="Landscape" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Uniqueness" class="text-center"><h4>Uniqueness</h4></label>
-                <input class="form-control" type="number" name="Uniqueness" placeholder="Uniqueness" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Team" class="text-center"><h4>Team</h4></label>
-                <input class="form-control" type="number" name="Team" placeholder="Team" />
-            </div>
-            <div class="form-group text-center">
-                <label for="Raised" class="text-center"><h4>Amount Raised</h4></label>
-                <input class="form-control" type="text" name="Raised" placeholder="Raised" />
-            </div>
-            <input type="text" name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" hidden />
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <input class="btn-block btn-success" type="submit" value="Add This Startup" />
-</form>
-        </td>
-    </tr>
+    <form action="/Seamless/AddUserDefinedStartup" method="post">
+        <tr>
+            <td>
+                <div class="form-group text-center">
+                    <label for="Company Name" class="text-center"><h4>Company Name</h4></label>
+                    <input class="form-control" type="text" required name="CompanyName" placeholder="Company Name" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Company Website" class="text-center"><h4>Company Website</h4></label>
+                    <input class="form-control" type="text" name="CompanyWebsite" placeholder="Company Website" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Review Date" class="text-center"><h4>Review Date</h4></label>
+                    <input class="form-control" type="datetime" name="ReviewDate" placeholder="Review Date" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Scout" class="text-center"><h4>Scout</h4></label>
+                    <input class="form-control" type="text" name="Scout" placeholder="Scout" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Source" class="text-center"><h4>Source</h4></label>
+                    <input class="form-control" type="text" name="Source" placeholder="Source" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="City" class="text-center"><h4>City</h4></label>
+                    <input class="form-control" type="text" name="City" placeholder="City" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Province" class="text-center"><h4>State/Province</h4></label>
+                    <input class="form-control" type="text" name="StateProvince" placeholder="State/Province" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Country" class="text-center"><h4>Country</h4></label>
+                    <input class="form-control" type="text" name="Country" placeholder="Country" />
+                </div>
+            </td>
+            <td>
+                <div class="form-group text-center">
+                    <label for="Summary" class="text-center"><h4>Two-Line Summary</h4></label>
+                    <input class="form-control" type="text" name="TwoLineSummary" placeholder="Two-Line Summary" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Alignment" class="text-center"><h4>Alignment</h4></label>
+                    <input class="form-control" type="text" name="Alignment" placeholder="Alignment" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Theme" class="text-center"><h4>Theme</h4></label>
+                    <input class="form-control" type="text" name="Theme" placeholder="Theme" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Technology" class="text-center"><h4>Technology</h4></label>
+                    <input class="form-control" type="text" name="Technology" placeholder="Technology" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Landscape" class="text-center"><h4>Landscape</h4></label>
+                    <input class="form-control" type="text" name="Landscape" placeholder="Landscape" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Uniqueness" class="text-center"><h4>Uniqueness</h4></label>
+                    <input class="form-control" type="number" name="Uniqueness" placeholder="Uniqueness" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Team" class="text-center"><h4>Team</h4></label>
+                    <input class="form-control" type="number" name="Team" placeholder="Team" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Raised" class="text-center"><h4>Amount Raised</h4></label>
+                    <input class="form-control" type="text" name="Raised" placeholder="Raised" />
+                </div>
+                <input type="text" name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" hidden />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input class="btn-block btn-success" type="submit" value="Add This Startup" />
+            </td>
+        </tr>
+    </form>
 </table>
