@@ -2,10 +2,32 @@
 @{
     ViewData["Title"] = "SubmissionComplete";
 }
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<table class="table table-borderless">
+    <tr>
+        <td>
+            <h3 class="text-center">YOUR SUBMISSION IS COMPLETE!</h3>
+            <p class="text-center">Below are some of your new startup details:</p>
+        </td>
+    </tr>
+    <tr>
 
-<h1>SubmissionComplete</h1>
-
-<p>@Model.DateAdded</p>
-<p>@Model.CompanyName</p>
-
-<a class="btn btn-info" href="/Seamless/UserFavorites">GO TO MY LIST</a>
+    </tr>
+    <tr>
+        <td align="center">
+            <h5>Company Name: <b class="text-info">@Model.CompanyName.ToUpper()</b></h5>
+            <h5>Two Line Summary:<b class="text-info"> @Model.TwoLineSummary.ToUpper()</b></h5>
+            <h5>Date Added: <b class="text-info">@Model.DateAdded.ToShortDateString()</b></h5>
+        </td>
+    </tr>
+    <tr class="align-content-center">
+        <td align="center">
+            <a class="btn btn-info" href="/Seamless/UserFavorites">Go To My Favorites List</a>
+        </td>
+    </tr>
+</table>

@@ -48,7 +48,7 @@
                     @{
                         if (kvp.Value.Alignment != null)
                         {
-                            string[] s = kvp.Value.Alignment.Split(' ', ',', '/');
+                            string[] s = kvp.Value.Alignment.Split(' ', ',', '/', '\"');
                             foreach (string x in s)
                             {
 
@@ -68,7 +68,7 @@
 
                         <p>Themes: </p>
 
-                        string[] th = kvp.Value.Themes.Split(' ', ',', '/');
+                        string[] th = kvp.Value.Themes.Split(' ', ',', '/', '\"');
                         foreach (string x in th)
                         {
 
@@ -83,7 +83,7 @@
                     @if (kvp.Value.Landscape != null)
                     {
                         <p>LandScapes:</p>
-                        string[] la = kvp.Value.Landscape.Split(' ', ',', '/');
+                        string[] la = kvp.Value.Landscape.Split(' ', ',', '/', '\"');
                         foreach (string x in la)
                         {
 
@@ -96,7 +96,7 @@
                     @if (kvp.Value.TechnologyAreas != null)
                     {
                         <p>TechAreas:</p>
-                        string[] ta = kvp.Value.TechnologyAreas.Split(' ', ',', '/');
+                        string[] ta = kvp.Value.TechnologyAreas.Split(' ', ',', '/', '\"');
                         foreach (string x in ta)
                         {
 

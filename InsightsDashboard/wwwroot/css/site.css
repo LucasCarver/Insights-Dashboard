@@ -152,11 +152,11 @@ for details on configuring this project to bundle and minify static web assets. 
     }
 
     button4 {
-        top: 47%;
+        top: 51%;
         padding: 13px;
         right: 13%;
         width: 25%;
-        height:7%;
+        height:5%;
         font-size:50%;
     }
 
