@@ -3,7 +3,6 @@
 
 <h3>@Model.Startups.CompanyName Details</h3>
 
-
 <card4 class="badge-dark" style="position:fixed; left:auto; font-weight:bold;  border:thick; border-color:wheat;">
     @if (Model.Startups.CompanyName != null)
     {
@@ -128,11 +127,6 @@
                 </span>
             </tr>
         }
-
-
-
-
-
     </table>
 </card3>
 @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Startups.UserId)
@@ -152,7 +146,11 @@
         {
             if (Rating.Rating != null)
             {
-                <p>Rating: @Rating.Rating</p><a href="/Seamless/RemoveStartupRatings?id=@Rating.Id">Delete</a>
+                <p>Rating: @Rating.Rating</p>
+                if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Startups.UserId)
+                {
+                    <a href="/Seamless/RemoveStartupRatings?id=@Rating.Id">Delete</a>
+                }
             }
         }
     </div>
@@ -169,7 +167,11 @@
 
                 if (Comment.Comment != null)
                 {
-                    <p>@i. @Comment.Comment</p><a href="/Seamless/RemoveStartupComments?id=@Comment.Id">Delete</a>
+                    <p>@i. @Comment.Comment</p>
+                    if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Startups.UserId)
+                    {
+                        <a href="/Seamless/RemoveStartupComments?id=@Comment.Id">Delete</a>
+                    }
                     i++;
                 }
             }
