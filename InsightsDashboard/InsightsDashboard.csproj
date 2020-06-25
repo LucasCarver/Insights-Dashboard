@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Controllers\SmartStoplist.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\Scripts\jquery-3.5.1.min.js" />
   </ItemGroup>
 

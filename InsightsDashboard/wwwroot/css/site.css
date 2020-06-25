@@ -108,7 +108,16 @@ for details on configuring this project to bundle and minify static web assets. 
         padding: 10px;
         font-size: 50%;
     }
-    button3 {
+
+    button4 {
+        top: 37%;
+        padding: 13px;
+        right: 13%;
+        width: 25%;
+        height:7%;
+    }
+
+    button2 {
         top: 47%;
         padding: 20px;
         right: 55%;
@@ -119,7 +128,7 @@ for details on configuring this project to bundle and minify static web assets. 
         padding: 20px;
         right: 15%;
     }
-    button2 {
+    button3 {
         top: 47%;
         padding: 20px;
         right: 12%;
