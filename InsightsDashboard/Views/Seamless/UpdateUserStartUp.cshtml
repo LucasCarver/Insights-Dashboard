@@ -4,82 +4,94 @@
     ViewData["Title"] = "UpdateUserStartUp";
 }
 
-<h1>Update the details of your startup below:</h1>
+<h1 class="text-center">Update Startup Page</h1>
 <br />
-<div class="align-items-center">
+<table class="table table-active">
+    <tr class="text-center">
+        <th colspan="2">
+            <h1 class="text-info">Update the details of your startup below:</h1>
+        </th>
+    </tr>
     <form action="/Seamless/UpdateUserStartUp" method="post">
-        <div class="form-group">
-            <label for="Company Name" class="col-sm-5 col-form-label"><h3>Company Name</h3></label>
-            <input class="form-control" type="text" required name="CompanyName" id="Company Name" placeholder="Enter Company Name" value="@Model.CompanyName" />
-        </div>
-        <div class="form-group">
-            <label for="Company Website" class="col-sm-5 col-form-label"><h3>Company Website</h3></label>
-            <input class="form-control" type="text" name="CompanyWebsite" id="Company Website" placeholder="Enter Website" value="@Model.CompanyWebsite" />
-        </div>
-        <div class="form-group">
-            <label for="Review Date" class="col-sm-5 col-form-label"><h3>Review Date</h3></label>
-            <input class="form-control" type="datetime" name="ReviewDate" id="Review Date" placeholder="Enter Date" value="@Model.ReviewDate" />
-        </div>
-        <div class="form-group">
-            <label for="Scout" class="col-sm-5 col-form-label"><h3>Scout</h3></label>
-            <input class="form-control" type="text" name="Scout" placeholder="Scout" id="Scout" value="@Model.Scout" />
-        </div>
-        <div class="form-group">
-            <label for="Source" class="col-sm-5 col-form-label"><h3>Source</h3></label>
-            <input class="form-control" type="text" name="Source" placeholder="Source" id="Source" value="@Model.Source" />
-        </div>
-        <div class="form-group">
-            <label for="City" class="col-sm-5 col-form-label"><h3>City</h3></label>
-            <input class="form-control" type="text" name="City" placeholder="City" id="City" value="@Model.City" />
-        </div>
-        <div class="form-group">
-            <label for="Province" class="col-sm-5 col-form-label"><h3>State/Province</h3></label>
-            <input class="form-control" type="text" name="StateProvince" placeholder="State/Province" id="Province" value="@Model.StateProvince" />
-        </div>
-        <div class="form-group">
-            <label for="Country" class="col-sm-5 col-form-label"><h3>Country</h3></label>
-            <input class="form-control" type="text" name="Country" placeholder="Country" id="Country" value="@Model.Country" />
-        </div>
-        <div class="form-group">
-            <label for="Summary" class="col-sm-5 col-form-label"><h3>Two-Line Summary</h3></label>
-            <input class="form-control" type="text" name="TwoLineSummary" placeholder="Two-Line Summary" id="Summary" value="@Model.TwoLineSummary" />
-        </div>
-        <div class="form-group">
-            <label for="Alignment" class="col-sm-5 col-form-label"><h3>Alignment</h3></label>
-            <input class="form-control" type="text" name="Alignment" placeholder="Alignment" id="Alignment" value="@Model.Alignment" />
-        </div>
-        <div class="form-group">
-            <label for="Theme" class="col-sm-5 col-form-label"><h3>Theme</h3></label>
-            <input class="form-control" type="text" name="Theme" placeholder="Theme" id="Theme" value="@Model.Theme" />
-        </div>
-        <div class="form-group">
-            <label for="Technology" class="col-sm-5 col-form-label"><h3>Technology</h3></label>
-            <input class="form-control" type="text" name="Technology" placeholder="Technology" id="Technology" value="@Model.Technology" />
-        </div>
-        <div class="form-group">
-            <label for="Landscape" class="col-5 col-form-label"><h3>Landscape</h3></label>
-            <input class="form-control" type="text" name="Landscape" placeholder="Landscape" id="Landscape" value="@Model.Landscape" />
-        </div>
-        <div class="form-group">
-            <label for="Uniqueness" class="col-sm-5 col-form-label"><h3>Uniqueness</h3></label>
-            <input class="form-control" type="number" name="Uniqueness" placeholder="Uniqueness" id="Uniqueness" value="@Model.Uniqueness" />
-        </div>
-        <div class="form-group">
-            <label for="Team" class="col-sm-5 col-form-label"><h3>Team</h3></label>
-            <input class="form-control" type="number" name="Team" placeholder="Team" id="Team" value="@Model.Team" />
-        </div>
-        <div class="form-group">
-            <label for="Raised" class="col-sm-5 col-form-label"><h3>Amount Raised</h3></label>
-            <input class="form-control" type="text" name="Raised" placeholder="Raised" id="Raised" value="@Model.Raised" />
-        </div>
-        <div class="form-group">
-            <label for="Date Added" class="col-sm-5 col-form-label"><h3>Date Added</h3></label>
-            <input class="form-control" disabled="" type="datetime" name="DateAdded" placeholder="Date Added" id="Date Added" value="@Model.DateAdded" />
-        </div>
-        <input type="text" name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" hidden />
-        <input type="number" name="Id" value="@Model.Id" hidden />
-        <input class="btn-block btn-primary" type="submit" value="Submit Changes" />
-
+        <tr>
+            <td>
+                <div class="form-group text-center">
+                    <label for="Company Name" class="text-center"><h3>Company Name</h3></label>
+                    <input class="form-control" type="text" required name="CompanyName" id="Company Name" placeholder="Enter Company Name" value="@Model.CompanyName" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Company Website" class="text-center"><h3>Company Website</h3></label>
+                    <input class="form-control" type="text" name="CompanyWebsite" id="Company Website" placeholder="Enter Website" value="@Model.CompanyWebsite" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Review Date" class="text-center"><h3>Review Date</h3></label>
+                    <input class="form-control" type="datetime" name="ReviewDate" id="Review Date" placeholder="Enter Date" value="@Model.ReviewDate" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Scout" class="text-center"><h3>Scout</h3></label>
+                    <input class="form-control" type="text" name="Scout" placeholder="Enter Scout" id="Scout" value="@Model.Scout" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Source" class="text-center"><h3>Source</h3></label>
+                    <input class="form-control" type="text" name="Source" placeholder="Enter Source" id="Source" value="@Model.Source" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="City" class="text-center"><h3>City</h3></label>
+                    <input class="form-control" type="text" name="City" placeholder="Enter City" id="City" value="@Model.City" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Province" class="text-center"><h3>State/Province</h3></label>
+                    <input class="form-control" type="text" name="StateProvince" placeholder="Enter State/Province" id="Province" value="@Model.StateProvince" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Country" class="text-center"><h3>Country</h3></label>
+                    <input class="form-control" type="text" name="Country" placeholder="Enter Country" id="Country" value="@Model.Country" />
+                </div>
+            </td>
+            <td>
+                <div class="form-group text-center">
+                    <label for="Summary" class="text-center"><h3>Two-Line Summary</h3></label>
+                    <input class="form-control" type="text" name="TwoLineSummary" placeholder="Enter the Two-Line Summary" id="Summary" value="@Model.TwoLineSummary" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Alignment" class="text-center"><h3>Alignment</h3></label>
+                    <input class="form-control" type="text" name="Alignment" placeholder="Enter Alignment" id="Alignment" value="@Model.Alignment" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Theme" class="text-center"><h3>Theme</h3></label>
+                    <input class="form-control" type="text" name="Theme" placeholder="Enter Theme" id="Theme" value="@Model.Theme" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Technology" class="text-center"><h3>Technology</h3></label>
+                    <input class="form-control" type="text" name="Technology" placeholder="Enter Technology" id="Technology" value="@Model.Technology" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Landscape" class="text-center"><h3>Landscape</h3></label>
+                    <input class="form-control" type="text" name="Landscape" placeholder="Enter Landscape" id="Landscape" value="@Model.Landscape" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Uniqueness" class="text-center"><h3>Uniqueness</h3></label>
+                    <input class="form-control" type="number" name="Uniqueness" placeholder="Enter Uniqueness" id="Uniqueness" value="@Model.Uniqueness" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Team" class="text-center"><h3>Team</h3></label>
+                    <input class="form-control" type="number" name="Team" placeholder="Enter Team" id="Team" value="@Model.Team" />
+                </div>
+                <div class="form-group text-center">
+                    <label for="Raised" class="text-center"><h3>Amount Raised</h3></label>
+                    <input class="form-control" type="text" name="Raised" placeholder="Enter Raised" id="Raised" value="@Model.Raised" />
+                </div>
+                <div class="form-group text-center">
+                    <input class="form-control" disabled="" type="datetime" name="DateAdded" placeholder="Date Added" id="Date Added" value="@Model.DateAdded" hidden />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="text" name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" hidden />
+                <input type="number" name="Id" value="@Model.Id" hidden />
+                <input class="btn-block btn-info" type="submit" value="Submit Changes" />
+            </td>
+        </tr>
     </form>
-</div>
-
+</table>
