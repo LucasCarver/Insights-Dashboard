@@ -1,13 +1,13 @@
 ﻿@model KeywordDetailsAndOccurrences
 <h2>
-    Keyword: @Model.KeywordDetails.Key.Substring(0, 1).ToUpper()@Model.KeywordDetails.Key.Substring(1, Model.KeywordDetails.Key.Length - 1)
-    | @Model.KeywordDetails.Value startups found
+    @Model.KeywordDetails.Key.Substring(0, 1).ToUpper()@Model.KeywordDetails.Key.Substring(1, Model.KeywordDetails.Key.Length - 1)
+    | @Model.KeywordDetails.Value mentions
 </h2>
 
 <table class="table-striped" style="width:100%">
     <tr>
         <th>
-            Date Added
+            Add Date
         </th>
         <th style="width:8%">
             Startup
@@ -132,9 +132,6 @@
         themeHolder["The Good Life"] += 1;
     }
 }
-@*<div style="display:flex; justify-content:space-evenly">
-        <h2>Theme Distribution</h2>
-    </div>*@
 <div style="display:flex; justify-content:space-between">
     <div style="padding-left:10.5em">
         <h2>Theme Distribution</h2>

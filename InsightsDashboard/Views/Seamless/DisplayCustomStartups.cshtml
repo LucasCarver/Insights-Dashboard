@@ -1,23 +1,42 @@
-﻿@model List<UserStartup>
+﻿@model CustomStartupVM
 @{
     ViewData["Title"] = "DisplayCustomStartups";
 }
-<table>
+
+<table class="table-striped" style="width:100%">
     <tr>
-        <th></th>
+        <th>Add Date</th>
+        <th>Startup</th>
+        <th>Username</th>
+        <th>Summary</th>
+        <th>Theme</th>
+        <th>Raised</th>
     </tr>
-    @foreach (UserStartup us in Model)
+    @{
+        int i = 0;
+    }
+    @foreach (UserStartup us in Model.UserStartupList)
     {
         <tr>
+            <td>
+                @us.DateAdded.ToShortDateString()
+            </td>
             <td>
                 @us.CompanyName
             </td>
             <td>
+                @Model.UserNameList[i]
+            </td>
+            <td>
+                @us.TwoLineSummary
             </td>
             <td>
                 @us.Theme
             </td>
+            <td>
+                @us.Raised
+            </td>
         </tr>
-
+        i++;
     }
 </table>
