@@ -176,6 +176,7 @@ namespace InsightsDashboard.Controllers
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
             KeyValuePair<string, MainEntry> startupDetails = new KeyValuePair<string, MainEntry>(key, seamlessDictionary[key]);
 
+
             return View(startupDetails);
         }
 
