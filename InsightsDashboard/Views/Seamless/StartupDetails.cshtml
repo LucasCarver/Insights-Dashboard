@@ -14,7 +14,7 @@
         <p>Review Date:     @Model.Startups.ReviewDate</p>}
     @if (Model.Startups.DateAdded != null)
     {
-        <p>Date Added:      @Model.Startups.DateAdded</p>}
+        <p>Date Added:      @Model.Startups.DateAdded.ToShortDateString()</p>}
     @if (Model.Startups.Scout != null)
     {
         <p>Scout:           @Model.Startups.Scout</p>}
