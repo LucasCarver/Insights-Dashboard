@@ -1,6 +1,7 @@
-﻿@model UserStartupComments
+﻿@using System.Security.Claims;
+@model UserStartupComments
 
-<h3>@User.Identity.Name's Startup Details</h3>
+<h3>@Model.Startups.CompanyName Details</h3>
 
 
 <card4 class="badge-dark" style="position:fixed; left:auto; font-weight:bold;  border:thick; border-color:wheat;">
@@ -134,8 +135,12 @@
 
     </table>
 </card3>
-
-<button4 style="position:fixed; background-color:cornflowerblue" ><a href="/Seamless/ConfirmRemoveUserStartUp?id=@Model.Startups.Id"><b>Remove Favorite</b></a></button4>
+@if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.Startups.UserId)
+{
+    <button4 style="position:fixed; background-color:cornflowerblue">
+        <a href="/Seamless/ConfirmRemoveUserStartUp?id=@Model.Startups.Id"><b>Remove Favorite</b></a>
+    </button4>
+}
 
 <button2 style="position:fixed;">
     <form action="/Seamless/AddStartupRating?id=@Model.Startups.Id" method="post" class="badge-secondary" style="padding:10px;">
@@ -148,7 +153,7 @@
             if (Rating.Rating != null)
             {
                 <p>Rating: @Rating.Rating</p><a href="/Seamless/RemoveStartupRatings?id=@Rating.Id">Delete</a>
-                }
+            }
         }
     </div>
 </button2>

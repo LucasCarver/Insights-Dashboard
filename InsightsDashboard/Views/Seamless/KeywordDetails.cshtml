@@ -33,15 +33,7 @@
                 <a href="/Seamless/SeamlessStartupDetails?key=@item.Key">@item.Value.CompanyName</a>
             </td>
             <td>
-                @if (item.Value.Themes != null)
-                {
-                    string[] th = item.Value.Themes.Split(' ', ',', '/');
-                    foreach (string x in th)
-                    {
-
-                        <a href="TechDetails?Tech=@x">@x</a>
-                    }
-                }
+                @item.Value.Themes
             </td>
             <td>
                 @{
@@ -50,7 +42,9 @@
                         string[] s = item.Value.Alignment.Split(' ', ',', '/');
                         foreach (string x in s)
                         {
-                            <a href="AlignmentDetails?alignment=@x">@x</a>
+                            { 
+                                <a>@x </a>
+                            } 
                         }
                     }
                 }

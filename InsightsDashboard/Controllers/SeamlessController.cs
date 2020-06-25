@@ -232,9 +232,6 @@ namespace InsightsDashboard.Controllers
                     return RedirectToAction("StartupDetails",new { id = id });
                 }
             }
-
-
-
             return View(startupDetails);
         }
 
@@ -278,9 +275,7 @@ namespace InsightsDashboard.Controllers
 
         public async Task<IActionResult> TechDetails(string Tech)
         {
-
             TempData["Tech"] = Tech;
-
 
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
             Dictionary<string, MainEntry> techDictionary = new Dictionary<string, MainEntry>();
@@ -506,8 +501,6 @@ namespace InsightsDashboard.Controllers
             }
         }
 
-
-
         public IActionResult RemoveStartupRatings(int id)
         {
             UserStartup specificStartup = _context.UserStartup.Find(id);
@@ -525,7 +518,6 @@ namespace InsightsDashboard.Controllers
                 return RedirectToAction("DisplaySeamlessStartups");
             }
         }
-
 
         public IActionResult RemoveStartupComments(int id)
         {

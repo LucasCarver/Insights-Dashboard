@@ -1,6 +1,6 @@
 ﻿@model List<KeyValuePair<string, int>>
 
-    <div class="container" style="width:75%">
+    <div class="container" style="width:60%">
         <div class="form-group">
             <div class="input-group">
                 <span class="input-group-addon">
@@ -10,20 +10,21 @@
             </div>
         </div>
     </div>
+<p></p>
     <div style="display:flex; justify-content:center;">
-        <div style="overflow:auto; width:75%; height:677px;">
+        <div style="overflow:auto; width:60%; height:677px;">
             <table class="table-striped" style="width:100%"> 
                 <tr>
-                    <th style="font-size:200%;padding-left:2em"><a href="/Seamless/Keywords?sortType=keyword">Keyword</a></th>
-                    <th style="font-size:200%;padding-right:2em;text-align:right"><a href="/Seamless/Keywords">Frequency</a></th>
+                    <th style="font-size:115%;padding-left:2em"><a href="/Seamless/Keywords?sortType=keyword">Keyword Analytics</a></th>
+                    <th style="font-size:115%;padding-right:2em;text-align:right"><a href="/Seamless/Keywords">Frequency</a></th>
                 </tr>
                 @foreach (KeyValuePair<string, int> kvp in Model)
                 {
                     <tr class="Search">
-                        <td style="font-size:200%; padding-left:2em">
+                        <td style="font-size:115%; padding-left:2em">
                             <a href="/Seamless/KeywordDetails?keyword=@kvp.Key&frequency=@kvp.Value">@kvp.Key</a>
                         </td>
-                        <td style="font-size:200%; padding-right:2em; text-align:right">
+                        <td style="font-size:115%; padding-right:2em; text-align:right">
                             @kvp.Value
                         </td>
                     </tr>
