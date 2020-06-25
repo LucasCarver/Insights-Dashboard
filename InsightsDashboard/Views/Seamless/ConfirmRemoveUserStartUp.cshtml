@@ -3,8 +3,24 @@
     ViewData["Title"] = "ConfirmRemoveUserStartUp";
 }
 
-<h1>Removing User Entry,</h1>
-
-<h3>Are you sure you want to remove @Model.CompanyName from your list?</h3>
-<p><a href="/Seamless/RemoveUserStartUp?id=@Model.Id">Yes! Proceed & Remove this StartUp</a></p>
-<p><a href="/Seamless/UserFavorites">Go Back To User Favorites</a></p>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<table class="table table-borderless">
+    <tr>
+        <td colspan="3">
+            <h3 class="text-center">Are you sure you want to remove @Model.CompanyName from your list?</h3>
+        </td>
+    </tr>
+    <tr class="align-content-center">
+        <td align="right">
+            <p><a class="btn btn-success" href="/Seamless/RemoveUserStartUp?id=@Model.Id">Yes! Remove this StartUp</a></p>
+        </td>
+        <td align="left">
+            <p><a class="btn btn-danger" href="/Seamless/UserFavorites">No! Go Back To User Favorites</a></p>
+        </td>
+    </tr>
+</table>
