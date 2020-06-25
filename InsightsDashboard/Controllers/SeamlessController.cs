@@ -370,23 +370,23 @@ namespace InsightsDashboard.Controllers
             string[] alignments = new string[] { };
             int i = 0;
             foreach (KeyValuePair<string, MainEntry> x in seamlessDictionary)
-            {           
-                    try
-                    {
+            {
+                try
+                {
                     if (x.Value.Alignment != null)
                     {
                         i++;
                         string y = x.Value.Alignment;
-                        alignments = y.Split(',');                 
+                        alignments = y.Split(',');
                         x.Value.Alignment = "";
-                        foreach(string s in alignments)
+                        foreach (string s in alignments)
                         {
 
                             x.Value.Alignment += s.Trim() + " ";
                         }
                     }
-                    }
-                    catch (IndexOutOfRangeException) { }
+                }
+                catch (IndexOutOfRangeException) { }
             }
             if (TempData["Status"] != null)
             {
@@ -542,7 +542,7 @@ namespace InsightsDashboard.Controllers
             KeyValuePair<string, int> keywordDetails = new KeyValuePair<string, int>(keyword, frequency);
             // FIND ALL STARTUP OCCURENCES OF THAT WORD
             Dictionary<string, MainEntry> occurrences = await FindKeywordOccurrences(keyword);
-            Dictionary<string, MainEntry> sortedOccurrences = occurrences.OrderBy(x => DateTime.Parse(x.Value.DateAdded)).ToDictionary(z=>z.Key, y=>y.Value);
+            Dictionary<string, MainEntry> sortedOccurrences = occurrences.OrderBy(x => DateTime.Parse(x.Value.DateAdded)).ToDictionary(z => z.Key, y => y.Value);
             KeywordDetailsAndOccurrences viewModel = new KeywordDetailsAndOccurrences()
             {
                 KeywordDetails = keywordDetails,
@@ -577,9 +577,17 @@ namespace InsightsDashboard.Controllers
 
         public IActionResult DisplayCustomStartups()
         {
-            List<UserStartup> definedUserStartUps = new List<UserStartup>();
-            definedUserStartUps = _context.UserStartup.Where(x => x.Identifier == null).ToList();
-            return View(definedUserStartUps);
+            List<UserStartup> userStartupList = new List<UserStartup>();
+            userStartupList = _context.UserStartup.Where(x => x.Identifier == null).ToList();
+            List<string> usernameList = new List<string>();
+            foreach (UserStartup us in userStartupList)
+            {
+                usernameList.Add(_context.AspNetUsers.Find(us.UserId).UserName);
+            }
+            CustomStartupVM customStartupVM = new CustomStartupVM();
+            customStartupVM.UserNameList = usernameList;
+            customStartupVM.UserStartupList = userStartupList;
+            return View(customStartupVM);
         }
 
         // THIS METHOD WAS USED TO PUT THE STOPLIST INTO A SQL TABLE FROM A TEXT FILE
