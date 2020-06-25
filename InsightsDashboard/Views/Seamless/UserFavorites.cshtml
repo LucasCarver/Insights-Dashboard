@@ -22,46 +22,57 @@
 else
 {
     List<string> names = new List<string>();
-    <table class="table table-striped">
-        <tr style="font-weight:bold;" class="text-center border-bottom">
-            <th style="text-align:center;">NAME</th>
-            <th style="text-align:center;" colspan="2">SUMMARY</th>
-            <th style="text-align:center;">DATE ADDED</th>
-            <th colspan="4"></th>
-        </tr>
-        @foreach (var startUp in Model)
+<table class="table table-striped">
+    <tr style="font-weight:bold;" class="text-center border-bottom">
+        <th style="text-align:center;">NAME</th>
+        <th style="text-align:center;" colspan="2">SUMMARY</th>
+        <th style="text-align:center;">DATE ADDED</th>
+        <th colspan="4"></th>
+    </tr>
+    @foreach (var startUp in Model)
+    {
+        @if (!names.Contains(startUp.CompanyName))
         {
-            @if (!names.Contains(startUp.CompanyName))
-            {<h1><a href="/Seamless/StartupDetails?id=@startUp.Id">@startUp.CompanyName</a></h1>
-            <p>@startUp.DateAdded</p>
-            <p>@startUp.Scout</p>
-            <p>@startUp.TwoLineSummary</p>
-            <p><a href="/Seamless/ConfirmRemoveUserStartUp?id=@startUp.Id">Remove From Favorites</a></p>
-            }
-            if (startUp.Identifier == null)
-            {
-                <p><a href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update</a></p>
-            }
-            else
-            {
-                <tr>
-                    <td style="text-align:center;"><a href="/Seamless/StartupDetails?id=@startUp.Id">@startUp.CompanyName.ToUpper()</a><p><small>Click For Details</small></p>
-                    </td>
-                    <td style="text-align:center;" colspan="2">@startUp.TwoLineSummary</td>
-                    <td style="text-align:center;">@startUp.DateAdded.ToShortDateString()</td>
-                    <td align="right">
-                        <p><a class="btn btn-danger" href="/Seamless/ConfirmRemoveUserStartUp?id=@startUp.Id">Remove From List</a></p>
-                        @if (startUp.Identifier == null)
-                        {
-                            <a class="btn btn-info" href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update Startup Details</a>
-                        }
-                        else
-                        {
-                            <a class="btn btn-secondary" href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Can't Touch These!</a>
-                        }
-                    </td>
-                </tr>
+            <tr>
+                <td style="text-align:center;">
+                    <a href="/Seamless/StartupDetails?id=@startUp.Id">@startUp.CompanyName.ToUpper()</a><p><small>Click For Details</small></p>
+                </td>
+                <td style="text-align:center;" colspan="2">@startUp.TwoLineSummary</td>
+                <td style="text-align:center;">@startUp.DateAdded.ToShortDateString()</td>
+                <td align="right">
+                    <p><a class="btn btn-danger" href="/Seamless/ConfirmRemoveUserStartUp?id=@startUp.Id">Remove From List</a></p>
+                    @if (startUp.Identifier == null)
+                    {
+                        <a class="btn btn-info" href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update Startup Details</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-secondary" href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Can't Touch These!</a>
+                    }
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td style="text-align:center;">
+                    <a href="/Seamless/StartupDetails?id=@startUp.Id">@startUp.CompanyName.ToUpper()</a><p><small>Click For Details</small></p>
+                </td>
+                <td style="text-align:center;" colspan="2">@startUp.TwoLineSummary</td>
+                <td style="text-align:center;">@startUp.DateAdded.ToShortDateString()</td>
+                <td align="right">
+                    <p><a class="btn btn-danger" href="/Seamless/ConfirmRemoveUserStartUp?id=@startUp.Id">Remove From List</a></p>
+                    @if (startUp.Identifier == null)
+                    {
+                        <a class="btn btn-info" href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update Startup Details</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-secondary" href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Can't Touch These!</a>
+                    }
+                </td>
+            </tr>
             }
         }
-    </table>
+</table>
 }
