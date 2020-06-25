@@ -1,8 +1,9 @@
 ﻿@model List<KeyValuePair<string, int>>
+
 <table>
     <tr>
-        <th>Keyword</th>
-        <th>Frequency</th>
+        <th><a href="/Seamless/Keywords?sortType=keyword">Keyword</a></th>
+        <th><a href="/Seamless/Keywords">Frequency</a></th>
     </tr>
     @foreach (KeyValuePair<string, int> kvp in Model)
     {

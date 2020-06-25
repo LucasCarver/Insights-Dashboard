@@ -78,30 +78,3 @@
         </tr>
     }
 </table>
-
-@*@{
-    Dictionary<string, int> alignmentHolder = new Dictionary<string, int>();
-    string alignment;
-    List<string> alignments = new List<string>();
-    @foreach (var item in Model.Occurrences.Values)
-    {
-        alignment = item.Alignment;
-        foreach(var align in alignment.Split(", ".ToCharArray()).ToList())
-        {
-            if (!alignments.Contains(align))
-            {
-                alignments.Add(align);
-            }
-        }
-    }
-}
-<table>
-    <tr>
-        <th>Alignment</th>
-        <th>Frequency</th>
-    </tr>
-    @foreach (KeyValuePair<string, int> kvp in alignmentHolder)
-    {
-
-    }
-</table>*@

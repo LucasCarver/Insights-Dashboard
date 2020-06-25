@@ -12,7 +12,6 @@
 </p>
 </div>
 
-<br />
 
 @if (Model.Count == 0)
 {
@@ -33,6 +32,17 @@ else
         @foreach (var startUp in Model)
         {
             @if (!names.Contains(startUp.CompanyName))
+            {<h1><a href="/Seamless/StartupDetails?id=@startUp.Id">@startUp.CompanyName</a></h1>
+            <p>@startUp.DateAdded</p>
+            <p>@startUp.Scout</p>
+            <p>@startUp.TwoLineSummary</p>
+            <p><a href="/Seamless/ConfirmRemoveUserStartUp?id=@startUp.Id">Remove From Favorites</a></p>
+            }
+            if (startUp.Identifier == null)
+            {
+                <p><a href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update</a></p>
+            }
+            else
             {
                 <tr>
                     <td style="text-align:center;"><a href="/Seamless/StartupDetails?id=@startUp.Id">@startUp.CompanyName.ToUpper()</a><p><small>Click For Details</small></p>

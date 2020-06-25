@@ -6,47 +6,46 @@
 
 
 
-            <h1 style="position:relative; left:10px;"> @ViewBag.Alignment Listings</h1>
+<h1 style="position:relative; left:10px;"> @ViewBag.Alignment Listings</h1>
+
 
 
 
 <table class="table table-striped">
-    <tbody class="Search">
 
-        <tr>
-            <div class="container">
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="glyphicon glyphicon-search"></i>
-                        </span>
-                        <input type="text" id="Search" placeholder="Search" class="form-control" />
-                    </div>
+    <tbody>
+
+        <div class="container">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </span>
+                    <input type="text" id="Search" placeholder="Search" class="form-control" />
                 </div>
             </div>
-        </tr>
-        <tr>
-            <td>Name</td>
-            <td>Website</td>
-            <td style="text-align:center;">Summary</td>
+        </div>
+        <tr></tr>
+        <tr style="font-weight:bold;">
+            <td style="text-align:center;">Name</td>
             <td style="text-align:center;">Alignment</td>
-            <td></td>
+            <td style="text-align:center;">Summary</td>
+            <td style="text-align:center;">Technologies</td>
             <td></td>
         </tr>
+
 
         @foreach (var kvp in Model)
         {
-            <tr>
-                <td><a href="SeamlessStartUpDetails?key=@kvp.Key">@kvp.Value.CompanyName</a></td>
-                @{ string url = kvp.Value.CompanyWebsite.Replace(" ", string.Empty);}
-                <td style="text-align:right;"><a href="https://@url">@kvp.Value.CompanyWebsite</a></td>
-                <td>@kvp.Value.TwoLineCompanySummary</td>
 
-                <td style="text-align:right;">
+            <tr class="Search">
+                <td style="text-align:center; background-color:royalblue"><a href="SeamlessStartUpDetails?key=@kvp.Key" style="color:wheat">@kvp.Value.CompanyName</a></td>
+
+                <td style="text-align:center;">
                     @{
                         if (kvp.Value.Alignment != null)
                         {
-                            string[] s = kvp.Value.Alignment.Split(' ');
+                            string[] s = kvp.Value.Alignment.Split(' ', ',', '/');
                             foreach (string x in s)
                             {
 
@@ -57,52 +56,68 @@
                         }
                     }
                 </td>
+                <td>@kvp.Value.TwoLineCompanySummary</td>
 
                 <td>
-                    @if (User.Identity.IsAuthenticated)
+                    @if (kvp.Value.Themes != null)
                     {
-                    <td style="text-align:right;"><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key">Add To Favorites</a></td>
+
+
+                        <p>Themes: </p>
+
+                        string[] th = kvp.Value.Themes.Split(' ', ',', '/');
+                        foreach (string x in th)
+                        {
+
+                            <a href="TechDetails?Tech=@x">@x</a>
+
+
+                        }
+
+
+                    }
+
+                    @if (kvp.Value.Landscape != null)
+                    {
+                        <p>LandScapes:</p>
+                        string[] la = kvp.Value.Landscape.Split(' ', ',', '/');
+                        foreach (string x in la)
+                        {
+
+                            <a href="TechDetails?Tech=@x">@x</a>
+
+
+                        }
+                    }
+
+                    @if (kvp.Value.TechnologyAreas != null)
+                    {
+                        <p>TechAreas:</p>
+                        string[] ta = kvp.Value.TechnologyAreas.Split(' ', ',', '/');
+                        foreach (string x in ta)
+                        {
+
+                            <a href="TechDetails?Tech=@x">@x</a>
+
+                        }
+                    }
+
+
+                </td>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <td style="text-align:right; background-color:darkgrey"><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key" style="color:wheat;">Add To Favorites</a></td>
+
                 }
                 else
                 {
-                    <td style="text-align:right;"><a href="/Identity/Account/Login">LOG IN</a> To Add This Company To Your Tracker List</td>
+                    <td style="text-align:right;"><a href="/Identity/Account/Login">LOG IN</a> To Track Listing!</td>
                 }
-                    </td>
 
-                </tr>
-                <tr>
-                    <td>
-                        @if (kvp.Value.DateAdded != null)
-                        {
-                            <p style="font-weight:bold;">DateAdded:</p> @kvp.Value.DateAdded}
-                        @if (kvp.Value.ReviewDate != null)
-                        {
-                            <p style="font-weight:bold;"> ReviewDate:</p> @kvp.Value.ReviewDate}
-                    </td>
-                    <td>
-                        @if (kvp.Value.Themes != null)
-                        {
-                            <p style="font-weight:bold;">Theme:</p> @kvp.Value.Themes}
-                        @if (kvp.Value.Landscape != null)
-                        {
-                            <p style="font-weight:bold;"> Landscape:</p> @kvp.Value.Landscape}
-                    </td>
-                    <td>   </td>
-                    <td>
-                        @if (kvp.Value.TechnologyAreas != null)
-                        {<p style="font-weight:bold;"> Tech:</p> @kvp.Value.TechnologyAreas}
-                    </td>
-                    <td>
-                        @if (kvp.Value.Raised != null)
-                        {<p style="font-weight:bold;">
-                                Raised:
-                            </p> <p>$ @kvp.Value.Raised</p>
-                        }
-                    </td>
+            </tr>
+        }
 
-                </tr>
-
-            }
     </tbody>
 </table>
 

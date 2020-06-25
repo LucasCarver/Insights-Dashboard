@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
@@ -31,6 +30,7 @@ namespace InsightsDashboard.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
 
@@ -239,6 +239,116 @@ namespace InsightsDashboard.Controllers
 
 
 
+
+        public async Task<IActionResult> TechDetails(string Tech)
+        {
+
+            TempData["Tech"] = Tech;
+
+
+            Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
+            Dictionary<string, MainEntry> techDictionary = new Dictionary<string, MainEntry>();
+            string[] techs = new string[] { };
+            int i = 0;
+            foreach (KeyValuePair<string, MainEntry> x in seamlessDictionary)
+            {
+
+                try
+                {
+                    if (x.Value.Themes != null)
+                    {
+                        i++;
+                        string y = x.Value.Themes;
+                        techs = y.Split(',');
+                        x.Value.Themes = "";
+                        foreach (string s in techs)
+                        {
+
+                            x.Value.Themes += s.Trim() + " ";
+                        }
+                    }
+                }
+                catch (IndexOutOfRangeException) { }
+
+
+
+                if (x.Value.Themes != null)
+                {
+                    if (x.Value.Themes.Contains(Tech))
+                    {
+                        techDictionary.Add(x.Key, x.Value);
+                    }
+                }
+
+                try
+                {
+                    if (x.Value.Landscape != null)
+                    {
+                        i++;
+                        string y = x.Value.Landscape;
+                        techs = y.Split(',');
+                        x.Value.Landscape = "";
+                        foreach (string s in techs)
+                        {
+
+                            x.Value.Landscape += s.Trim() + " ";
+                        }
+                    }
+                }
+                catch (IndexOutOfRangeException) { }
+
+
+
+                if (x.Value.Landscape != null)
+                {
+                    if (x.Value.Landscape.Contains(Tech))
+                    {
+                        techDictionary.Add(x.Key, x.Value);
+                    }
+                }
+
+                try
+                {
+                    if (x.Value.TechnologyAreas != null)
+                    {
+                        i++;
+                        string y = x.Value.TechnologyAreas;
+                        techs = y.Split(',');
+                        x.Value.TechnologyAreas = "";
+                        foreach (string s in techs)
+                        {
+
+                            x.Value.TechnologyAreas += s.Trim() + " ";
+                        }
+                    }
+                }
+                catch (IndexOutOfRangeException) { }
+
+
+
+                if (x.Value.TechnologyAreas != null)
+                {
+                    if (x.Value.TechnologyAreas.Contains(Tech))
+                    {
+                        techDictionary.Add(x.Key, x.Value);
+                    }
+                }
+
+            }
+
+            if (TempData["Tech"] != null)
+            {
+                ViewBag.Tech = TempData["Tech"].ToString();
+                return View(techDictionary);
+            }
+
+
+            return View(techDictionary);
+        }
+
+
+
+
         public async Task<IActionResult> AlignmentDetails(string alignment)
         {
 
@@ -297,23 +407,23 @@ namespace InsightsDashboard.Controllers
             string[] alignments = new string[] { };
             int i = 0;
             foreach (KeyValuePair<string, MainEntry> x in seamlessDictionary)
-            {
-                try
-                {
+            {           
+                    try
+                    {
                     if (x.Value.Alignment != null)
                     {
                         i++;
                         string y = x.Value.Alignment;
-                        alignments = y.Split(',');
+                        alignments = y.Split(',');                 
                         x.Value.Alignment = "";
-                        foreach (string s in alignments)
+                        foreach(string s in alignments)
                         {
 
                             x.Value.Alignment += s.Trim() + " ";
                         }
                     }
-                }
-                catch (IndexOutOfRangeException) { }
+                    }
+                    catch (IndexOutOfRangeException) { }
             }
             if (TempData["Status"] != null)
             {
@@ -409,7 +519,8 @@ namespace InsightsDashboard.Controllers
             }
         }
 
-        public async Task<IActionResult> Keywords()
+
+        public async Task<IActionResult> Keywords(string sortType)
         {
             bool stop = false;
             int i = 0;
@@ -433,10 +544,11 @@ namespace InsightsDashboard.Controllers
             char[] invalidChars = " !@#$%^&*()_+“”~{}|:\"<>?`1234567890-=[]\\;',./".ToCharArray();
             List<string> allWords = inputWords.Split(invalidChars).ToList();
             Dictionary<string, int> wordFreq = new Dictionary<string, int>();
+
             // REMOVE COMMON WORDS
             List<string> stopList = new List<string>();
             List<StopList> sqlStopList = _context.StopList.Where(x => x.StopWord.Length > 0).ToList();
-            foreach(StopList stopListObject in sqlStopList)
+            foreach (StopList stopListObject in sqlStopList)
             {
                 stopList.Add(stopListObject.StopWord);
             }
@@ -459,11 +571,20 @@ namespace InsightsDashboard.Controllers
                     }
                 }
             }
-            // ORDER KEYWORDS BY FREQUENCY
-            List<KeyValuePair<string, int>> keywordList = wordFreq.OrderByDescending(key => key.Value).ToList<KeyValuePair<string, int>>();
+            List<KeyValuePair<string, int>> keywordList = new List<KeyValuePair<string, int>>();
+            // ORDER BY BLOCK
+            if (sortType == "keyword")
+            {
+                keywordList = wordFreq.OrderBy(key => key.Key).ToList<KeyValuePair<string, int>>();
+            }
+            else
+            {
+                keywordList = wordFreq.OrderByDescending(key => key.Value).ToList<KeyValuePair<string, int>>();
+            }
+
+
             return View(keywordList);
         }
-
         public async Task<IActionResult> KeywordDetails(string keyword, int frequency)
         {
             KeyValuePair<string, int> keywordDetails = new KeyValuePair<string, int>(keyword, frequency);

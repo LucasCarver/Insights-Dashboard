@@ -1,23 +1,20 @@
 ﻿@model Dictionary<string, MainEntry>
 
-
 @{
-    ViewData["Title"] = "DisplaySeamlessStartups";
+    ViewData["Title"] = "TechDetails";
 }
 
-@{ if (ViewBag.Status != null)
-    {
-        <script type="text/javascript">
-            window.onload = function () {
-                alert("@ViewBag.Status");
-            };
-        </script>
-    } }
+
+
+<h1 style="position:relative; left:10px;"> @ViewBag.Tech Listings</h1>
+
+
 
 
 <table class="table table-striped">
 
     <tbody>
+
         <div class="container">
             <div class="form-group">
                 <div class="input-group">
@@ -46,11 +43,13 @@
 
                 <td style="text-align:center;">
                     @{
-                        if (kvp.Value.Alignment != null)
+                        if (kvp.Value.Alignment != null) { 
+
+
+
+                        string[] s = kvp.Value.Alignment.Split(' ', ',','/');
+                        foreach (string x in s)
                         {
-                            string[] s = kvp.Value.Alignment.Split(' ', ',', '/');
-                            foreach (string x in s)
-                            {
 
                                 <a href="AlignmentDetails?alignment=@x">@x</a>
 
@@ -79,7 +78,7 @@
 
 
                     }
-             
+
                     @if (kvp.Value.Landscape != null)
                     {
                         <p>LandScapes:</p>
@@ -92,7 +91,7 @@
 
                         }
                     }
-             
+
                     @if (kvp.Value.TechnologyAreas != null)
                     {
                         <p>TechAreas:</p>
@@ -105,7 +104,7 @@
                         }
                     }
 
-                
+
                 </td>
 
                 @if (User.Identity.IsAuthenticated)
