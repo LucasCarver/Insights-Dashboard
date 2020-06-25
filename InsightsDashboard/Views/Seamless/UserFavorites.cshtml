@@ -23,7 +23,6 @@
     </p>
 </create>
 
-
 @if (Model.Count == 0)
 {
     <br />
@@ -54,11 +53,11 @@ else
                         <p><a class="btn btn-danger" href="/Seamless/ConfirmRemoveUserStartUp?id=@startUp.Id">Remove From List</a></p>
                         @if (startUp.Identifier == null)
                         {
-                            <a class="btn btn-info" href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update Startup Details</a>
+                            <a class="btn btn-info" href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update Deails</a>
                         }
                         else
                         {
-                            <a class="btn btn-secondary" href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Can't Touch These!</a>
+                            <p class="text-danger"><small>Seamless Startups May <b>NOT</b> Be Modified</small></p>
                         }
                     </td>
                 </tr>
@@ -75,7 +74,7 @@ else
                         <p><a class="btn btn-danger" href="/Seamless/ConfirmRemoveUserStartUp?id=@startUp.Id">Remove From List</a></p>
                         @if (startUp.Identifier == null)
                         {
-                            <a class="btn btn-info" href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update Startup Details</a>
+                            <a class="btn btn-info" href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update Details</a>
                         }
                         else
                         {

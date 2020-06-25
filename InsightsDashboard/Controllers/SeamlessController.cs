@@ -151,7 +151,7 @@ namespace InsightsDashboard.Controllers
             {
                 startUp.CompanyName = newStartUp.CompanyName;
                 startUp.CompanyWebsite = newStartUp.CompanyWebsite;
-                startUp.DateAdded = newStartUp.DateAdded;
+                startUp.DateAdded = startUp.DateAdded;
                 startUp.ReviewDate = newStartUp.ReviewDate;
                 startUp.Scout = newStartUp.Scout;
                 startUp.Source = newStartUp.Source;
