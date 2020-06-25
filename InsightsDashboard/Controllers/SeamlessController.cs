@@ -30,13 +30,8 @@ namespace InsightsDashboard.Controllers
 
         public IActionResult Index()
         {
-            
             return View();
         }
-
-
-
-
 
         [Authorize]
         [HttpGet]
@@ -122,7 +117,7 @@ namespace InsightsDashboard.Controllers
             {
                 _context.StartupComments.Remove(y);
             }
-            ///StartupComments conflict column startupId
+            // StartupComments conflict column startupId
             _context.UserStartup.Remove(removeStartUp);
             _context.SaveChanges();
             return RedirectToAction("UserFavorites");
@@ -164,9 +159,6 @@ namespace InsightsDashboard.Controllers
                 startUp.Uniqueness = newStartUp.Uniqueness;
                 startUp.Team = newStartUp.Team;
                 startUp.Raised = newStartUp.Raised;
-                //DO THIS LATER GUYS
-                //startUp.Comments = newStartUp.Comments;
-                //startUp.Rating = newStartUp.Rating;
 
                 _context.Entry(startUp).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 _context.Update(startUp);
@@ -174,7 +166,6 @@ namespace InsightsDashboard.Controllers
             }
             return RedirectToAction("UserFavorites");
         }
-
 
         public async Task<IActionResult> SeamlessStartupDetails(string key)
         {
@@ -185,13 +176,8 @@ namespace InsightsDashboard.Controllers
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
             KeyValuePair<string, MainEntry> startupDetails = new KeyValuePair<string, MainEntry>(key, seamlessDictionary[key]);
 
-
             return View(startupDetails);
         }
-
-
-
-
 
         public async Task<IActionResult> AddSeamlessStartupEntry(string key)
         {
@@ -200,7 +186,6 @@ namespace InsightsDashboard.Controllers
                 return RedirectToAction("DisplaySavedSeamlessStartupEntries");
             }
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
-
             MainEntry startupDetails = seamlessDictionary[key];
             UserStartup us = new UserStartup()
             {
@@ -209,11 +194,7 @@ namespace InsightsDashboard.Controllers
                 DateAdded = DateTime.Parse(startupDetails.DateAdded),
                 CompanyName = startupDetails.CompanyName
             };
-
-
             List<UserStartup> userStartups = await _context.UserStartup.Where(x => x.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
-
-
             bool found = false;
             foreach (UserStartup y in userStartups)
             {
@@ -222,7 +203,6 @@ namespace InsightsDashboard.Controllers
                     found = true;
                 }
             }
-
             if (!found)
             {
                 _context.UserStartup.Add(us);
@@ -237,9 +217,6 @@ namespace InsightsDashboard.Controllers
             }
         }
 
-
-
-
         public async Task<IActionResult> TechDetails(string Tech)
         {
 
@@ -252,7 +229,6 @@ namespace InsightsDashboard.Controllers
             int i = 0;
             foreach (KeyValuePair<string, MainEntry> x in seamlessDictionary)
             {
-
                 try
                 {
                     if (x.Value.Themes != null)
@@ -269,8 +245,6 @@ namespace InsightsDashboard.Controllers
                     }
                 }
                 catch (IndexOutOfRangeException) { }
-
-
 
                 if (x.Value.Themes != null)
                 {
@@ -297,8 +271,6 @@ namespace InsightsDashboard.Controllers
                 }
                 catch (IndexOutOfRangeException) { }
 
-
-
                 if (x.Value.Landscape != null)
                 {
                     if (x.Value.Landscape.Contains(Tech))
@@ -324,8 +296,6 @@ namespace InsightsDashboard.Controllers
                 }
                 catch (IndexOutOfRangeException) { }
 
-
-
                 if (x.Value.TechnologyAreas != null)
                 {
                     if (x.Value.TechnologyAreas.Contains(Tech))
@@ -333,27 +303,18 @@ namespace InsightsDashboard.Controllers
                         techDictionary.Add(x.Key, x.Value);
                     }
                 }
-
             }
-
             if (TempData["Tech"] != null)
             {
                 ViewBag.Tech = TempData["Tech"].ToString();
                 return View(techDictionary);
             }
-
-
             return View(techDictionary);
         }
 
-
-
-
         public async Task<IActionResult> AlignmentDetails(string alignment)
         {
-
             TempData["Alignment"] = alignment;
-
 
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
             Dictionary<string, MainEntry> alignmentDictionary = new Dictionary<string, MainEntry>();
@@ -361,7 +322,6 @@ namespace InsightsDashboard.Controllers
             int i = 0;
             foreach (KeyValuePair<string, MainEntry> x in seamlessDictionary)
             {
-
                 try
                 {
                     if (x.Value.Alignment != null)
@@ -379,8 +339,6 @@ namespace InsightsDashboard.Controllers
                 }
                 catch (IndexOutOfRangeException) { }
 
-
-
                 if (x.Value.Alignment != null)
                 {
                     if (x.Value.Alignment.Contains(alignment))
@@ -395,11 +353,8 @@ namespace InsightsDashboard.Controllers
                 ViewBag.Alignment = TempData["Alignment"].ToString();
                 return View(alignmentDictionary);
             }
-
-
             return View(alignmentDictionary);
         }
-
 
         public async Task<IActionResult> DisplaySeamlessStartups()
         {
@@ -429,17 +384,8 @@ namespace InsightsDashboard.Controllers
             {
                 ViewBag.Status = TempData["Status"].ToString();
             }
-
-
             return View(seamlessDictionary);
         }
-
-
-
-
-
-
-
 
         public async Task<IActionResult> StartupDetails(int id)
         {
@@ -519,7 +465,6 @@ namespace InsightsDashboard.Controllers
             }
         }
 
-
         public async Task<IActionResult> Keywords(string sortType)
         {
             bool stop = false;
@@ -581,20 +526,19 @@ namespace InsightsDashboard.Controllers
             {
                 keywordList = wordFreq.OrderByDescending(key => key.Value).ToList<KeyValuePair<string, int>>();
             }
-
-
             return View(keywordList);
         }
+
         public async Task<IActionResult> KeywordDetails(string keyword, int frequency)
         {
             KeyValuePair<string, int> keywordDetails = new KeyValuePair<string, int>(keyword, frequency);
             // FIND ALL STARTUP OCCURENCES OF THAT WORD
             Dictionary<string, MainEntry> occurrences = await FindKeywordOccurrences(keyword);
-
+            Dictionary<string, MainEntry> sortedOccurrences = occurrences.OrderBy(x => DateTime.Parse(x.Value.DateAdded)).ToDictionary(z=>z.Key, y=>y.Value);
             KeywordDetailsAndOccurrences viewModel = new KeywordDetailsAndOccurrences()
             {
                 KeywordDetails = keywordDetails,
-                Occurrences = occurrences
+                Occurrences = sortedOccurrences
             };
             return View(viewModel);
         }
@@ -621,6 +565,13 @@ namespace InsightsDashboard.Controllers
                 }
             }
             return subDictionary;
+        }
+
+        public IActionResult DisplayCustomStartups()
+        {
+            List<UserStartup> definedUserStartUps = new List<UserStartup>();
+            definedUserStartUps = _context.UserStartup.Where(x => x.Identifier == null).ToList();
+            return View(definedUserStartUps);
         }
 
         // THIS METHOD WAS USED TO PUT THE STOPLIST INTO A SQL TABLE FROM A TEXT FILE

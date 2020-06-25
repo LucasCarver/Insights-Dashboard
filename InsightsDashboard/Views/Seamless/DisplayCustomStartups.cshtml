@@ -1,0 +1,23 @@
+﻿@model List<UserStartup>
+@{
+    ViewData["Title"] = "DisplayCustomStartups";
+}
+<table>
+    <tr>
+        <th></th>
+    </tr>
+    @foreach (UserStartup us in Model)
+    {
+        <tr>
+            <td>
+                @us.CompanyName
+            </td>
+            <td>
+            </td>
+            <td>
+                @us.Theme
+            </td>
+        </tr>
+
+    }
+</table>
