@@ -117,12 +117,12 @@ namespace InsightsDashboard.Controllers
         {
             UserStartup removeStartUp = _context.UserStartup.Find(id);
 
-            List<StartupComments> c = _context.StartupComments.Where(x=>x.StartupId == id).Where(y=>y.UserId==User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList();
+            List<StartupComments> c = _context.StartupComments.Where(x => x.StartupId == id).Where(y => y.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToList();
             foreach (StartupComments y in c)
             {
                 _context.StartupComments.Remove(y);
             }
-           ///StartupComments conflict column startupId
+            ///StartupComments conflict column startupId
             _context.UserStartup.Remove(removeStartUp);
             _context.SaveChanges();
             return RedirectToAction("UserFavorites");
@@ -184,7 +184,7 @@ namespace InsightsDashboard.Controllers
             }
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
             KeyValuePair<string, MainEntry> startupDetails = new KeyValuePair<string, MainEntry>(key, seamlessDictionary[key]);
-           
+
 
             return View(startupDetails);
         }
@@ -210,10 +210,13 @@ namespace InsightsDashboard.Controllers
                 CompanyName = startupDetails.CompanyName
             };
 
-            List<UserStartup> userStartups = await _context.UserStartup.Where(x=> x.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
+
+            List<UserStartup> userStartups = await _context.UserStartup.Where(x => x.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier)).ToListAsync();
+
 
             bool found = false;
-            foreach (UserStartup y in userStartups) {
+            foreach (UserStartup y in userStartups)
+            {
                 if (y.CompanyName == us.CompanyName)
                 {
                     found = true;
@@ -222,14 +225,14 @@ namespace InsightsDashboard.Controllers
 
             if (!found)
             {
-                    _context.UserStartup.Add(us);
-                     _context.SaveChanges();
-            return RedirectToAction("UserFavorites");
+                _context.UserStartup.Add(us);
+                _context.SaveChanges();
+                return RedirectToAction("UserFavorites");
             }
             else
             {
                 TempData["Status"] = "This Favorite has already been added!";
-               
+
                 return RedirectToAction("DisplaySeamlessStartups");
             }
         }
@@ -392,7 +395,7 @@ namespace InsightsDashboard.Controllers
                 ViewBag.Alignment = TempData["Alignment"].ToString();
                 return View(alignmentDictionary);
             }
-      
+
 
             return View(alignmentDictionary);
         }
@@ -422,9 +425,9 @@ namespace InsightsDashboard.Controllers
                     }
                     catch (IndexOutOfRangeException) { }
             }
-            if(TempData["Status"] != null)
+            if (TempData["Status"] != null)
             {
-            ViewBag.Status = TempData["Status"].ToString();
+                ViewBag.Status = TempData["Status"].ToString();
             }
 
 
@@ -516,8 +519,12 @@ namespace InsightsDashboard.Controllers
             }
         }
 
+<<<<<<< HEAD
 
         public async Task<IActionResult> Tags()
+=======
+        public async Task<IActionResult> Keywords(string sortType)
+>>>>>>> e8dba1b468b2273aa8b0b71d5aecfffb858899c2
         {
             bool stop = false;
             int i = 0;
@@ -541,7 +548,21 @@ namespace InsightsDashboard.Controllers
             char[] invalidChars = " !@#$%^&*()_+“”~{}|:\"<>?`1234567890-=[]\\;',./".ToCharArray();
             string[] allWords = inputWords.Split(invalidChars);
             Dictionary<string, int> wordFreq = new Dictionary<string, int>();
+<<<<<<< HEAD
 
+=======
+            // REMOVE COMMON WORDS
+            List<string> stopList = new List<string>();
+            List<StopList> sqlStopList = _context.StopList.Where(x => x.StopWord.Length > 0).ToList();
+            foreach (StopList stopListObject in sqlStopList)
+            {
+                stopList.Add(stopListObject.StopWord);
+            }
+            foreach (string stopWord in stopList)
+            {
+                while (allWords.Remove(stopWord)) { }
+            }
+>>>>>>> e8dba1b468b2273aa8b0b71d5aecfffb858899c2
             // ADD KEYWORDS AND CALCULATE KEYWORD FREQUENCY
             foreach (string word in allWords)
             {
@@ -557,9 +578,84 @@ namespace InsightsDashboard.Controllers
                     }
                 }
             }
-            // ORDER KEYWORDS BY FREQUENCY
-            List<KeyValuePair<string, int>> keywordList = wordFreq.OrderByDescending(key => key.Value).ToList<KeyValuePair<string, int>>();
+            List<KeyValuePair<string, int>> keywordList = new List<KeyValuePair<string, int>>();
+            // ORDER BY BLOCK
+            if (sortType == "keyword")
+            {
+                keywordList = wordFreq.OrderBy(key => key.Key).ToList<KeyValuePair<string, int>>();
+            }
+            else
+            {
+                keywordList = wordFreq.OrderByDescending(key => key.Value).ToList<KeyValuePair<string, int>>();
+            }
+
+
             return View(keywordList);
         }
+<<<<<<< HEAD
+=======
+
+        public async Task<IActionResult> KeywordDetails(string keyword, int frequency)
+        {
+            KeyValuePair<string, int> keywordDetails = new KeyValuePair<string, int>(keyword, frequency);
+            // FIND ALL STARTUP OCCURENCES OF THAT WORD
+            Dictionary<string, MainEntry> occurrences = await FindKeywordOccurrences(keyword);
+
+            KeywordDetailsAndOccurrences viewModel = new KeywordDetailsAndOccurrences()
+            {
+                KeywordDetails = keywordDetails,
+                Occurrences = occurrences
+            };
+            return View(viewModel);
+        }
+
+        public async Task<Dictionary<string, MainEntry>> FindKeywordOccurrences(string keyword)
+        {
+            Dictionary<string, MainEntry> mainDictionary = await _seamlessDAL.GetMainDictionary();
+            List<string> twoLineWords;
+            Dictionary<string, MainEntry> subDictionary = new Dictionary<string, MainEntry>();
+            char[] invalidChars = " !@#$%^&*()_+“”~{}|:\"<>?`1234567890-=[]\\;',./".ToCharArray();
+            foreach (var kvp in mainDictionary)
+            {
+                twoLineWords = kvp.Value.TwoLineCompanySummary.ToLower().Split(invalidChars).ToList();
+                foreach (string word in twoLineWords)
+                {
+                    try
+                    {
+                        if (word == keyword)
+                        {
+                            subDictionary.Add(kvp.Key, kvp.Value);
+                        }
+                    }
+                    catch (ArgumentException) { }
+                }
+            }
+            return subDictionary;
+        }
+
+        // THIS METHOD WAS USED TO PUT THE STOPLIST INTO A SQL TABLE FROM A TEXT FILE
+        //public void PutStoplistInTable()
+        //{
+        //    StreamReader streamReader = new StreamReader("wwwroot\\SmartStoplist.txt");
+        //    List<string> stopList = new List<string>();
+        //    // DISCARD THE FIRST LINE
+        //    streamReader.ReadLine();
+        //    string line;
+        //    while ((line = streamReader.ReadLine()) != null)
+        //    {
+        //        stopList.Add(line.Trim().ToLower());
+        //    }
+        //    streamReader.Close();
+
+        //    StopList stopList1 = new StopList();
+        //    foreach (string word in stopList)
+        //    {
+        //        // ADD THE WORD TO THE STOPLIST TABLE
+        //        stopList1.StopWord = word;
+        //        _context.StopList.Add(stopList1);
+        //        _context.SaveChanges();
+        //    }
+        //}
+>>>>>>> e8dba1b468b2273aa8b0b71d5aecfffb858899c2
     }
 }

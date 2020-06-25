@@ -25,6 +25,7 @@ namespace InsightsDashboard.Models
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<StartupComments> StartupComments { get; set; }
+        public virtual DbSet<StopList> StopList { get; set; }
         public virtual DbSet<Tags> Tags { get; set; }
         public virtual DbSet<UserPreferences> UserPreferences { get; set; }
         public virtual DbSet<UserStartup> UserStartup { get; set; }
@@ -157,6 +158,14 @@ namespace InsightsDashboard.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__StartupCo__UserI__6EF57B66");
+            });
+
+            modelBuilder.Entity<StopList>(entity =>
+            {
+                entity.HasKey(e => e.StopWord)
+                    .HasName("PK__StopList__E3D0091CAAB80C4E");
+
+                entity.Property(e => e.StopWord).HasMaxLength(15);
             });
 
             modelBuilder.Entity<Tags>(entity =>
