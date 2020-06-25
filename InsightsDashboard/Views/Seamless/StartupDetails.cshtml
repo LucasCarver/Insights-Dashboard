@@ -147,7 +147,8 @@
         {
             if (Rating.Rating != null)
             {
-                <p>Rating: @Rating.Rating</p>}
+                <p>Rating: @Rating.Rating</p><a href="/Seamless/RemoveStartupRatings?id=@Rating.Id">Delete</a>
+                }
         }
     </div>
 </button2>
@@ -163,7 +164,7 @@
 
                 if (Comment.Comment != null)
                 {
-                    <p>@i. @Comment.Comment</p>
+                    <p>@i. @Comment.Comment</p><a href="/Seamless/RemoveStartupComments?id=@Comment.Id">Delete</a>
                     i++;
                 }
             }

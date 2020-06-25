@@ -184,8 +184,60 @@ namespace InsightsDashboard.Controllers
             {
                 return RedirectToAction("DisplaySeamlessStartup");
             }
+         
             Dictionary<string, MainEntry> seamlessDictionary = await _seamlessDAL.GetMainDictionary();
             KeyValuePair<string, MainEntry> startupDetails = new KeyValuePair<string, MainEntry>(key, seamlessDictionary[key]);
+            
+            List<UserStartup> definedUserStartUps = new List<UserStartup>();
+            string uId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            definedUserStartUps = _context.UserStartup.Where(x => x.UserId == uId).Where(x => x.Identifier == null).ToList();
+            List<UserStartup> userSavedSeamlessStartups = _context.UserStartup.Where(x => x.UserId == uId).Where(x => x.Identifier != null).ToList();
+            List<UserStartup> finalDisplayList = new List<UserStartup>();
+            foreach (UserStartup us in userSavedSeamlessStartups)
+            {
+                //GET THE REST OF THE DETAILS
+                MainEntry me = seamlessDictionary[us.Identifier];
+                us.Alignment = me.Alignment;
+                us.City = me.City;
+                us.CompanyWebsite = me.CompanyWebsite;
+                us.Country = me.Country;
+                us.Landscape = me.Landscape;
+                us.Raised = me.Raised;
+                if (DateTime.TryParse(me.ReviewDate, out DateTime r))
+                {
+                    us.ReviewDate = r;
+                }
+                us.Scout = me.Scout;
+                us.Source = me.Source;
+                us.StateProvince = me.StateProvince;
+                if (int.TryParse(me.Team, out int t))
+                {
+                    us.Team = t;
+                }
+                us.Technology = me.TechnologyAreas;
+                us.Theme = me.Themes;
+                if (int.TryParse(me.Uniqueness, out int u))
+                {
+                    us.Uniqueness = u;
+                }
+                us.TwoLineSummary = me.TwoLineCompanySummary;
+                finalDisplayList.Add(us);
+            }
+            foreach (UserStartup us in definedUserStartUps)
+            {
+                finalDisplayList.Add(us);
+            }
+
+           foreach(UserStartup us in finalDisplayList)
+            {
+
+                if (startupDetails.Value.CompanyName == us.CompanyName)
+                {
+                    int id = us.Id;   
+                    return RedirectToAction("StartupDetails",new { id = id });
+                }
+            }
+
 
 
             return View(startupDetails);
@@ -500,6 +552,45 @@ namespace InsightsDashboard.Controllers
             else
             {
                 return RedirectToAction("AddStartupComments");
+            }
+        }
+
+
+
+        public IActionResult RemoveStartupRatings(int id)
+        {
+            UserStartup specificStartup = _context.UserStartup.Find(id);
+            StartupComments userStartupComment = _context.StartupComments.Find(id);
+
+            if (ModelState.IsValid)
+            {
+                _context.StartupComments.Remove(userStartupComment);
+                _context.SaveChanges();
+
+                return RedirectToAction("UserFavorites");
+            }
+            else
+            {
+                return RedirectToAction("DisplaySeamlessStartups");
+            }
+        }
+
+
+        public IActionResult RemoveStartupComments(int id)
+        {
+            UserStartup specificStartup = _context.UserStartup.Find(id);
+            StartupComments userStartupComment = _context.StartupComments.Find(id);
+
+            if (ModelState.IsValid)
+            {
+                _context.StartupComments.Remove(userStartupComment);
+                _context.SaveChanges();
+              
+                return RedirectToAction("UserFavorites");
+            }
+            else
+            {
+                return RedirectToAction("DisplaySeamlessStartups");
             }
         }
 
