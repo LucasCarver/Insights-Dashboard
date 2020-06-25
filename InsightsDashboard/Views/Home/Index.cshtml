@@ -2,11 +2,25 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome To The InsightDashBoard!</h1>
-    <p>Seamless’ new comprehensive program for tracking startup projects, companies, and technologies!</p>
-    @if(!User.Identity.IsAuthenticated)
-    {
-        <p> Please <a href="/Identity/Account/Login"><b>LOG IN</b></a> for tracking functions.</p>
-    }
-</div>
+    <div class="text-center">
+        <h1 class="display-4" style="font-weight:bold;">Welcome To The InsightsDashboard!</h1>
+        <h2 style="padding:10px;">Seamless’ new comprehensive program for tracking startup projects, companies, and technologies!</h2>
+        <h3>
+            Insights dashboard is a comprehensive suite that allows users to interact with tech startup entries from Seamless’ remote API.
+        </h3>
+
+        <h4>It was built with C# .NET and SQL Server by Kendall Allmand, Amanda Bledsoe, and Lucas Carver using Agile methodologies and MVC design principles.</h4>
+
+        <h5>
+            Registered users can choose to follow tech startups, as well as comment, rate, and create new startup listings under their account. Through search queries, keywords, and technical alignments the user can easily decide which startups they’re interested in.
+        </h5>
+        <div style="display:flex; justify-content:center;">
+            <list style="background-color:cornflowerblue;"><a href="/Seamless/DisplaySeamlessStartups"><b>View List</b></a></list>
+            @if (User.Identity.IsAuthenticated)
+            {<list2 style="background-color:wheat;"><a href="/Seamless/UserFavorites"><b>View Favorites</b></a></list2>}
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <list3 style=" background-color:ActiveCaption;"> Please <a href="/Identity/Account/Login"><b>LOG IN</b></a> for tracking functions.</list3>
+            }
+        </div>
+    </div>

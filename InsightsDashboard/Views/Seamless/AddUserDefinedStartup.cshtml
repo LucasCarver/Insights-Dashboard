@@ -5,25 +5,74 @@
     ViewData["Title"] = "UserDefinedStartup";
 }
 
-<h1>Startup Entry</h1>
-
-<form action="/Seamless/AddUserDefinedStartup" method="post">
-    <input type="text" required name="CompanyName" placeholder="Company Name" />
-    <input type="text" name="CompanyWebsite" placeholder="Company Website" />
-    <input type="datetime" name="ReviewDate" placeholder="Review Date" />
-    <input type="text" name="Scout" placeholder="Scout" />
-    <input type="text" name="Source" placeholder="Source" />
-    <input type="text" name="City" placeholder="City" />
-    <input type="text" name="StateProvince" placeholder="State/Province" />
-    <input type="text" name="Country" placeholder="Country" />
-    <input type="text" name="TwoLineSummary" placeholder="TwoLineSummary" />
-    <input type="text" name="Alignment" placeholder="Alignment" />
-    <input type="text" name="Theme" placeholder="Theme" />
-    <input type="text" name="Technology" placeholder="Technology" />
-    <input type="text" name="Landscape" placeholder="Landscape" />
-    <input type="number" name="Uniqueness" placeholder="Uniqueness" />
-    <input type="number" name="Team" placeholder="Team" />
-    <input type="text" name="Raised" placeholder="Raised" />
-    <input type="text" name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" hidden />
-    <input type="submit" value="Submit" />
-</form>
+<h1 class="align-center">Create a Custom Startup Entry</h1>
+<br />
+<h3>Enter The Details of Your Startup Below:</h3>
+    <form action="/Seamless/AddUserDefinedStartup" method="post">
+        <div class="form-group">
+            <label for="Company Name" class="col-sm-2 col-form-label">Company Name</label>
+            <input class="form-control" type="text" required name="CompanyName" placeholder="Company Name" />
+        </div>
+        <div class="form-group">
+            <label for="Company Website" class="col-lg-2 col-form-label">Company Website</label>
+            <input class="form-control" type="text" name="CompanyWebsite" placeholder="Company Website" />
+        </div>
+        <div class="form-group"">
+            <label for="Review Date" class="col-sm-2 col-form-label">Company Name</label>
+            <input class="form-control" type="datetime" name="ReviewDate" placeholder="Review Date" />
+        </div>
+        <div class="form-group">
+            <label for="Scout" class="col-sm-2 col-form-label">Scout</label>
+            <input class="form-control" type="text" name="Scout" placeholder="Scout" />
+        </div>
+        <div class="form-group">
+            <label for="Source" class="col-sm-2 col-form-label">Source</label>
+            <input class="form-control" type="text" name="Source" placeholder="Source" />
+        </div>
+        <div class="form-group">
+            <label for="City" class="col-sm-2 col-form-label">City</label>
+            <input class="form-control" type="text" name="City" placeholder="City" />
+        </div>
+        <div class="form-group">
+            <label for="Province" class="col-sm-2 col-form-label">State/Province</label>
+            <input class="form-control" type="text" name="StateProvince" placeholder="State/Province" />
+        </div>
+        <div class="form-group">
+            <label for="Country" class="col-sm-2 col-form-label">Country</label>
+            <input class="form-control" type="text" name="Country" placeholder="Country" />
+        </div>
+        <div class="form-group">
+            <label for="Summary" class="col-sm-2 col-form-label">Two-Line Summary</label>
+            <input class="form-control" type="text" name="TwoLineSummary" placeholder="Two-Line Summary" />
+        </div>
+        <div class="form-group">
+            <label for="Alignment" class="col-sm-2 col-form-label">Alignment</label>
+            <input class="form-control" type="text" name="Alignment" placeholder="Alignment" />
+        </div>
+        <div class="form-group">
+            <label for="Theme" class="col-sm-2 col-form-label">Theme</label>
+            <input class="form-control" type="text" name="Theme" placeholder="Theme" />
+        </div>
+        <div class="form-group">
+            <label for="Technology" class="col-sm-2 col-form-label">Technologyy</label>
+            <input class="form-control" type="text" name="Technology" placeholder="Technology" />
+        </div>
+        <div class="form-group">
+            <label for="Landscape" class="col-2 col-form-label">Landscape</label>
+            <input class="form-control" type="text" name="Landscape" placeholder="Landscape" />
+        </div>
+        <div class="form-group">
+            <label for="Uniqueness" class="col-sm-2 col-form-label">Uniqueness</label>
+            <input class="form-control" type="number" name="Uniqueness" placeholder="Uniqueness" />
+        </div>
+        <div class="form-group">
+            <label for="Team" class="col-sm-2 col-form-label">Team</label>
+            <input class="form-control" type="number" name="Team" placeholder="Team" />
+        </div>
+        <div class="form-group">
+            <label for="Raised" class="col-sm-2 col-form-label">Amount Raised</label>
+            <input class="form-control" type="text" name="Raised" placeholder="Raised" />
+        </div>
+        <input type="text" name="UserId" value="@User.FindFirst(ClaimTypes.NameIdentifier).Value" hidden />
+        <input class="btn-block btn-primary" type="submit" value="Add This Startup" />
+    </form>
