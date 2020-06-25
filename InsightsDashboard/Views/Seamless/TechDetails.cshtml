@@ -1,12 +1,12 @@
-@model Dictionary<string, MainEntry>
+﻿@model Dictionary<string, MainEntry>
 
 @{
-    ViewData["Title"] = "AlignmentDetails";
+    ViewData["Title"] = "TechDetails";
 }
 
 
 
-<h1 style="position:relative; left:10px;"> @ViewBag.Alignment Listings</h1>
+<h1 style="position:relative; left:10px;"> @ViewBag.Tech Listings</h1>
 
 
 
@@ -43,11 +43,13 @@
 
                 <td style="text-align:center;">
                     @{
-                        if (kvp.Value.Alignment != null)
+                        if (kvp.Value.Alignment != null) { 
+
+
+
+                        string[] s = kvp.Value.Alignment.Split(' ', ',','/');
+                        foreach (string x in s)
                         {
-                            string[] s = kvp.Value.Alignment.Split(' ', ',', '/');
-                            foreach (string x in s)
-                            {
 
                                 <a href="AlignmentDetails?alignment=@x">@x</a>
 

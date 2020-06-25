@@ -1,15 +1,12 @@
 ﻿@model KeyValuePair<string, MainEntry>
 
-<h1>@Model.Value.CompanyName Details</h1>
+    <h3>@Model.Value.CompanyName Details</h3>
 
 
 
-@* For Mobile View:  font-size:70%; color:wheat; width:60%; height:50%; padding:30px;  AND   right:9%;  width:40%;  height:50%; padding:20px; font-size:65%" AND top:67%; padding:20px; right:15%;*@
-
-@* For Desktop: font-size:80%; color:wheat; width:50%; height:30%; padding:30px;  AND  right:20%;  width:40%;  height:30%; padding:20px; font-size:100%  AND  top:45%; padding:20px; right:21%;" *@
 
 
-<div class="badge-dark" style="position:fixed; left:auto; font-weight:bold; font-size:80%; color:wheat; width:50%; height:30%; padding:30px; border:thick; border-color:wheat;">
+<card1 class="badge-dark" style="position:fixed; left:auto; font-weight:bold; border:thick; border-color:wheat;">
     @if (Model.Value.CompanyName != null)
     {
         <p>@Model.Value.CompanyName</p>
@@ -38,8 +35,8 @@
     @if (Model.Value.Country != null)
     {
         <p>Country:         @Model.Value.Country</p>}
-</div>
-<span class="badge-secondary" style="position:fixed; top:inherit; right:20%;  width:40%;  height:30%; padding:20px; font-size:100%">
+</card1>
+<card2 class="badge-secondary" style="position:fixed; top:inherit;">
     <table>
         @if (Model.Value.TwoLineCompanySummary != null)
         {
@@ -135,9 +132,9 @@
         }
 
     </table>
-</span>
+</card2>
 
-<div style="position:fixed; top:45%; padding:20px; right:21%" class="badge-secondary">
+<button1 style="position:fixed;" class="badge-secondary">
     @if (User.Identity.IsAuthenticated)
     {
         <td style="text-align:right;"><a style="color:aliceblue" href="/Seamless/AddSeamlessStartupEntry?key=@Model.Key">Add To Favorites</a></td>
@@ -147,4 +144,4 @@
         <td style="text-align:right;"><a href="/Identity/Account/Login">LOG IN</a> To Track Listing!</td>
     }
 
-</div>
+</button1>

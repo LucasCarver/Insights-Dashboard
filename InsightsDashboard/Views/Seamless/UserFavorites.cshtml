@@ -11,7 +11,7 @@
     <tr>
         <td>
 
-            <a class="btn btn-outline-info" href="/Seamless/AddUserDefinedStartup">Create StartUp Entry</a>
+            <a class="btn btn-outline-info" href="/Seamless/AddUserDefinedStartup">Create User Entry</a>
 
         </td>
     </tr>
@@ -34,10 +34,10 @@ else
             <p>@startUp.DateAdded</p>
             <p>@startUp.Scout</p>
             <p>@startUp.TwoLineSummary</p>
-            <p><a href="/Seamless/ConfirmRemoveUserStartUp?id=@startUp.Id">Remove From Here</a></p>
+            <p><a href="/Seamless/ConfirmRemoveUserStartUp?id=@startUp.Id">Remove From Favorites</a></p>
             if (startUp.Identifier == null)
             {
-                <p><a href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update This Thang</a></p>
+                <p><a href="/Seamless/UpdateUserStartUp?id=@startUp.Id">Update</a></p>
             }
             else
             {

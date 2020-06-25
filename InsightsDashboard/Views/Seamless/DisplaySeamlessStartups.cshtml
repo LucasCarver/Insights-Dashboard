@@ -5,18 +5,20 @@
     ViewData["Title"] = "DisplaySeamlessStartups";
 }
 
-@{ if (ViewBag.Status != null) {
-    <script type="text/javascript">
+@{ if (ViewBag.Status != null)
+    {
+        <script type="text/javascript">
             window.onload = function () {
                 alert("@ViewBag.Status");
             };
-    </script>
-        } }
+        </script>
+    } }
 
 
 <table class="table table-striped">
+
     <tbody>
-    
+
         <div class="container">
             <div class="form-group">
                 <div class="input-group">
@@ -27,86 +29,101 @@
                 </div>
             </div>
         </div>
-    </th>
-    <tr style="font-weight:bold;">
-        <td style="text-align:center;">Name</td>
-        <td style="text-align:center;">Website</td>
-        <td style="text-align:center;">Summary</td>
-        <td style="text-align:center;">Alignment</td>
-        <td></td>
-    </tr>
+        <tr></tr>
+        <tr style="font-weight:bold;">
+            <td style="text-align:center;">Name</td>
+            <td style="text-align:center;">Alignment</td>
+            <td style="text-align:center;">Summary</td>
+            <td style="text-align:center;">Technologies</td>
+            <td></td>
+        </tr>
 
-    <tr class="Search">
+
         @foreach (var kvp in Model)
         {
-        <tr>
-            <td style="text-align:center;"><a href="SeamlessStartUpDetails?key=@kvp.Key">@kvp.Value.CompanyName - Click For Details</a></td>
-            @{ string url = kvp.Value.CompanyWebsite.Replace(" ", string.Empty);}
-            <td style="text-align:center;"><a href="https://@url">@kvp.Value.CompanyWebsite</a></td>
-            <td>@kvp.Value.TwoLineCompanySummary</td>
 
-            <td style="text-align:center;">
-                @{
-                    if (kvp.Value.Alignment != null)
+            <tr class="Search">
+                <td style="text-align:center; background-color:royalblue"><a href="SeamlessStartUpDetails?key=@kvp.Key" style="color:wheat">@kvp.Value.CompanyName</a></td>
+
+                <td style="text-align:center;">
+                    @{
+                        if (kvp.Value.Alignment != null)
+                        {
+                            string[] s = kvp.Value.Alignment.Split(' ', ',', '/');
+                            foreach (string x in s)
+                            {
+
+                                <a href="AlignmentDetails?alignment=@x">@x</a>
+
+
+                            }
+                        }
+                    }
+                </td>
+                <td>@kvp.Value.TwoLineCompanySummary</td>
+
+                <td>
+                    @if (kvp.Value.Themes != null)
                     {
-                        string[] s = kvp.Value.Alignment.Split(' ');
-                        foreach (string x in s)
+
+
+                        <p>Themes: </p>
+
+                        string[] th = kvp.Value.Themes.Split(' ', ',', '/');
+                        foreach (string x in th)
                         {
 
-                            <a href="AlignmentDetails?alignment=@x">@x</a>
+                            <a href="TechDetails?Tech=@x">@x</a>
+
+
+                        }
+
+
+                    }
+             
+                    @if (kvp.Value.Landscape != null)
+                    {
+                        <p>LandScapes:</p>
+                        string[] la = kvp.Value.Landscape.Split(' ', ',', '/');
+                        foreach (string x in la)
+                        {
+
+                            <a href="TechDetails?Tech=@x">@x</a>
 
 
                         }
                     }
+             
+                    @if (kvp.Value.TechnologyAreas != null)
+                    {
+                        <p>TechAreas:</p>
+                        string[] ta = kvp.Value.TechnologyAreas.Split(' ', ',', '/');
+                        foreach (string x in ta)
+                        {
+
+                            <a href="TechDetails?Tech=@x">@x</a>
+
+                        }
+                    }
+
+                
+                </td>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <td style="text-align:right; background-color:darkgrey"><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key" style="color:wheat;">Add To Favorites</a></td>
+
                 }
-            </td>
-
-
-            @if (User.Identity.IsAuthenticated)
-            {
-                <td style="text-align:right;"><a href="/Seamless/AddSeamlessStartupEntry?key=@kvp.Key">Add To Favorites</a></td>
-            }
-            else
-            {
-                <td style="text-align:right;"><a href="/Identity/Account/Login">LOG IN</a> To Track Listing!</td>
-            }
-
-        </tr>
-        <tr>
-            <td>
-                @if (kvp.Value.DateAdded != null)
+                else
                 {
-                    <p style="font-weight:bold;">DateAdded:</p> @kvp.Value.DateAdded}
-                @if (kvp.Value.ReviewDate != null)
-                {
-                    <p style="font-weight:bold;"> ReviewDate:</p> @kvp.Value.ReviewDate}
-            </td>
-            <td>
-                @if (kvp.Value.Themes != null)
-                {
-                    <p style="font-weight:bold;">Theme:</p> @kvp.Value.Themes}
-                @if (kvp.Value.Landscape != null)
-                {
-                    <p style="font-weight:bold;"> Landscape:</p> @kvp.Value.Landscape}
-            </td>
-            <td>   </td>
-            <td>
-                @if (kvp.Value.TechnologyAreas != null)
-                {<p style="font-weight:bold;"> Tech:</p> @kvp.Value.TechnologyAreas}
-            </td>
-            <td>
-                @if (kvp.Value.Raised != null)
-                {<p style="font-weight:bold;">
-                        Raised:
-                    </p> <p>$ @kvp.Value.Raised</p>
+                    <td style="text-align:right;"><a href="/Identity/Account/Login">LOG IN</a> To Track Listing!</td>
                 }
-            </td>
 
-        </tr>
-    }
-        </tr>
-        </tbody>
-    </table>
+            </tr>
+        }
+
+    </tbody>
+</table>
 
 <script src="~/Scripts/jquery-3.5.1.min.js"></script>
 
