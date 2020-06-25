@@ -559,14 +559,8 @@ namespace InsightsDashboard.Controllers
 
         public IActionResult RemoveStartupRatings(int id)
         {
-            //StartupComments startupComment = new StartupComments();
-            //startupComment.StartupId = id;         
-            //startupComment.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             UserStartup specificStartup = _context.UserStartup.Find(id);
             StartupComments userStartupComment = _context.StartupComments.Find(id);
-
-
 
             if (ModelState.IsValid)
             {
@@ -584,14 +578,8 @@ namespace InsightsDashboard.Controllers
 
         public IActionResult RemoveStartupComments(int id)
         {
-            //StartupComments startupComment = new StartupComments();
-            //startupComment.StartupId = id;         
-            //startupComment.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             UserStartup specificStartup = _context.UserStartup.Find(id);
             StartupComments userStartupComment = _context.StartupComments.Find(id);
-
-
 
             if (ModelState.IsValid)
             {
