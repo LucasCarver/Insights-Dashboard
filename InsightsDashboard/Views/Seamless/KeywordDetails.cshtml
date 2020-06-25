@@ -1,44 +1,85 @@
 ﻿@model KeywordDetailsAndOccurrences
-<p>Keyword: @Model.KeywordDetails.Key Frequency: @Model.KeywordDetails.Value</p>
+<h2>
+    Keyword: @Model.KeywordDetails.Key.Substring(0, 1).ToUpper()@Model.KeywordDetails.Key.Substring(1, Model.KeywordDetails.Key.Length - 1)
+    | @Model.KeywordDetails.Value startups found
+</h2>
 
-@foreach (var item in Model.Occurrences)
-{
-    <p><a href="/Seamless/SeamlessStartupDetails?key=@item.Key">@item.Value.CompanyName</a></p>
-}
-@{
-    int totalRaised = 0;
-}
-@foreach (var item in Model.Occurrences.Values)
-{
-    string wholeRaised = "";
-    if (item.Raised == "Undisclosed" || item.Raised == null)
+<table class="table-striped">
+    <tr>
+        <th style="width:8%">
+            Startup
+        </th>
+        <th>
+            Summary
+        </th>
+        <th style="width:3%"></th>
+        <th style="text-align:center">
+            Raised
+        </th>
+    </tr>
+    @foreach (var item in Model.Occurrences)
     {
-        continue;
+        <tr>
+            <td>
+                <a href="/Seamless/SeamlessStartupDetails?key=@item.Key">@item.Value.CompanyName</a>
+            </td>
+            <td>
+                @item.Value.TwoLineCompanySummary
+            </td>
+            @if (item.Value.Raised.ToLower() != "undisclosed" && item.Value.Raised != "" && item.Value.Raised != null)
+            {
+                <td style="text-align:right; width:1%">$</td>
+            }
+            else
+            {
+                <td></td>
+            }
+                <td style="text-align:right">
+                    @item.Value.Raised
+                </td>
+        </tr>
     }
-    if (item.Raised.Contains(','))
+
+    @{
+        int totalRaised = 0;
+    }
+    @foreach (var item in Model.Occurrences.Values)
     {
-        List<string> raisedTemp = item.Raised.Split(',').ToList();
-        foreach (string piece in raisedTemp)
+        string wholeRaised = "";
+        if (item.Raised == "Undisclosed" || item.Raised == null)
         {
-            wholeRaised += piece;
+            continue;
+        }
+        if (item.Raised.Contains(','))
+        {
+            List<string> raisedTemp = item.Raised.Split(',').ToList();
+            foreach (string piece in raisedTemp)
+            {
+                wholeRaised += piece;
+            }
+        }
+        else
+        {
+            wholeRaised = item.Raised;
+        }
+        if (int.TryParse(wholeRaised, out int o))
+        {
+            totalRaised += o;
         }
     }
-    else
-    {
-        wholeRaised = item.Raised;
-    }
-    if (int.TryParse(wholeRaised, out int o))
-    {
-        totalRaised += o;
-    }
-}
-<p>
-    Related Startup Total Raised:
     @if (totalRaised > 0)
     {
-        <b>$@totalRaised.ToString("n0")</b>
+        <tr>
+            <td></td>
+            <td style="text-align:right">Total Raised:</td>
+            <td style="text-align:right"><b>$</b></td>
+            <td style="text-align:right">
+                <b>@totalRaised.ToString("n0")</b>
+            </td>
+        </tr>
     }
-</p>
+</table>
+
 @{
     Dictionary<string, int> themeHolder = new Dictionary<string, int>();
     themeHolder.Add("Health Beyond the Hospital", 0);
@@ -60,21 +101,79 @@
         themeHolder["The Good Life"] += 1;
     }
 }
-<p>Theme Distribution: </p>
-<table>
-    <tr>
-        <th>Theme</th>
-        <th>Frequency</th>
-    </tr>
-    @foreach (KeyValuePair<string, int> kvp in themeHolder)
-    {
+<div style="display:flex; justify-content:space-evenly">
+    <h2>Theme Distribution</h2>
+    <h2>Alignment Distribution</h2>
+</div>
+<div style="display:flex; justify-content:space-around">
+    <table>
         <tr>
-            <td>
-                @kvp.Key
-            </td>
-            <td>
-                @kvp.Value
-            </td>
+            <th>Theme</th>
+            <th style="text-align:center">Frequency</th>
         </tr>
-    }
-</table>
+        @foreach (KeyValuePair<string, int> kvp in themeHolder)
+        {
+            <tr>
+                <td>
+                    @kvp.Key
+                </td>
+                <td style="text-align:right">
+                    @kvp.Value
+                </td>
+            </tr>
+        }
+    </table>
+    <table>
+        @{
+            List<string> alignments = new List<string>();
+            Dictionary<string, int> alignmentHolder = new Dictionary<string, int>();
+            @foreach (var item in Model.Occurrences.Values)
+            {
+                if (item.Alignment != null)
+                {
+                    foreach (var tempAlignment in item.Alignment.Split(", ".ToCharArray()).ToList())
+                    {
+                        alignments.Add(tempAlignment);
+                    }
+                }
+            }
+            @foreach (string alignment in alignments)
+            {
+                if (!alignmentHolder.ContainsKey(alignment))
+                {
+                    if (alignment != "")
+                    {
+                        alignmentHolder.Add(alignment, 1);
+                    }
+                }
+                else
+                {
+                    alignmentHolder[alignment] += 1;
+                }
+            }
+            @if (alignmentHolder.Count != 0)
+            {
+                <tr>
+                    <th style="text-align: center">
+                        Alignment
+                    </th>
+                    <th style="text-align: center">
+                        Frequency
+                    </th>
+                </tr>
+                @foreach (var entry in alignmentHolder)
+                {
+                    <tr>
+                        <td>
+                            <a href="/Seamless/AlignmentDetails?alignment=@entry.Key">@entry.Key</a>
+                        </td>
+                        <td>
+                            @entry.Value
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </table>
+
+</div>
