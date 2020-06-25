@@ -34,10 +34,6 @@ namespace InsightsDashboard.Controllers
             return View();
         }
 
-
-
-
-
         [Authorize]
         [HttpGet]
         public IActionResult AddUserDefinedStartup()
@@ -109,6 +105,12 @@ namespace InsightsDashboard.Controllers
             {
                 finalDisplayList.Add(us);
             }
+
+            if (TempData["Status"] != null)
+            {
+                ViewBag.Status = TempData["Status"].ToString();
+            }
+
             return View(finalDisplayList);
         }
 
@@ -233,7 +235,7 @@ namespace InsightsDashboard.Controllers
             {
                 TempData["Status"] = "This Favorite has already been added!";
 
-                return RedirectToAction("DisplaySeamlessStartups");
+                return RedirectToAction("UserFavorites");
             }
         }
 
@@ -341,6 +343,7 @@ namespace InsightsDashboard.Controllers
                 ViewBag.Tech = TempData["Tech"].ToString();
                 return View(techDictionary);
             }
+
 
 
             return View(techDictionary);

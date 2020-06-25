@@ -13,7 +13,30 @@ for details on configuring this project to bundle and minify static web assets. 
 
 @media screen and (min-width: 1000px) {
 
+    create {
+        right:18%;
+        top:6%;
+    }
 
+    list {
+        font-size:200%;
+        padding:10px;
+        right:46%;
+    }
+     list2 {
+        font-size: 200%;
+        padding: 10px;
+        
+        right:44%;
+        top:50%;
+    }
+
+    list3 {
+        top: 25%;
+        font-size: 85%;
+        padding: 10px;
+        right: 43.5%;
+    }
 
     card1 {
         font-size: 80%;
@@ -79,6 +102,25 @@ for details on configuring this project to bundle and minify static web assets. 
 
 @media screen and (max-width: 1000px) {
 
+    list {
+        font-size: 200%;
+        padding: 10px;
+        right:35%;
+    }
+
+    list2 {
+        font-size: 200%;
+        padding: 10px;
+        right: 26%;
+        top: 37%;
+    }
+
+    list3 {
+        top: 37%;
+        font-size: 70%;
+        padding: 10px;
+        right: 32%;
+    }
 
     card1 {
         font-size: 70%;
@@ -110,15 +152,16 @@ for details on configuring this project to bundle and minify static web assets. 
     }
 
     button4 {
-        top: 37%;
+        top: 47%;
         padding: 13px;
         right: 13%;
         width: 25%;
         height:7%;
+        font-size:50%;
     }
 
     button2 {
-        top: 47%;
+        top: 57%;
         padding: 20px;
         right: 55%;
         width: 46%;
@@ -129,7 +172,8 @@ for details on configuring this project to bundle and minify static web assets. 
         right: 15%;
     }
     button3 {
-        top: 47%;
+        width:50%;
+        top: 57%;
         padding: 20px;
         right: 12%;
     }
